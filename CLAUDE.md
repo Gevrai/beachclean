@@ -9,6 +9,8 @@
 - The orchestrator can keep this file updated, and create other context specific CLAUDE.md in subdirectories
 - Create relevant skills in `.claude/skills` to be shared with future and sub-agents.
 - Make sure to keep things simple, no overengineering nor overtesting.
+- Visible content is authored as scenes/resources (.tscn/.tres), never built in code — see skill `godot-scenes`.
+- Rendering tools run offscreen (`tools/offscreen.sh`, headless sway); never pop windows on the owner's desktop.
 
 ## Model policy (Claude 5.5 family; always pass `model` when dispatching)
 | Model | Use for |

@@ -1,6 +1,370 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/gallery.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/gallery.gd" id="1_gallery"]
+[ext_resource type="Shader" path="res://assets/shaders/sky.gdshader" id="2_sky"]
+[ext_resource type="PackedScene" path="res://scenes/items/cap.tscn" id="3_cap"]
+[ext_resource type="PackedScene" path="res://scenes/items/straw.tscn" id="4_straw"]
+[ext_resource type="PackedScene" path="res://scenes/items/bag.tscn" id="5_bag"]
+[ext_resource type="PackedScene" path="res://scenes/items/can.tscn" id="6_can"]
+[ext_resource type="PackedScene" path="res://scenes/items/pbottle.tscn" id="7_pbottle"]
+[ext_resource type="PackedScene" path="res://scenes/items/flipflop.tscn" id="8_flipflop"]
+[ext_resource type="PackedScene" path="res://scenes/items/gbottle.tscn" id="9_gbottle"]
+[ext_resource type="PackedScene" path="res://scenes/items/bucket.tscn" id="10_bucket"]
+[ext_resource type="PackedScene" path="res://scenes/items/rope.tscn" id="11_rope"]
+[ext_resource type="PackedScene" path="res://scenes/items/hose.tscn" id="12_hose"]
+[ext_resource type="PackedScene" path="res://scenes/items/coin_5.tscn" id="13_coin_5"]
+[ext_resource type="PackedScene" path="res://scenes/items/coin_10.tscn" id="14_coin_10"]
+[ext_resource type="PackedScene" path="res://scenes/items/coin_25.tscn" id="15_coin_25"]
+[ext_resource type="PackedScene" path="res://scenes/items/coin_100.tscn" id="16_coin_100"]
+[ext_resource type="PackedScene" path="res://scenes/items/message_bottle.tscn" id="17_message_bo"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1"]
+seed = 21
+frequency = 0.01
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2"]
+width = 512
+height = 512
+seamless = true
+noise = SubResource("FastNoiseLite_1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3"]
+shader = ExtResource("2_sky")
+shader_parameter/cloud_noise = SubResource("NoiseTexture2D_2")
+shader_parameter/zenith = Color(0.08, 0.33, 0.75, 1)
+shader_parameter/mid = Color(0.2, 0.72, 0.88, 1)
+shader_parameter/horizon = Color(0.95, 0.78, 0.6, 1)
+shader_parameter/ground = Color(0.7, 0.66, 0.6, 1)
+shader_parameter/sun_color = Color(1, 0.7, 0.4, 1)
+shader_parameter/cloud_cover = 0.42
+
+[sub_resource type="Sky" id="Sky_4"]
+sky_material = SubResource("ShaderMaterial_3")
+
+[sub_resource type="Environment" id="Environment_5"]
+background_mode = 2
+sky = SubResource("Sky_4")
+ambient_light_source = 2
+ambient_light_color = Color(0.72, 0.78, 0.86, 1)
+reflected_light_source = 2
+ambient_light_energy = 0.65
+tonemap_mode = 3
+tonemap_exposure = 0.75
+glow_enabled = true
+glow_bloom = 0.02
+glow_intensity = 0.6
+glow_hdr_threshold = 1.3
+ssao_enabled = true
+ssao_radius = 1.2
+ssao_intensity = 2.0
+adjustment_enabled = true
+adjustment_contrast = 1.08
+adjustment_saturation = 1.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6"]
+albedo_color = Color(0.62, 0.5, 0.34, 1)
+roughness = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7"]
+size = Vector2(60, 40)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8"]
+size = Vector3(0.3, 0.006, 0.035)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_9"]
+albedo_color = Color(1, 0.85, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_10"]
+albedo_color = Color(0.15, 0.1, 0.05, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_11"]
+size = Vector3(0.003, 0.007, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh_12"]
+size = Vector3(0.003, 0.007, 0.012)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_13"]
+albedo_color = Color(0.35, 0.45, 0.6, 1)
+roughness = 0.7
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_14"]
+radius = 0.2
+height = 1.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_15"]
+radius = 0.125
+height = 0.25
 
 [node name="Gallery" type="Node3D"]
-script = ExtResource("1")
+script = ExtResource("1_gallery")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, 0.371572, -0.334565, 0, 0.669131, 0.743145, 0.5, -0.643582, 0.579484, 0, 0, 0)
+light_color = Color(1, 0.9, 0.76, 1)
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_blur = 1.6
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_7")
+material_override = SubResource("StandardMaterial3D_6")
+
+[node name="Items" type="Node3D" parent="."]
+
+[node name="Cap" parent="Items" instance=ExtResource("3_cap")]
+
+[node name="Straw" parent="Items" instance=ExtResource("4_straw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0, 0)
+
+[node name="Bag" parent="Items" instance=ExtResource("5_bag")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0, 0)
+
+[node name="Can" parent="Items" instance=ExtResource("6_can")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7, 0, 0)
+
+[node name="PlasticBottle" parent="Items" instance=ExtResource("7_pbottle")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 0, 0)
+
+[node name="FlipFlop" parent="Items" instance=ExtResource("8_flipflop")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 0)
+
+[node name="GlassBottle" parent="Items" instance=ExtResource("9_gbottle")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 0, 0)
+
+[node name="Bucket" parent="Items" instance=ExtResource("10_bucket")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.3, 0, 0)
+
+[node name="Net" parent="Items" instance=ExtResource("11_rope")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2, 0, 0)
+
+[node name="Hose" parent="Items" instance=ExtResource("12_hose")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.1, 0, 0)
+
+[node name="Coin5" parent="Items" instance=ExtResource("13_coin_5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="Coin10" parent="Items" instance=ExtResource("14_coin_10")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.675, 0, 1)
+
+[node name="Coin25" parent="Items" instance=ExtResource("15_coin_25")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 0, 1)
+
+[node name="Coin100" parent="Items" instance=ExtResource("16_coin_100")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.025, 0, 1)
+
+[node name="MessageBottle" parent="Items" instance=ExtResource("17_message_bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 1)
+
+[node name="Ruler" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.003, 1)
+mesh = SubResource("BoxMesh_8")
+material_override = SubResource("StandardMaterial3D_9")
+
+[node name="Tick0" type="MeshInstance3D" parent="Ruler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0.001, 0)
+mesh = SubResource("BoxMesh_11")
+material_override = SubResource("StandardMaterial3D_10")
+
+[node name="Tick1" type="MeshInstance3D" parent="Ruler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.001, 0)
+mesh = SubResource("BoxMesh_12")
+material_override = SubResource("StandardMaterial3D_10")
+
+[node name="Tick2" type="MeshInstance3D" parent="Ruler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 0.001, 0)
+mesh = SubResource("BoxMesh_11")
+material_override = SubResource("StandardMaterial3D_10")
+
+[node name="Tick3" type="MeshInstance3D" parent="Ruler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.77556e-17, 0.001, 0)
+mesh = SubResource("BoxMesh_12")
+material_override = SubResource("StandardMaterial3D_10")
+
+[node name="Tick4" type="MeshInstance3D" parent="Ruler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0.001, 0)
+mesh = SubResource("BoxMesh_11")
+material_override = SubResource("StandardMaterial3D_10")
+
+[node name="Tick5" type="MeshInstance3D" parent="Ruler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.001, 0)
+mesh = SubResource("BoxMesh_12")
+material_override = SubResource("StandardMaterial3D_10")
+
+[node name="Tick6" type="MeshInstance3D" parent="Ruler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.001, 0)
+mesh = SubResource("BoxMesh_11")
+material_override = SubResource("StandardMaterial3D_10")
+
+[node name="Figure" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 0, -1.2)
+
+[node name="Body" type="MeshInstance3D" parent="Figure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+mesh = SubResource("CapsuleMesh_14")
+material_override = SubResource("StandardMaterial3D_13")
+
+[node name="Head" type="MeshInstance3D" parent="Figure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.625, 0)
+mesh = SubResource("SphereMesh_15")
+material_override = SubResource("StandardMaterial3D_13")
+
+[node name="Height" type="Label3D" parent="Figure"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95, 0)
+pixel_size = 0.004
+billboard = 2
+text = "1.75 m"
+font_size = 48
+outline_size = 10
+
+[node name="Labels" type="Node3D" parent="."]
+
+[node name="LabelCap" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 0, 0.01, 0.2135)
+pixel_size = 0.0017
+text = "Bottle cap\n3 cm · 1¢"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelStraw" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 0.9, 0.01, 0.29)
+pixel_size = 0.0017
+text = "Straw\n20 cm · 1¢"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelBag" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 1.8, 0.01, 0.3575)
+pixel_size = 0.0017
+text = "Plastic bag\n35 cm · 2¢"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelCan" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 2.7, 0.01, 0.254)
+pixel_size = 0.0017
+text = "Soda can\n12 cm · 10¢"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelPlasticBottle" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 3.6, 0.01, 0.3125)
+pixel_size = 0.0017
+text = "Plastic bottle\n25 cm · 10¢"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelFlipFlop" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 4.5, 0.01, 0.3125)
+pixel_size = 0.0017
+text = "Flip-flop\n25 cm · 5¢"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelGlassBottle" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 5.4, 0.01, 0.3125)
+pixel_size = 0.0017
+text = "Glass bottle\n25 cm · 25¢"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelBucket" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 6.3, 0.01, 0.272)
+pixel_size = 0.0017
+text = "Toy bucket\n16 cm · 30¢"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelNet" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 7.2, 0.01, 0.425)
+pixel_size = 0.0017
+text = "Fishing net\n50 cm · 50¢"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelHose" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 8.1, 0.01, 0.4025)
+pixel_size = 0.0017
+text = "Garden hose\n45 cm · 60¢"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelCoin5" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 0, 0.01, 1.2)
+pixel_size = 0.0017
+text = "Coin 5¢\n2.1 cm"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelCoin10" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 0.675, 0.01, 1.2)
+pixel_size = 0.0017
+text = "Coin 10¢\n2.0 cm"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelCoin25" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 1.35, 0.01, 1.2)
+pixel_size = 0.0017
+text = "Coin 25¢\n2.4 cm"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelCoin100" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 2.025, 0.01, 1.2)
+pixel_size = 0.0017
+text = "Coin $1.00\n2.6 cm"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelBottle" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, 4.5, 0.01, 1.2)
+pixel_size = 0.0017
+text = "Message in a bottle\n~30 cm"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="LabelRuler" type="Label3D" parent="Labels"]
+transform = Transform3D(1, 0, 0, 0, 6.12323e-17, 1, 0, -1, 6.12323e-17, -0.6, 0.01, 1.2)
+pixel_size = 0.0017
+text = "30 cm ruler"
+font_size = 36
+outline_size = 12
+modulate = Color(1, 0.97, 0.88, 1)
+outline_modulate = Color(0.25, 0.15, 0.05, 0.9)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+current = true
+fov = 50.0

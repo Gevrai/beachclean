@@ -23,16 +23,11 @@ func _ready() -> void:
 	var rng := RandomNumberGenerator.new()
 	var made: Array = []
 	for id in Catalog.ITEMS:
-		var d := StaticBody3D.new()
-		d.set_script(preload("res://scripts/debris.gd"))
-		d.setup(id, rng)
+		var d: StaticBody3D = preload("res://scripts/debris.gd").spawn(id, rng)
 		made.append([id, d])
-	var c := StaticBody3D.new()
-	c.set_script(preload("res://scripts/loose_change.gd"))
-	c.setup(25, rng)
+	var c: StaticBody3D = preload("res://scripts/loose_change.gd").spawn(25, rng)
 	made.append(["coin", c])
-	var b := StaticBody3D.new()
-	b.set_script(preload("res://scripts/bottle.gd"))
+	var b: StaticBody3D = load(Catalog.BOTTLE_SCENE).instantiate()
 	b.setup(0)
 	made.append(["bottle", b])
 	var cam: Camera3D = player.cam

@@ -1,0 +1,67 @@
+[gd_scene format=3]
+
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/flipflop_pink.tres" id="1_flipflop_p"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/flipflop_pink_top.tres" id="2_flipflop_p"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/flipflop_strap.tres" id="3_flipflop_s"]
+[ext_resource type="Script" path="res://scripts/debris.gd" id="4_debris"]
+[ext_resource type="Script" path="res://scripts/item_model.gd" id="5_item_model"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/flipflop_yellow.tres" id="6_flipflop_y"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/flipflop_cyan.tres" id="7_flipflop_c"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/flipflop_yellow_top.tres" id="8_flipflop_y"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/flipflop_cyan_top.tres" id="9_flipflop_c"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_1"]
+radial_segments = 16
+rings = 8
+
+[sub_resource type="BoxMesh" id="BoxMesh_2"]
+size = Vector3(0.016, 0.016, 0.138924)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3"]
+radius = 0.215
+
+[node name="FlipFlop" type="StaticBody3D" groups=["debris"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("4_debris")
+id = "flipflop"
+
+[node name="Visual" type="Node3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0.0154, 0)
+
+[node name="Model" type="Node3D" parent="Visual"]
+transform = Transform3D(0.55, 0, 0, 0, 0.55, 0, 0, 0, 0.55, 0, 0, 0)
+script = ExtResource("5_item_model")
+rest = 0.011
+can_stand = true
+stand_rotation_x = 1.5708
+variants = Array[Material]([ExtResource("1_flipflop_p"), ExtResource("6_flipflop_y"), ExtResource("7_flipflop_c")])
+variant_parts = Array[NodePath]([NodePath("Pose/Sole")])
+accents = Array[Material]([ExtResource("2_flipflop_p"), ExtResource("8_flipflop_y"), ExtResource("9_flipflop_c")])
+accent_parts = Array[NodePath]([NodePath("Pose/Top")])
+
+[node name="Pose" type="Node3D" parent="Visual/Model"]
+
+[node name="Sole" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(0.2, 0, 0, 0, 0.035, 0, 0, 0, 0.46, 0, 0, 0)
+mesh = SubResource("SphereMesh_1")
+material_override = ExtResource("1_flipflop_p")
+
+[node name="Top" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(0.17, 0, 0, 0, 0.03, 0, 0, 0, 0.42, 0, 0.014, 0)
+mesh = SubResource("SphereMesh_1")
+material_override = ExtResource("2_flipflop_p")
+
+[node name="StrapA" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(0.863779, 0, -0.503871, 0, 1, 0, 0.503871, 0, 0.863779, -0.035, 0.04, -0.04)
+mesh = SubResource("BoxMesh_2")
+material_override = ExtResource("3_flipflop_s")
+
+[node name="StrapB" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(0.863779, 0, 0.503871, 0, 1, 0, -0.503871, 0, 0.863779, 0.035, 0.04, -0.04)
+mesh = SubResource("BoxMesh_2")
+material_override = ExtResource("3_flipflop_s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+shape = SubResource("SphereShape3D_3")

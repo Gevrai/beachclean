@@ -1,0 +1,86 @@
+[gd_scene format=3]
+
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/hose_green.tres" id="1_hose_green"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/hose_brass.tres" id="2_hose_brass"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/hose_nozzle.tres" id="3_hose_nozzl"]
+[ext_resource type="Script" path="res://scripts/debris.gd" id="4_debris"]
+[ext_resource type="Script" path="res://scripts/item_model.gd" id="5_item_model"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_1"]
+inner_radius = 0.11
+outer_radius = 0.15
+rings = 16
+ring_segments = 8
+
+[sub_resource type="TorusMesh" id="TorusMesh_2"]
+inner_radius = 0.1
+outer_radius = 0.14
+rings = 16
+ring_segments = 8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3"]
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.0943398
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4"]
+top_radius = 0.026
+bottom_radius = 0.026
+height = 0.05
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5"]
+top_radius = 0.03
+bottom_radius = 0.014
+height = 0.05
+radial_segments = 14
+rings = 1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6"]
+radius = 0.355
+
+[node name="Hose" type="StaticBody3D" groups=["debris"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("4_debris")
+id = "hose"
+
+[node name="Visual" type="Node3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0.028, 0)
+
+[node name="Model" type="Node3D" parent="Visual"]
+script = ExtResource("5_item_model")
+rest = 0.02
+
+[node name="Pose" type="Node3D" parent="Visual/Model"]
+
+[node name="Coil1" type="MeshInstance3D" parent="Visual/Model/Pose"]
+mesh = SubResource("TorusMesh_1")
+material_override = ExtResource("1_hose_green")
+
+[node name="Coil2" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.036, 0)
+mesh = SubResource("TorusMesh_2")
+material_override = ExtResource("1_hose_green")
+
+[node name="Tail" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(0.280899, 0.847998, -0.449438, -0.847998, 4.44089e-16, -0.529999, -0.449438, 0.529999, 0.719101, 0.17, 0, 0.025)
+mesh = SubResource("CylinderMesh_3")
+material_override = ExtResource("1_hose_green")
+
+[node name="Fitting" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(0.280899, 0.847998, -0.449438, -0.847998, 4.44089e-16, -0.529999, -0.449438, 0.529999, 0.719101, 0.2312, 0, 0.06325)
+mesh = SubResource("CylinderMesh_4")
+material_override = ExtResource("2_hose_brass")
+
+[node name="Nozzle" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(0.280899, 0.847998, -0.449438, -0.847998, 4.44089e-16, -0.529999, -0.449438, 0.529999, 0.719101, 0.2736, 0, 0.0897499)
+mesh = SubResource("CylinderMesh_5")
+material_override = ExtResource("3_hose_nozzl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+shape = SubResource("SphereShape3D_6")

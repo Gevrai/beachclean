@@ -1,0 +1,122 @@
+[gd_scene format=3]
+
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/net_orange.tres" id="1_net_orange"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/net_pink.tres" id="2_net_pink"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/net_green.tres" id="3_net_green"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/net_float.tres" id="4_net_float"]
+[ext_resource type="Script" path="res://scripts/debris.gd" id="5_debris"]
+[ext_resource type="Script" path="res://scripts/item_model.gd" id="6_item_model"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_1"]
+inner_radius = 0.20619
+outer_radius = 0.24119
+rings = 14
+ring_segments = 6
+
+[sub_resource type="TorusMesh" id="TorusMesh_2"]
+inner_radius = 0.210953
+outer_radius = 0.245953
+rings = 14
+ring_segments = 6
+
+[sub_resource type="TorusMesh" id="TorusMesh_3"]
+inner_radius = 0.225475
+outer_radius = 0.260475
+rings = 14
+ring_segments = 6
+
+[sub_resource type="TorusMesh" id="TorusMesh_4"]
+inner_radius = 0.1712
+outer_radius = 0.2062
+rings = 14
+ring_segments = 6
+
+[sub_resource type="TorusMesh" id="TorusMesh_5"]
+inner_radius = 0.205242
+outer_radius = 0.240242
+rings = 14
+ring_segments = 6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_6"]
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.5
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7"]
+top_radius = 0.025
+bottom_radius = 0.025
+height = 0.4
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_8"]
+top_radius = 0.045
+bottom_radius = 0.045
+height = 0.06
+radial_segments = 14
+rings = 1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_9"]
+radius = 0.39
+
+[node name="Net" type="StaticBody3D" groups=["debris"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("5_debris")
+id = "rope"
+
+[node name="Visual" type="Node3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0.1008, 0)
+
+[node name="Model" type="Node3D" parent="Visual"]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0)
+script = ExtResource("6_item_model")
+rest = 0.072
+
+[node name="Pose" type="Node3D" parent="Visual/Model"]
+
+[node name="Loop0" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(0.888894, 0.00188274, -0.45811, -0.0205952, 0.999145, -0.0358557, 0.45765, 0.0413068, 0.888172, 0.00188191, 0.0193692, -0.0756815)
+mesh = SubResource("TorusMesh_1")
+material_override = ExtResource("1_net_orange")
+
+[node name="Loop1" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(0.276982, -0.00849258, -0.960837, -0.240394, 0.967548, -0.0778508, 0.930318, 0.252543, 0.265952, -0.0471837, -0.00546647, 0.0743147)
+mesh = SubResource("TorusMesh_2")
+material_override = ExtResource("2_net_pink")
+
+[node name="Loop2" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(0.963702, -0.2444, -0.107457, 0.264922, 0.925281, 0.271424, 0.0330924, -0.290039, 0.956442, 0.0369414, 0.0207781, -0.0822014)
+mesh = SubResource("TorusMesh_3")
+material_override = ExtResource("1_net_orange")
+
+[node name="Loop3" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(0.913628, 0.178137, 0.365448, -0.18478, 0.982632, -0.0170279, -0.362134, -0.0519701, 0.930676, -0.0619337, -0.00849587, -0.00865573)
+mesh = SubResource("TorusMesh_4")
+material_override = ExtResource("2_net_pink")
+
+[node name="Loop4" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(-0.99133, 0.0591006, -0.11735, 0.0823074, 0.975502, -0.204014, 0.102418, -0.211904, -0.971909, -5.44435e-05, 0.0231225, -0.0102408)
+mesh = SubResource("TorusMesh_5")
+material_override = ExtResource("1_net_orange")
+
+[node name="RopeA" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(-0.29552, -0.955336, 0, 0.955336, -0.29552, 0, 0, 0, 1, 0.05, -0.04, 0)
+mesh = SubResource("CylinderMesh_6")
+material_override = ExtResource("2_net_pink")
+
+[node name="RopeB" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(0.877583, 0.479426, 2.93563e-17, 0, 6.12323e-17, -1, -0.479426, 0.877583, 5.37364e-17, -0.05, -0.04, 0.1)
+mesh = SubResource("CylinderMesh_7")
+material_override = ExtResource("3_net_green")
+
+[node name="Float" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(0.62161, 0.783327, 4.79649e-17, 0, 6.12323e-17, -1, -0.783327, 0.62161, 3.80626e-17, 0.15, -0.03, -0.1)
+mesh = SubResource("CylinderMesh_8")
+material_override = ExtResource("4_net_float")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+shape = SubResource("SphereShape3D_9")

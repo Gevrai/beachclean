@@ -56,9 +56,7 @@ func _ready() -> void:
 	var rng := RandomNumberGenerator.new()
 	var spawned: Array = []
 	for i in 14:  # 14 cans clustered in front of the player
-		var d := StaticBody3D.new()
-		d.set_script(DebrisScript)
-		d.setup("can", rng)
+		var d: StaticBody3D = DebrisScript.spawn("can", rng)
 		beach.add_child(d)
 		d.global_position = base + Vector3(rng.randf_range(-0.3, 0.3), -0.1, rng.randf_range(-0.3, 0.3))
 		spawned.append(d)

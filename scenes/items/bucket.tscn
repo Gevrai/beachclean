@@ -1,0 +1,100 @@
+[gd_scene format=3]
+
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bucket_red.tres" id="1_bucket_red"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/white.tres" id="2_white"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bucket_red_rim.tres" id="3_bucket_red"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bucket_sand.tres" id="4_bucket_san"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bucket_handle.tres" id="5_bucket_han"]
+[ext_resource type="Script" path="res://scripts/debris.gd" id="6_debris"]
+[ext_resource type="Script" path="res://scripts/item_model.gd" id="7_item_model"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bucket_yellow.tres" id="8_bucket_yel"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bucket_blue.tres" id="9_bucket_blu"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bucket_yellow_rim.tres" id="10_bucket_yel"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bucket_blue_rim.tres" id="11_bucket_blu"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1"]
+top_radius = 0.125
+bottom_radius = 0.09
+height = 0.16
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2"]
+top_radius = 0.113
+bottom_radius = 0.1
+height = 0.04
+radial_segments = 14
+rings = 1
+
+[sub_resource type="TorusMesh" id="TorusMesh_3"]
+inner_radius = 0.116
+outer_radius = 0.14
+rings = 16
+ring_segments = 8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4"]
+top_radius = 0.108
+bottom_radius = 0.108
+height = 0.004
+radial_segments = 14
+rings = 1
+
+[sub_resource type="TorusMesh" id="TorusMesh_5"]
+inner_radius = 0.103
+outer_radius = 0.117
+rings = 16
+ring_segments = 8
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6"]
+radius = 0.16
+
+[node name="Bucket" type="StaticBody3D" groups=["debris"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("6_debris")
+id = "bucket"
+
+[node name="Visual" type="Node3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0.0637, 0)
+
+[node name="Model" type="Node3D" parent="Visual"]
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0, 0, 0)
+script = ExtResource("7_item_model")
+rest = 0.0455
+variants = Array[Material]([ExtResource("1_bucket_red"), ExtResource("8_bucket_yel"), ExtResource("9_bucket_blu")])
+variant_parts = Array[NodePath]([NodePath("Pose/Tilt/Body")])
+accents = Array[Material]([ExtResource("3_bucket_red"), ExtResource("10_bucket_yel"), ExtResource("11_bucket_blu")])
+accent_parts = Array[NodePath]([NodePath("Pose/Tilt/Rim")])
+
+[node name="Pose" type="Node3D" parent="Visual/Model"]
+
+[node name="Tilt" type="Node3D" parent="Visual/Model/Pose"]
+transform = Transform3D(1, 0, 0, 0, 0.968912, -0.247404, 0, 0.247404, 0.968912, 0, 0, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Visual/Model/Pose/Tilt"]
+mesh = SubResource("CylinderMesh_1")
+material_override = ExtResource("1_bucket_red")
+
+[node name="Band" type="MeshInstance3D" parent="Visual/Model/Pose/Tilt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.01, 0)
+mesh = SubResource("CylinderMesh_2")
+material_override = ExtResource("2_white")
+
+[node name="Rim" type="MeshInstance3D" parent="Visual/Model/Pose/Tilt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+mesh = SubResource("TorusMesh_3")
+material_override = ExtResource("3_bucket_red")
+
+[node name="Sand" type="MeshInstance3D" parent="Visual/Model/Pose/Tilt"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.079, 0)
+mesh = SubResource("CylinderMesh_4")
+material_override = ExtResource("4_bucket_san")
+
+[node name="Handle" type="MeshInstance3D" parent="Visual/Model/Pose/Tilt"]
+transform = Transform3D(6.12323e-17, -1, 0, 1, 6.12323e-17, 0, 0, 0, 1, 0, 0.08, 0)
+mesh = SubResource("TorusMesh_5")
+material_override = ExtResource("5_bucket_han")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+shape = SubResource("SphereShape3D_6")

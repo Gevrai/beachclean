@@ -12,16 +12,12 @@ extends Node3D
 			_apply_look()
 
 @export_group("Looks")
-@export var look_polluted: BeachLook:
+## Time-of-day keyframes (assets/env/look_*.tres), each with its own `health` position; blended by set_health.
+@export var looks: Array[BeachLook] = []:
 	set(v):
-		look_polluted = _watch(look_polluted, v)
-@export var look_restored: BeachLook:
-	set(v):
-		look_restored = _watch(look_restored, v)
-## Golden-hour overlay, blended in over the last 15% of health (smoothstep 0.85..1).
-@export var look_golden: BeachLook:
-	set(v):
-		look_golden = _watch(look_golden, v)
+		_unwatch_all()
+		looks = v
+		_watch_all()
 
 @export_group("Materials driven by the look")
 @export var sand_mat: ShaderMaterial
@@ -98,19 +94,43 @@ func height_at(x: float, z: float) -> float:
 
 # ---------------------------------------------------------------- look
 
-func _watch(old: BeachLook, new: BeachLook) -> BeachLook:
-	if Engine.is_editor_hint():
-		if old and old.changed.is_connected(_on_look_changed):
-			old.changed.disconnect(_on_look_changed)
-		if new:
-			new.changed.connect(_on_look_changed)
-	return new
+func _unwatch_all() -> void:
+	if not Engine.is_editor_hint():
+		return
+	for l in looks:
+		if l and l.changed.is_connected(_on_look_changed):
+			l.changed.disconnect(_on_look_changed)
+
+func _watch_all() -> void:
+	if not Engine.is_editor_hint():
+		return
+	for l in looks:
+		if l:
+			l.changed.connect(_on_look_changed)
 
 func _on_look_changed() -> void:
 	if is_node_ready():
 		_apply_look()
 
-## t: 0 = polluted (grey, cool, murky) .. 1 = healed (vibrant, golden sun).
+## The look at health h: the two neighbouring keyframes blended linearly (clamped before the first / after the last).
+func look_at_health(h: float) -> BeachLook:
+	var ks: Array[BeachLook] = []
+	for l in looks:
+		if l:
+			ks.append(l)
+	if ks.is_empty():
+		return null
+	ks.sort_custom(func(a: BeachLook, b: BeachLook) -> bool: return a.health < b.health)
+	if h <= ks[0].health:
+		return ks[0]
+	for i in ks.size() - 1:
+		var a := ks[i]
+		var b := ks[i + 1]
+		if h <= b.health:
+			return a.mix(b, (h - a.health) / maxf(b.health - a.health, 0.0001))
+	return ks[-1]
+
+## t: 0 = fresh morning .. 0.5 midday .. 0.8 golden afternoon .. 1 = sunset on the sea horizon.
 func set_health(t: float) -> void:
 	health = t
 	_apply_look()
@@ -146,19 +166,15 @@ func _notification(what: int) -> void:
 		_apply_look()
 
 func _apply_look() -> void:
-	if look_polluted == null or look_restored == null or sun == null:
+	if looks.is_empty() or sun == null:
 		return
 	if Engine.is_editor_hint() and _pristine.is_empty():
 		_snapshot()
-	var k := pow(health, 0.8)  # slight ease so low health is still pleasant
-	var l := look_polluted.mix(look_restored, k)
-	if look_golden:
-		l = l.mix(look_golden, smoothstep(0.85, 1.0, health))  # golden-hour boost near 100%
-	# sun
-	var elev := deg_to_rad(l.sun_elevation_deg)
-	var az := deg_to_rad(l.sun_azimuth_deg)
-	var to_sun := Vector3(sin(az) * cos(elev), sin(elev), cos(az) * cos(elev))
-	sun.basis = Basis.looking_at(-to_sun, Vector3.UP)
+	var l := look_at_health(health)
+	# sun: travels along an arc from behind the player (-Z, over the dunes) over the top to the sea horizon (+Z)
+	var arc := deg_to_rad(l.sun_arc_deg)
+	var to_sun := Vector3(0.0, sin(arc), -cos(arc)).rotated(Vector3.UP, deg_to_rad(l.sun_tilt_deg))
+	sun.basis = Basis.looking_at(-to_sun, Vector3.UP if absf(to_sun.y) < 0.99 else Vector3.FORWARD)
 	sun.light_color = l.sun_color
 	sun.light_energy = l.sun_energy
 	# sky
@@ -167,8 +183,10 @@ func _apply_look() -> void:
 	sky_mat.set_shader_parameter("zenith", l.sky_zenith)
 	sky_mat.set_shader_parameter("mid", l.sky_mid)
 	sky_mat.set_shader_parameter("horizon", l.sky_horizon)
+	sky_mat.set_shader_parameter("horizon_away", l.sky_horizon_away)
 	sky_mat.set_shader_parameter("ground", l.sky_ground)
 	sky_mat.set_shader_parameter("sun_color", l.sky_sun_color)
+	sky_mat.set_shader_parameter("sun_glow", l.sky_glow)
 	sky_mat.set_shader_parameter("cloud_cover", l.cloud_cover)
 	sky_mat.set_shader_parameter("cloud_lit", l.cloud_lit)
 	sky_mat.set_shader_parameter("cloud_shade", l.cloud_shade)
@@ -186,6 +204,8 @@ func _apply_look() -> void:
 	water_mat.set_shader_parameter("deep_color", l.water_deep)
 	water_mat.set_shader_parameter("foam_color", l.water_foam)
 	water_mat.set_shader_parameter("absorb", l.water_absorb)
+	water_mat.set_shader_parameter("glitter", l.water_glitter)
+	water_mat.set_shader_parameter("sun_dir", to_sun)
 	# sand / grass / palms
 	sand_mat.set_shader_parameter("sand_dry", l.sand_dry)
 	sand_mat.set_shader_parameter("sand_light", l.sand_light)

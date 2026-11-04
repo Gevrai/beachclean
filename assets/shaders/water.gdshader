@@ -84,8 +84,15 @@ void fragment() {
 	// opacity: clear shallows, solid deep water, fully soft at the waterline (no hard intersection edge)
 	float opacity = mix(0.4, 0.96, smoothstep(0.0, 1.6, depth));
 	opacity *= smoothstep(0.0, 0.12, depth);
-	opacity = max(opacity, foam * 0.95 * smoothstep(0.0, 0.012, depth));
-	vec3 col = mix(body, foam_color * (0.84 + 0.16 * n2), foam);  // foam shaded by the noise: not a flat white
+	// foam breakup: slow drifting patches thin the foam out (lacy, never a flat strip), the crisp lines stay
+	float fm3 = texture(normal_b, uv * 0.55 + vec2(TIME * 0.035, -TIME * 0.02)).r;
+	float fn4 = texture(normal_a, uv * 1.3 - vec2(TIME * 0.02, TIME * 0.03)).g;
+	float fpatch = smoothstep(0.1, 0.5, fm3 * 0.6 + fn4 * 0.4);
+	float foam_a = foam * (0.6 + 0.4 * fpatch);
+	opacity = max(opacity, foam_a * 0.9 * smoothstep(0.0, 0.012, depth));
+	vec3 fcol = foam_color * (0.42 + 0.2 * n2 + 0.14 * fpatch);  // shaded, not clipped white
+	fcol = mix(fcol, shallow_color * 0.9, 0.1);  // picks up a little of the water
+	vec3 col = mix(body, fcol, foam_a);
 
 	// Fresnel + screen-space reflection (view-space ray march against the depth buffer, 18 steps)
 	vec3 vdir = normalize(VERTEX);
@@ -153,6 +160,6 @@ void fragment() {
 	float sparkle = smoothstep(0.35, 0.8, mix(n2, n3, 0.4 * fine_fade));
 	vec3 glit = vec3(1.0, 0.8, 0.55) * (g * (0.35 + sparkle) + pow(sd, 24.0) * 0.1) * glitter * (1.0 - foam);
 
-	EMISSION = under * (1.0 - opacity) + col * 0.3 * opacity + glit * 6.0
+	EMISSION = under * (1.0 - opacity) + col * mix(0.3, 0.12, foam_a) * opacity + glit * 6.0
 		+ refl * fres * hit * reflect_strength * (1.0 - foam);
 }

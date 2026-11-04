@@ -21,7 +21,7 @@ const COIN_COUNT := 10  # loose change lying around at the start (not saved; res
 const GAP := 0.3        # min distance between two pieces (m)
 
 ## Spawn odds per place (ids from Catalog.ITEMS). Wrack line: small stuff and ropes/nets the sea left behind.
-const WRACK_WEIGHTS := {"cap": 22.0, "straw": 20.0, "bag": 18.0, "can": 8.0, "pbottle": 8.0, "flipflop": 6.0, "gbottle": 3.0, "bucket": 1.0, "rope": 9.0, "hose": 3.0}
+const WRACK_WEIGHTS := {"cap": 22.0, "straw": 20.0, "bag": 18.0, "can": 8.0, "pbottle": 8.0, "flipflop": 6.0, "gbottle": 3.0, "bucket": 1.0, "rope": 2.0, "hose": 3.0}
 ## Light things that float (the sea band): no cans, no hose.
 const FLOAT_WEIGHTS := {"cap": 14.0, "straw": 8.0, "bag": 22.0, "pbottle": 18.0, "flipflop": 12.0, "gbottle": 8.0, "bucket": 8.0, "rope": 10.0}
 

@@ -16,7 +16,7 @@ const ITEMS := {
 	"flipflop": {"name": "Flip-flop", "cm": 25, "space": 1.5, "value": 5, "bin": "plastic", "weight": 8.0},
 	"gbottle": {"name": "Glass bottle", "cm": 25, "space": 2.0, "value": 25, "bin": "glass", "weight": 6.0},
 	"bucket": {"name": "Toy bucket", "cm": 16, "space": 2.0, "value": 30, "bin": "plastic", "weight": 4.0},
-	"rope": {"name": "Fishing net", "cm": 50, "space": 3.0, "value": 50, "bin": "plastic", "weight": 2.5},
+	"rope": {"name": "Fishing net", "cm": 50, "space": 3.0, "value": 50, "bin": "plastic", "weight": 1.5},
 	"hose": {"name": "Garden hose", "cm": 45, "space": 3.0, "value": 60, "bin": "plastic", "weight": 2.5},
 }
 

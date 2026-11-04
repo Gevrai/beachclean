@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# usage: tools/fps [scenes/x.tscn] [extra user args e.g. --health=1 --pos=0,-5,180,6]  -> "fps: N" (vsync off, offscreen, 8 s average)
+cd "$(dirname "$0")/.." || exit 1
+mkdir -p .logs
+scene="${1:-scenes/beach.tscn}"; scene="${scene#res://}"
+timeout 90 tools/offscreen.sh godot --display-driver wayland --path . "res://$scene" -- --fresh --fps=8 "${@:2}" > .logs/fps.log 2>&1
+r=$(grep -o 'FPS: [0-9.]*' .logs/fps.log | tail -1)
+if [ -n "$r" ]; then echo "fps: ${r#FPS: }"; else echo "fps: FAILED see .logs/fps.log"; exit 1; fi

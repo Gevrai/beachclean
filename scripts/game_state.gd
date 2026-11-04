@@ -22,20 +22,24 @@ const MILESTONES := [
 ]
 
 ## Upgrade table (base cost in cents). cost(id) = base * 1.6^level. Order = order in the shack panel.
-const UPGRADE_ORDER := ["bag", "arms", "grabber", "sandals", "rake"]
+const UPGRADE_ORDER := ["bag", "arms", "grabber", "sandals", "rake", "net"]
 const UPGRADES := {
-	"bag": {"name": "Bigger bag", "base": 240, "max": 8},
-	"arms": {"name": "Long arms", "base": 360, "max": 6},
-	"grabber": {"name": "Grabber", "base": 600, "max": 5},
-	"sandals": {"name": "Sandals", "base": 300, "max": 5},
-	"rake": {"name": "Beach rake", "base": 720, "max": 4},
+	"bag": {"name": "Bigger bag", "base": 200, "max": 8},
+	"arms": {"name": "Long arms", "base": 300, "max": 6},
+	"grabber": {"name": "Grabber", "base": 480, "max": 5},
+	"sandals": {"name": "Sandals", "base": 240, "max": 5},
+	"rake": {"name": "Beach rake", "base": 600, "max": 4},
+	"net": {"name": "Casting net", "base": 1200, "max": 3},
 }
+## Casting net by level (index = level; 0 = not owned): how far from the player it can land, and its radius (m).
+const NET_RANGE := [0.0, 12.0, 18.0, 22.0]
+const NET_RADIUS := [0.0, 2.0, 3.0, 4.0]
 const BASE_BAG := 10.0  # bag space units
 const BASE_REACH := 2.5
 const BASE_SPEED := 5.0
-const COST_GROWTH := 1.6
+const COST_GROWTH := 1.5
 
-var levels: Dictionary = {"bag": 0, "arms": 0, "grabber": 0, "sandals": 0, "rake": 0}
+var levels: Dictionary = {"bag": 0, "arms": 0, "grabber": 0, "sandals": 0, "rake": 0, "net": 0}
 
 var cents: int = 0
 ## Cents of a bag being sorted at the bins: already out of the bag, not yet paid (saved with the money).
@@ -47,6 +51,8 @@ var cleared_count: int = 0
 var initial_count: int = 0
 ## Milestone ids already reached (task 7: restore on load).
 var reached: Array[String] = []
+## The "buy a casting net" hint was already shown (saved, so it appears once per game).
+var net_hint_shown := false
 
 func bag_used() -> float:
 	var n := 0.0
@@ -146,7 +152,7 @@ func to_dict() -> Dictionary:
 	for it in bag:
 		ids.append(it.id)
 	return {"version": SAVE_VERSION, "cents": cents + pending, "bag": ids, "levels": levels, "cleared": cleared_count,
-		"initial": initial_count, "reached": reached, "found": found_notes, "debris": deb}
+		"initial": initial_count, "reached": reached, "net_hint": net_hint_shown, "found": found_notes, "debris": deb}
 
 func from_dict(d: Dictionary) -> void:
 	cents = int(d.get("cents", 0))
@@ -166,6 +172,7 @@ func from_dict(d: Dictionary) -> void:
 	found_notes.clear()
 	for f in d.get("found", []):
 		found_notes.append(int(f))
+	net_hint_shown = bool(d.get("net_hint", false))
 	loaded_debris = d.get("debris", null)
 	_apply()
 
@@ -179,6 +186,7 @@ func reset() -> void:
 	cleared_count = 0
 	initial_count = 0
 	reached.clear()
+	net_hint_shown = false
 	found_notes.clear()
 	loaded_debris = null
 	_apply()
@@ -259,6 +267,12 @@ func grab_rate_for(lvl: int) -> float:  # pieces per second
 func rake_radius_for(lvl: int) -> float:
 	return 0.6 * lvl
 
+func net_range_for(lvl: int) -> float:
+	return NET_RANGE[clampi(lvl, 0, NET_RANGE.size() - 1)]
+
+func net_radius_for(lvl: int) -> float:
+	return NET_RADIUS[clampi(lvl, 0, NET_RADIUS.size() - 1)]
+
 func bag_for(lvl: int) -> float:
 	return BASE_BAG + 5.0 * lvl
 
@@ -266,6 +280,8 @@ func reach() -> float: return reach_for(level("arms"))
 func move_speed() -> float: return speed_for(level("sandals"))
 func grab_rate() -> float: return grab_rate_for(level("grabber"))
 func rake_radius() -> float: return rake_radius_for(level("rake"))
+func net_range() -> float: return net_range_for(level("net"))  ## 0 = no net
+func net_radius() -> float: return net_radius_for(level("net"))
 
 func _apply() -> void:
 	bag_capacity = bag_for(level("bag"))
@@ -290,4 +306,10 @@ func effect_text(id: String) -> String:
 			if l == 0:
 				return "Pickups also grab litter within %.1f m" % rake_radius_for(1)
 			return "Sweep radius %.1f m" % rake_radius_for(l) if m else "Sweep radius %.1f m  >  %.1f m" % [rake_radius_for(l), rake_radius_for(l + 1)]
+		"net":
+			if l == 0:
+				return "Hold right-click to aim, release to cast: %d m, %d m radius" % [net_range_for(1), net_radius_for(1)]
+			if m:
+				return "Range %d m, radius %d m" % [net_range_for(l), net_radius_for(l)]
+			return "Range %d > %d m, radius %d > %d m" % [net_range_for(l), net_range_for(l + 1), net_radius_for(l), net_radius_for(l + 1)]
 	return ""

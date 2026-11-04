@@ -1,0 +1,51 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/materials/net/net_mesh.tres" id="1_mesh"]
+[ext_resource type="Material" path="res://assets/materials/net/rope.tres" id="2_rope"]
+[ext_resource type="Material" path="res://assets/materials/net/float.tres" id="3_float"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1"]
+size = Vector2(1, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_1"]
+inner_radius = 0.488
+outer_radius = 0.5
+rings = 32
+ring_segments = 6
+
+[sub_resource type="SphereMesh" id="SphereMesh_1"]
+radius = 0.035
+height = 0.07
+radial_segments = 8
+rings = 4
+
+; Casting net, unit size (1 m across): NetCaster scales the root to the net's diameter.
+[node name="Net" type="Node3D"]
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_1")
+surface_material_override/0 = ExtResource("1_mesh")
+
+[node name="Rim" type="MeshInstance3D" parent="."]
+mesh = SubResource("TorusMesh_1")
+surface_material_override/0 = ExtResource("2_rope")
+
+[node name="Float1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+mesh = SubResource("SphereMesh_1")
+surface_material_override/0 = ExtResource("3_float")
+
+[node name="Float2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+mesh = SubResource("SphereMesh_1")
+surface_material_override/0 = ExtResource("3_float")
+
+[node name="Float3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+mesh = SubResource("SphereMesh_1")
+surface_material_override/0 = ExtResource("3_float")
+
+[node name="Float4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+mesh = SubResource("SphereMesh_1")
+surface_material_override/0 = ExtResource("3_float")

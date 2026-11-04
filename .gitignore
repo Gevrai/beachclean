@@ -1,3 +1,4 @@
 .godot/
 .logs/
 *.tmp
+.claude/worktrees/

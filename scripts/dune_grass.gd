@@ -110,6 +110,17 @@ func _path_dist(x: float, z: float, pts: PackedVector2Array) -> float:
 		best = minf(best, q.distance_to(Vector2(x, z)))
 	return best
 
+## [position xz, tangent xz] at arc length `dist` along the polyline, or [].
+func _along(pts: PackedVector2Array, dist: float) -> Array:
+	var acc := 0.0
+	for i in pts.size() - 1:
+		var seg := pts[i + 1] - pts[i]
+		var l := seg.length()
+		if dist <= acc + l:
+			return [pts[i] + seg * ((dist - acc) / l), seg / l]
+		acc += l
+	return []
+
 func scatter() -> void:
 	var terrain := get_node(terrain_path)
 	var pts := PackedVector2Array()
@@ -131,6 +142,36 @@ func scatter() -> void:
 	var items := {}  # key -> Array of [Transform3D, Color]
 	for k in keys:
 		items[k] = []
+	# tall dense mounds on both sides of the boardwalk (the first view is framed by them); the walk itself stays clear
+	var n_mound := 0
+	var walk_len := 0.0
+	for i in pts.size() - 1:
+		walk_len += pts[i].distance_to(pts[i + 1])
+	var arc := 0.0
+	while arc < walk_len and pts.size() > 1:
+		arc += rng.randf_range(1.2, 2.0)
+		var at := _along(pts, arc)
+		if at.is_empty():
+			break
+		var tang: Vector2 = at[1]
+		var nrm := Vector2(-tang.y, tang.x)
+		for side in [-1.0, 1.0]:
+			var c: Vector2 = at[0] + nrm * side * rng.randf_range(2.6, 5.5)
+			if c.y - terrain.shore_z(c.x) > -17.0 or _near_shack(c.x, c.y, terrain):
+				continue
+			for m in rng.randi_range(14, 22):
+				var q := c + Vector2(rng.randfn(0.0, 1.0), rng.randfn(0.0, 1.0))
+				var zs_q: float = q.y - terrain.shore_z(q.x)
+				var yq: float = terrain.height_at(q.x, q.y)
+				if zs_q > -17.0 or yq < 0.6 or _path_dist(q.x, q.y, pts) < clear_w + 1.0:
+					continue
+				var sq := rng.randf_range(0.95, 1.4) * lerpf(0.8, 1.1, smoothstep(-17.0, -26.0, zs_q))
+				var bq := Basis(Vector3.UP, rng.randf() * TAU) * Basis(Vector3.RIGHT, rng.randf_range(-0.12, 0.12))
+				bq = bq.scaled(Vector3(sq, sq * rng.randf_range(0.9, 1.15), sq))
+				var kq: String = ["a", "a", "c", "b", "d"][rng.randi() % 5]
+				var dq := clampf(0.45 + dry_noise.get_noise_2d(q.x, q.y) * 0.9 + rng.randf_range(-0.25, 0.25), 0.0, 1.0)
+				items[kq].append([Transform3D(bq, Vector3(q.x, yq - 0.04, q.y)), Color(dq, rng.randf(), 0.0, 1.0)])
+				n_mound += 1
 	var n_clump := 0
 	var n_tuft := 0
 	var tries := 0
@@ -164,8 +205,6 @@ func scatter() -> void:
 			prob = dune * smoothstep(0.05, 0.3, patch)
 			# a few early clumps on the upper sand next to the tufts
 			prob += smoothstep(-24.0, -17.0, zs) * smoothstep(-8.0, -17.0, zs) * 0.05 * patch
-			# framing the boardwalk: grass starts earlier right beside it
-			prob = maxf(prob, smoothstep(7.0, 2.0, d) * smoothstep(-12.0, -19.0, zs) * 0.75 * smoothstep(0.0, 0.35, patch + 0.1))
 			var roll := rng.randf()
 			key = clump_keys[0]
 			for ck in clump_keys:
@@ -201,4 +240,4 @@ func scatter() -> void:
 		var node := get_node_or_null(VARIANTS[k].node) as MultiMeshInstance3D
 		if node:
 			node.multimesh = mm
-	print("dune grass: %d clumps, %d tufts" % [n_clump, n_tuft])
+	print("dune grass: %d clumps (+%d boardwalk mounds), %d tufts" % [n_clump, n_mound, n_tuft])

@@ -28,7 +28,7 @@ void fragment() {
 
 	// dunes get a dry-grass tint
 	float dune = smoothstep(1.0, 2.0, wpos.y + (mid - 0.5) * 0.9);
-	base = mix(base, grass_tint, dune * 0.8);
+	base = mix(base, mix(base, grass_tint, 0.5), dune * 0.3);  // only a faint olive cast: dunes stay pale sand between the clumps
 
 	// wind ripples (domain-warped sine), fading on dunes and wet sand
 	float warp = texture(patches, p * 0.035).r * 5.0;

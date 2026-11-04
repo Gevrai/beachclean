@@ -27,11 +27,25 @@ func _sample(dist: float) -> Array:  # -> [position xz, tangent xz] at arc lengt
 		acc += l
 	return []
 
+## True if world point p is on the walk (or within margin of its edge).
+func near(p: Vector3, margin := 0.0) -> bool:
+	var q := Vector2(p.x, p.z)
+	for i in path_points.size() - 1:
+		if Geometry2D.get_closest_point_to_segment(q, path_points[i], path_points[i + 1]).distance_to(q) < half_width + margin:
+			return true
+	return false
+
 func _length() -> float:
 	var l := 0.0
 	for i in path_points.size() - 1:
 		l += path_points[i].distance_to(path_points[i + 1])
 	return l
+
+## Weathered grey-brown wood, each piece a little different (brightness range lo..hi).
+func _wood(rng: RandomNumberGenerator, lo: float, hi: float) -> Color:
+	var warm := Color(0.46, 0.3, 0.15)
+	var grey := Color(0.34, 0.29, 0.23)
+	return warm.lerp(grey, rng.randf_range(0.1, 0.45)) * rng.randf_range(lo, hi)
 
 func _box(center: Vector3, basis: Basis, size: Vector3, col: Color) -> void:
 	var h := size * 0.5
@@ -75,8 +89,7 @@ func bake() -> void:
 		var pitch := atan2(beach.height_at(ahead.x, ahead.y) - beach.height_at(behind.x, behind.y), 0.6)
 		var yaw := atan2(-tan2.x, -tan2.y) + rng.randf_range(-0.02, 0.02)  # -Z of the plank along the path
 		var basis := Basis(Vector3.UP, yaw) * Basis(Vector3.RIGHT, pitch)
-		var tone := rng.randf_range(0.14, 0.26)
-		var col := Color(tone, tone * 0.93, tone * 0.85)
+		var col := _wood(rng, 0.55, 1.05)
 		var w := half_width * 2.0 * rng.randf_range(0.97, 1.03)
 		_box(Vector3(pos.x, y, pos.y), basis, Vector3(w, 0.05, plen), col)
 		d += plen + rng.randf_range(0.03, 0.05)
@@ -94,8 +107,7 @@ func bake() -> void:
 			var gy: float = beach.height_at(pp.x, pp.y)
 			var ph := rng.randf_range(0.8, 1.0)
 			var lean := Basis(Vector3.UP, rng.randf() * TAU) * Basis(Vector3.RIGHT, rng.randf_range(-0.06, 0.06))
-			var tone := rng.randf_range(0.28, 0.42)
-			_box(Vector3(pp.x, gy + ph * 0.5 - 0.1, pp.y), lean, Vector3(0.11, ph + 0.2, 0.11), Color(tone, tone * 0.95, tone * 0.88))
+			_box(Vector3(pp.x, gy + ph * 0.5 - 0.1, pp.y), lean, Vector3(0.11, ph + 0.2, 0.11), _wood(rng, 0.9, 1.45))
 			tops[s].append(Vector3(pp.x, gy + ph - 0.12, pp.y))
 		pd += post_spacing
 	var rope := Color(0.62, 0.52, 0.34)

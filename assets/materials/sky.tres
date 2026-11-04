@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" format=3]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dxxi0j551p3gv"]
 
-[ext_resource type="Shader" path="res://assets/shaders/sky.gdshader" id="1_7rhyu"]
+[ext_resource type="Shader" uid="uid://4ip3htnemy3t" path="res://assets/shaders/sky.gdshader" id="1_7rhyu"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_34k5n"]
 seed = 21

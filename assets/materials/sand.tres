@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" format=3]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c65nmh786pxh7"]
 
-[ext_resource type="Shader" path="res://assets/shaders/sand.gdshader" id="1_tohsb"]
+[ext_resource type="Shader" uid="uid://b7x2gmyxm8dkx" path="res://assets/shaders/sand.gdshader" id="1_tohsb"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_l4rfi"]
 seed = 3

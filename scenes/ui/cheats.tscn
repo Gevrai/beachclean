@@ -1,14 +1,14 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bchsf02vl0qpe"]
 
-[ext_resource type="Script" path="res://scripts/cheats.gd" id="1_cheats"]
-[ext_resource type="Theme" path="res://assets/ui/theme.tres" id="2_theme"]
+[ext_resource type="Script" uid="uid://4bsoj1fgu7p3" path="res://scripts/cheats.gd" id="1_cheats"]
+[ext_resource type="Theme" uid="uid://dp4u6bd0y3i3k" path="res://assets/ui/theme.tres" id="2_theme"]
 
-[node name="Cheats" type="CanvasLayer"]
+[node name="Cheats" type="CanvasLayer" unique_id=1498508756]
 process_mode = 3
 layer = 40
 script = ExtResource("1_cheats")
 
-[node name="Root" type="Control" parent="."]
+[node name="Root" type="Control" parent="." unique_id=589726191]
 unique_name_in_owner = true
 visible = false
 layout_mode = 3
@@ -19,7 +19,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_theme")
 
-[node name="Card" type="PanelContainer" parent="Root"]
+[node name="Card" type="PanelContainer" parent="Root" unique_id=963531223]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 200.0
@@ -27,97 +27,97 @@ offset_right = 24.0
 offset_bottom = 200.0
 theme_type_variation = &"CheatsPanel"
 
-[node name="V" type="VBoxContainer" parent="Root/Card"]
+[node name="V" type="VBoxContainer" parent="Root/Card" unique_id=524906331]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Title" type="Label" parent="Root/Card/V"]
+[node name="Title" type="Label" parent="Root/Card/V" unique_id=755137283]
 layout_mode = 2
 theme_type_variation = &"CheatsTitleLabel"
 text = "Cheats (F1 to close)"
 
-[node name="Money" type="HBoxContainer" parent="Root/Card/V"]
+[node name="Money" type="HBoxContainer" parent="Root/Card/V" unique_id=1951487032]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Add1" type="Button" parent="Root/Card/V/Money"]
+[node name="Add1" type="Button" parent="Root/Card/V/Money" unique_id=1181973168]
 unique_name_in_owner = true
 layout_mode = 2
 text = "+$1"
 
-[node name="Add10" type="Button" parent="Root/Card/V/Money"]
+[node name="Add10" type="Button" parent="Root/Card/V/Money" unique_id=1686037777]
 unique_name_in_owner = true
 layout_mode = 2
 text = "+$10"
 
-[node name="Gear" type="HBoxContainer" parent="Root/Card/V"]
+[node name="Gear" type="HBoxContainer" parent="Root/Card/V" unique_id=45019932]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="MaxUpgrades" type="Button" parent="Root/Card/V/Gear"]
+[node name="MaxUpgrades" type="Button" parent="Root/Card/V/Gear" unique_id=1992192340]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Max upgrades"
 
-[node name="FillBag" type="Button" parent="Root/Card/V/Gear"]
+[node name="FillBag" type="Button" parent="Root/Card/V/Gear" unique_id=2017941161]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Fill bag"
 
-[node name="Beach" type="HBoxContainer" parent="Root/Card/V"]
+[node name="Beach" type="HBoxContainer" parent="Root/Card/V" unique_id=1228085860]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Clear10" type="Button" parent="Root/Card/V/Beach"]
+[node name="Clear10" type="Button" parent="Root/Card/V/Beach" unique_id=594769106]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Clear 10% of beach"
 
-[node name="Tide" type="Button" parent="Root/Card/V/Beach"]
+[node name="Tide" type="Button" parent="Root/Card/V/Beach" unique_id=1887408014]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Spawn tide"
 
-[node name="Health" type="HBoxContainer" parent="Root/Card/V"]
+[node name="Health" type="HBoxContainer" parent="Root/Card/V" unique_id=1603523737]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Label" type="Label" parent="Root/Card/V/Health"]
+[node name="Label" type="Label" parent="Root/Card/V/Health" unique_id=374400802]
 layout_mode = 2
 text = "Health:"
 
-[node name="H25" type="Button" parent="Root/Card/V/Health"]
+[node name="H25" type="Button" parent="Root/Card/V/Health" unique_id=2039638800]
 layout_mode = 2
 text = "25%"
 
-[node name="H50" type="Button" parent="Root/Card/V/Health"]
+[node name="H50" type="Button" parent="Root/Card/V/Health" unique_id=2062019196]
 layout_mode = 2
 text = "50%"
 
-[node name="H75" type="Button" parent="Root/Card/V/Health"]
+[node name="H75" type="Button" parent="Root/Card/V/Health" unique_id=1421043743]
 layout_mode = 2
 text = "75%"
 
-[node name="H100" type="Button" parent="Root/Card/V/Health"]
+[node name="H100" type="Button" parent="Root/Card/V/Health" unique_id=851425422]
 layout_mode = 2
 text = "100%"
 
-[node name="Misc" type="HBoxContainer" parent="Root/Card/V"]
+[node name="Misc" type="HBoxContainer" parent="Root/Card/V" unique_id=1591902537]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Reveal" type="Button" parent="Root/Card/V/Misc"]
+[node name="Reveal" type="Button" parent="Root/Card/V/Misc" unique_id=1727187674]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Reveal all notes"
 
-[node name="Fast" type="Button" parent="Root/Card/V/Misc"]
+[node name="Fast" type="Button" parent="Root/Card/V/Misc" unique_id=1503200734]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Fast walk: off"
 
-[node name="Reset" type="Button" parent="Root/Card/V"]
+[node name="Reset" type="Button" parent="Root/Card/V" unique_id=154670412]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Reset game"

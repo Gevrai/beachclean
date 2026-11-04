@@ -1,7 +1,6 @@
 # Architecture (living doc)
 
 ## Scaffold
-Godot 4.7 Forward+ project, 1600x900 window. Main scene `scenes/beach.tscn` (`scenes/main.tscn` is an unused placeholder). Folders: `scenes/`, `scripts/`, `assets/`.
 
 ## Dev tools
 - `DevTools` autoload (`scripts/dev_tools.gd`): with user arg `--shot=PATH`, saves a viewport screenshot after 2 s and quits. Inert otherwise.

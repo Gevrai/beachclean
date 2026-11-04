@@ -15,7 +15,7 @@ for a in $(sed -n 's/^\([A-Za-z_]*\)="\*res.*/\1/p' project.godot); do
   python3 - "$a" <<'PY'
 import re,sys
 a=sys.argv[1]; t=open('.logs/check.log').read()
-t=re.sub(r"SCRIPT ERROR: Compile Error: Identifier not found: %s\n[^\n]*\nERROR: Failed to load script[^\n]*\n[^\n]*\nEXIT NONZERO[^\n]*\n"%a,"",t)
+t=re.sub(r"SCRIPT ERROR: Compile Error: Identifier not found: %s\n[^\n]*\nERROR: Failed to load script[^\n]*\n[^\n]*\n(?:EXIT NONZERO[^\n]*\n)?"%a,"",t)
 open('.logs/check.log','w').write(t)
 PY
 done

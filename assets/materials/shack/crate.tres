@@ -1,0 +1,5 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+albedo_color = Color(0.8000, 0.5800, 0.3400, 1)
+roughness = 0.85

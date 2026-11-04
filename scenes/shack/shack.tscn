@@ -1,0 +1,640 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/shack.gd" id="e0"]
+[ext_resource type="PackedScene" path="res://scenes/shack/bin.tscn" id="e1"]
+[ext_resource type="Material" path="res://assets/materials/shack/foundation.tres" id="e2"]
+[ext_resource type="Material" path="res://assets/materials/shack/deck.tres" id="e3"]
+[ext_resource type="Material" path="res://assets/materials/shack/dark.tres" id="e4"]
+[ext_resource type="Material" path="res://assets/materials/shack/wood_2.tres" id="e5"]
+[ext_resource type="Material" path="res://assets/materials/shack/wood_1.tres" id="e6"]
+[ext_resource type="Material" path="res://assets/materials/shack/wood_3.tres" id="e7"]
+[ext_resource type="Material" path="res://assets/materials/shack/wood_0.tres" id="e8"]
+[ext_resource type="Material" path="res://assets/materials/shack/white.tres" id="e9"]
+[ext_resource type="Material" path="res://assets/materials/shack/window.tres" id="e10"]
+[ext_resource type="Material" path="res://assets/materials/shack/teal.tres" id="e11"]
+[ext_resource type="Material" path="res://assets/materials/shack/counter.tres" id="e12"]
+[ext_resource type="Material" path="res://assets/materials/shack/coral.tres" id="e13"]
+[ext_resource type="Material" path="res://assets/materials/shack/cream.tres" id="e14"]
+[ext_resource type="Material" path="res://assets/materials/shack/crate.tres" id="e15"]
+[ext_resource type="Material" path="res://assets/materials/shack/bottle_green.tres" id="e16"]
+[ext_resource type="Material" path="res://assets/materials/shack/bottle_blue.tres" id="e17"]
+[ext_resource type="Material" path="res://assets/materials/shack/bottle_orange.tres" id="e18"]
+[ext_resource type="Material" path="res://assets/materials/shack/surfboard.tres" id="e19"]
+
+[sub_resource type="BoxMesh" id="m0"]
+size = Vector3(4.6, 1.6, 4)
+
+[sub_resource type="BoxMesh" id="m1"]
+size = Vector3(4.8, 0.12, 4.2)
+
+[sub_resource type="BoxMesh" id="m2"]
+size = Vector3(4.1, 2.55, 3.5)
+
+[sub_resource type="BoxMesh" id="m3"]
+size = Vector3(0.3864, 0.95, 0.1)
+
+[sub_resource type="BoxMesh" id="m4"]
+size = Vector3(0.414, 0.8, 0.1)
+
+[sub_resource type="BoxMesh" id="m5"]
+size = Vector3(0.3864, 0.8, 0.1)
+
+[sub_resource type="BoxMesh" id="m6"]
+size = Vector3(0.3864, 2.55, 0.1)
+
+[sub_resource type="BoxMesh" id="m7"]
+size = Vector3(0.1, 2.55, 0.368)
+
+[sub_resource type="BoxMesh" id="m8"]
+size = Vector3(0.18, 2.6, 0.18)
+
+[sub_resource type="BoxMesh" id="m9"]
+size = Vector3(2.4, 0.8, 0.02)
+
+[sub_resource type="BoxMesh" id="m10"]
+size = Vector3(2.64, 0.12, 0.16)
+
+[sub_resource type="BoxMesh" id="m11"]
+size = Vector3(0.12, 0.92, 0.16)
+
+[sub_resource type="BoxMesh" id="m12"]
+size = Vector3(0.5, 0.9, 0.06)
+
+[sub_resource type="BoxMesh" id="m13"]
+size = Vector3(2.9, 0.1, 0.75)
+
+[sub_resource type="BoxMesh" id="m14"]
+size = Vector3(0.1, 0.35, 0.1)
+
+[sub_resource type="BoxMesh" id="m15"]
+size = Vector3(0.4, 0.06, 1)
+
+[sub_resource type="BoxMesh" id="m16"]
+size = Vector3(3.3, 0.56, 0.1)
+
+[sub_resource type="BoxMesh" id="m17"]
+size = Vector3(3.4, 0.66, 0.06)
+
+[sub_resource type="BoxMesh" id="m18"]
+size = Vector3(5.1, 0.14, 2.6554)
+
+[sub_resource type="BoxMesh" id="m19"]
+size = Vector3(5.2, 0.16, 0.22)
+
+[sub_resource type="PrismMesh" id="m20"]
+size = Vector3(4.4, 1.3, 0.12)
+
+[sub_resource type="BoxShape3D" id="m21"]
+size = Vector3(4.8, 3.5, 4.2)
+
+[sub_resource type="BoxMesh" id="m22"]
+size = Vector3(0.9, 0.55, 0.7)
+
+[sub_resource type="CylinderMesh" id="m23"]
+top_radius = 0.07
+bottom_radius = 0.07
+height = 0.34
+radial_segments = 16
+rings = 1
+
+[sub_resource type="CapsuleMesh" id="m24"]
+radius = 0.26
+height = 2.1
+
+[sub_resource type="BoxMesh" id="m25"]
+size = Vector3(0.1, 1.5, 0.05)
+
+
+[node name="Shack" type="Node3D"]
+script = ExtResource("e0")
+
+[node name="Hut" type="Node3D" parent="."]
+
+[node name="Foundation" type="MeshInstance3D" parent="Hut"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
+mesh = SubResource("m0")
+surface_material_override/0 = ExtResource("e2")
+
+[node name="Deck" type="MeshInstance3D" parent="Hut"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19, 0)
+mesh = SubResource("m1")
+surface_material_override/0 = ExtResource("e3")
+
+[node name="Core" type="MeshInstance3D" parent="Hut"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.525, 0)
+mesh = SubResource("m2")
+surface_material_override/0 = ExtResource("e4")
+
+[node name="Boards" type="Node3D" parent="Hut"]
+
+[node name="Board1" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.89, 0.725, 1.8)
+mesh = SubResource("m3")
+surface_material_override/0 = ExtResource("e5")
+
+[node name="Board2" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.47, 0.725, 1.8)
+mesh = SubResource("m3")
+surface_material_override/0 = ExtResource("e6")
+
+[node name="Board3" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05, 0.725, 1.8)
+mesh = SubResource("m3")
+surface_material_override/0 = ExtResource("e7")
+
+[node name="Board4" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.63, 0.725, 1.8)
+mesh = SubResource("m3")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board5" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21, 0.725, 1.8)
+mesh = SubResource("m3")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board6" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21, 0.725, 1.8)
+mesh = SubResource("m3")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board7" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.63, 0.725, 1.8)
+mesh = SubResource("m3")
+surface_material_override/0 = ExtResource("e5")
+
+[node name="Board8" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05, 0.725, 1.8)
+mesh = SubResource("m3")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board9" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.47, 0.725, 1.8)
+mesh = SubResource("m3")
+surface_material_override/0 = ExtResource("e6")
+
+[node name="Board10" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.89, 0.725, 1.8)
+mesh = SubResource("m3")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board11" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.875, 1.6, 1.8)
+mesh = SubResource("m4")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board12" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.425, 1.6, 1.8)
+mesh = SubResource("m4")
+surface_material_override/0 = ExtResource("e7")
+
+[node name="Board13" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.425, 1.6, 1.8)
+mesh = SubResource("m4")
+surface_material_override/0 = ExtResource("e7")
+
+[node name="Board14" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.875, 1.6, 1.8)
+mesh = SubResource("m4")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board15" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.89, 2.4, 1.8)
+mesh = SubResource("m5")
+surface_material_override/0 = ExtResource("e6")
+
+[node name="Board16" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.47, 2.4, 1.8)
+mesh = SubResource("m5")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board17" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05, 2.4, 1.8)
+mesh = SubResource("m5")
+surface_material_override/0 = ExtResource("e7")
+
+[node name="Board18" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.63, 2.4, 1.8)
+mesh = SubResource("m5")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board19" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21, 2.4, 1.8)
+mesh = SubResource("m5")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board20" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21, 2.4, 1.8)
+mesh = SubResource("m5")
+surface_material_override/0 = ExtResource("e6")
+
+[node name="Board21" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.63, 2.4, 1.8)
+mesh = SubResource("m5")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board22" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05, 2.4, 1.8)
+mesh = SubResource("m5")
+surface_material_override/0 = ExtResource("e7")
+
+[node name="Board23" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.47, 2.4, 1.8)
+mesh = SubResource("m5")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board24" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.89, 2.4, 1.8)
+mesh = SubResource("m5")
+surface_material_override/0 = ExtResource("e6")
+
+[node name="Board25" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.89, 1.525, -1.8)
+mesh = SubResource("m6")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board26" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.47, 1.525, -1.8)
+mesh = SubResource("m6")
+surface_material_override/0 = ExtResource("e6")
+
+[node name="Board27" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05, 1.525, -1.8)
+mesh = SubResource("m6")
+surface_material_override/0 = ExtResource("e5")
+
+[node name="Board28" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.63, 1.525, -1.8)
+mesh = SubResource("m6")
+surface_material_override/0 = ExtResource("e7")
+
+[node name="Board29" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21, 1.525, -1.8)
+mesh = SubResource("m6")
+surface_material_override/0 = ExtResource("e6")
+
+[node name="Board30" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21, 1.525, -1.8)
+mesh = SubResource("m6")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board31" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.63, 1.525, -1.8)
+mesh = SubResource("m6")
+surface_material_override/0 = ExtResource("e5")
+
+[node name="Board32" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05, 1.525, -1.8)
+mesh = SubResource("m6")
+surface_material_override/0 = ExtResource("e6")
+
+[node name="Board33" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.47, 1.525, -1.8)
+mesh = SubResource("m6")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board34" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.89, 1.525, -1.8)
+mesh = SubResource("m6")
+surface_material_override/0 = ExtResource("e6")
+
+[node name="Board35" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.525, -1.6)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e5")
+
+[node name="Board36" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.525, -1.2)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board37" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.525, -0.8)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board38" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.525, -0.4)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board39" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.525, 0)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e6")
+
+[node name="Board40" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.525, 0.4)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e7")
+
+[node name="Board41" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.525, 0.8)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e7")
+
+[node name="Board42" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.525, 1.2)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e5")
+
+[node name="Board43" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.525, 1.6)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e7")
+
+[node name="Board44" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.525, -1.6)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e7")
+
+[node name="Board45" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.525, -1.2)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e5")
+
+[node name="Board46" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.525, -0.8)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e5")
+
+[node name="Board47" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.525, -0.4)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e6")
+
+[node name="Board48" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.525, 0)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e6")
+
+[node name="Board49" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.525, 0.4)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e6")
+
+[node name="Board50" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.525, 0.8)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e8")
+
+[node name="Board51" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.525, 1.2)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e5")
+
+[node name="Board52" type="MeshInstance3D" parent="Hut/Boards"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.525, 1.6)
+mesh = SubResource("m7")
+surface_material_override/0 = ExtResource("e7")
+
+[node name="Post1" type="MeshInstance3D" parent="Hut"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.12, 1.525, -1.82)
+mesh = SubResource("m8")
+surface_material_override/0 = ExtResource("e9")
+
+[node name="Post2" type="MeshInstance3D" parent="Hut"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.12, 1.525, 1.82)
+mesh = SubResource("m8")
+surface_material_override/0 = ExtResource("e9")
+
+[node name="Post3" type="MeshInstance3D" parent="Hut"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.12, 1.525, -1.82)
+mesh = SubResource("m8")
+surface_material_override/0 = ExtResource("e9")
+
+[node name="Post4" type="MeshInstance3D" parent="Hut"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.12, 1.525, 1.82)
+mesh = SubResource("m8")
+surface_material_override/0 = ExtResource("e9")
+
+[node name="Window" type="Node3D" parent="Hut"]
+
+[node name="Glow" type="MeshInstance3D" parent="Hut/Window"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 1.76)
+mesh = SubResource("m9")
+surface_material_override/0 = ExtResource("e10")
+
+[node name="FrameTop" type="MeshInstance3D" parent="Hut/Window"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.02, 1.82)
+mesh = SubResource("m10")
+surface_material_override/0 = ExtResource("e9")
+
+[node name="FrameBottom" type="MeshInstance3D" parent="Hut/Window"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 1.82)
+mesh = SubResource("m10")
+surface_material_override/0 = ExtResource("e9")
+
+[node name="FrameSideL" type="MeshInstance3D" parent="Hut/Window"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.26, 1.6, 1.82)
+mesh = SubResource("m11")
+surface_material_override/0 = ExtResource("e9")
+
+[node name="ShutterL" type="MeshInstance3D" parent="Hut/Window"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.57, 1.6, 1.88)
+mesh = SubResource("m12")
+surface_material_override/0 = ExtResource("e11")
+
+[node name="FrameSideR" type="MeshInstance3D" parent="Hut/Window"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.26, 1.6, 1.82)
+mesh = SubResource("m11")
+surface_material_override/0 = ExtResource("e9")
+
+[node name="ShutterR" type="MeshInstance3D" parent="Hut/Window"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.57, 1.6, 1.88)
+mesh = SubResource("m12")
+surface_material_override/0 = ExtResource("e11")
+
+[node name="Counter" type="Node3D" parent="Hut"]
+
+[node name="Top" type="MeshInstance3D" parent="Hut/Counter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.22, 2.15)
+mesh = SubResource("m13")
+surface_material_override/0 = ExtResource("e12")
+
+[node name="LegL" type="MeshInstance3D" parent="Hut/Counter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3, 1, 2.42)
+mesh = SubResource("m14")
+surface_material_override/0 = ExtResource("e4")
+
+[node name="LegR" type="MeshInstance3D" parent="Hut/Counter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3, 1, 2.42)
+mesh = SubResource("m14")
+surface_material_override/0 = ExtResource("e4")
+
+[node name="Awning" type="Node3D" parent="Hut"]
+
+[node name="Stripe0" type="MeshInstance3D" parent="Hut/Awning"]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.95106, -0.30902, 0.00000, 0.30902, 0.95106, -1.2, 1.85, 2.32)
+mesh = SubResource("m15")
+surface_material_override/0 = ExtResource("e13")
+
+[node name="Stripe1" type="MeshInstance3D" parent="Hut/Awning"]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.95106, -0.30902, 0.00000, 0.30902, 0.95106, -0.8, 1.85, 2.32)
+mesh = SubResource("m15")
+surface_material_override/0 = ExtResource("e14")
+
+[node name="Stripe2" type="MeshInstance3D" parent="Hut/Awning"]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.95106, -0.30902, 0.00000, 0.30902, 0.95106, -0.4, 1.85, 2.32)
+mesh = SubResource("m15")
+surface_material_override/0 = ExtResource("e13")
+
+[node name="Stripe3" type="MeshInstance3D" parent="Hut/Awning"]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.95106, -0.30902, 0.00000, 0.30902, 0.95106, 0, 1.85, 2.32)
+mesh = SubResource("m15")
+surface_material_override/0 = ExtResource("e14")
+
+[node name="Stripe4" type="MeshInstance3D" parent="Hut/Awning"]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.95106, -0.30902, 0.00000, 0.30902, 0.95106, 0.4, 1.85, 2.32)
+mesh = SubResource("m15")
+surface_material_override/0 = ExtResource("e13")
+
+[node name="Stripe5" type="MeshInstance3D" parent="Hut/Awning"]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.95106, -0.30902, 0.00000, 0.30902, 0.95106, 0.8, 1.85, 2.32)
+mesh = SubResource("m15")
+surface_material_override/0 = ExtResource("e14")
+
+[node name="Stripe6" type="MeshInstance3D" parent="Hut/Awning"]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.95106, -0.30902, 0.00000, 0.30902, 0.95106, 1.2, 1.85, 2.32)
+mesh = SubResource("m15")
+surface_material_override/0 = ExtResource("e13")
+
+[node name="Stripe7" type="MeshInstance3D" parent="Hut/Awning"]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.95106, -0.30902, 0.00000, 0.30902, 0.95106, 1.6, 1.85, 2.32)
+mesh = SubResource("m15")
+surface_material_override/0 = ExtResource("e14")
+
+[node name="Sign" type="Node3D" parent="Hut"]
+
+[node name="Board" type="MeshInstance3D" parent="Hut/Sign"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.46, 1.9)
+mesh = SubResource("m16")
+surface_material_override/0 = ExtResource("e11")
+
+[node name="Frame" type="MeshInstance3D" parent="Hut/Sign"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.46, 1.87)
+mesh = SubResource("m17")
+surface_material_override/0 = ExtResource("e9")
+
+[node name="Text" type="Label3D" parent="Hut/Sign"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.46, 1.96)
+modulate = Color(1, 0.98, 0.9, 1)
+pixel_size = 0.0042
+shaded = false
+text = "RECYCLING"
+font_size = 120
+outline_size = 0
+
+[node name="Roof" type="Node3D" parent="Hut"]
+
+[node name="SlabFront" type="MeshInstance3D" parent="Hut/Roof"]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.86093, 0.50873, 0.00000, -0.50873, 0.86093, 0, 3.52, -1.1)
+mesh = SubResource("m18")
+surface_material_override/0 = ExtResource("e11")
+
+[node name="SlabBack" type="MeshInstance3D" parent="Hut/Roof"]
+transform = Transform3D(1.00000, 0.00000, 0.00000, 0.00000, 0.86093, -0.50873, 0.00000, 0.50873, 0.86093, 0, 3.52, 1.1)
+mesh = SubResource("m18")
+surface_material_override/0 = ExtResource("e11")
+
+[node name="Ridge" type="MeshInstance3D" parent="Hut/Roof"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, 0)
+mesh = SubResource("m19")
+surface_material_override/0 = ExtResource("e9")
+
+[node name="GableL" type="MeshInstance3D" parent="Hut/Roof"]
+transform = Transform3D(0.00000, 0.00000, 1.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.00000, -2.12, 3.45, 0)
+mesh = SubResource("m20")
+surface_material_override/0 = ExtResource("e5")
+
+[node name="GableR" type="MeshInstance3D" parent="Hut/Roof"]
+transform = Transform3D(0.00000, 0.00000, 1.00000, 0.00000, 1.00000, 0.00000, -1.00000, 0.00000, 0.00000, 2.12, 3.45, 0)
+mesh = SubResource("m20")
+surface_material_override/0 = ExtResource("e7")
+
+[node name="Light" type="OmniLight3D" parent="Hut"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 2.8)
+light_color = Color(1, 0.75, 0.45, 1)
+light_energy = 0.7
+omni_range = 6.0
+
+[node name="Body" type="StaticBody3D" parent="Hut"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Hut/Body"]
+shape = SubResource("m21")
+
+[node name="Crate" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.1, 0, 1.6)
+
+[node name="Box" type="MeshInstance3D" parent="Crate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.27, 0)
+mesh = SubResource("m22")
+surface_material_override/0 = ExtResource("e15")
+
+[node name="Bottle0" type="MeshInstance3D" parent="Crate"]
+transform = Transform3D(0.99281, 0.11971, 0.00000, -0.11971, 0.99281, 0.00000, 0.00000, 0.00000, 1.00000, -0.25, 0.72, 0)
+mesh = SubResource("m23")
+surface_material_override/0 = ExtResource("e16")
+
+[node name="Bottle1" type="MeshInstance3D" parent="Crate"]
+transform = Transform3D(1.00000, -0.00000, 0.00000, 0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 0, 0.72, 0)
+mesh = SubResource("m23")
+surface_material_override/0 = ExtResource("e17")
+
+[node name="Bottle2" type="MeshInstance3D" parent="Crate"]
+transform = Transform3D(0.99281, -0.11971, 0.00000, 0.11971, 0.99281, 0.00000, 0.00000, 0.00000, 1.00000, 0.25, 0.72, 0)
+mesh = SubResource("m23")
+surface_material_override/0 = ExtResource("e18")
+
+[node name="Surfboard" type="Node3D" parent="."]
+transform = Transform3D(0.99027, 0.13917, 0.00000, -0.13917, 0.99027, 0.00000, 0.00000, 0.00000, 1.00000, -2.22, 1.25, -0.4)
+
+[node name="Board" type="MeshInstance3D" parent="Surfboard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.18, 0, 0, 0)
+mesh = SubResource("m24")
+surface_material_override/0 = ExtResource("e19")
+
+[node name="Stripe" type="MeshInstance3D" parent="Surfboard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01, 0.02, 0)
+mesh = SubResource("m25")
+surface_material_override/0 = ExtResource("e13")
+
+[node name="SellSpot" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.55, 0, 2.7)
+
+[node name="ShopSpot" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.7)
+
+[node name="Bins" type="Node3D" parent="."]
+
+[node name="Bin_cans" parent="Bins" instance=ExtResource("e1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1, 0, 1.7)
+bin_id = "cans"
+bin_color = Color(0.22, 0.5, 0.95, 1)
+label_text = "CANS"
+icon_id = "can"
+icon_scale = 3.0
+
+[node name="Bin_bottles" parent="Bins" instance=ExtResource("e1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, 0, 1.7)
+bin_id = "bottles"
+bin_color = Color(0.25, 0.75, 0.38, 1)
+label_text = "BOTTLES"
+icon_id = "pbottle"
+icon_scale = 1.45
+
+[node name="Bin_glass" parent="Bins" instance=ExtResource("e1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 1.7)
+bin_id = "glass"
+bin_color = Color(0.96, 0.72, 0.16, 1)
+label_text = "GLASS"
+icon_id = "gbottle"
+icon_scale = 1.75
+
+[node name="Bin_plastic" parent="Bins" instance=ExtResource("e1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.95, 0, 1.7)
+bin_id = "plastic"
+bin_color = Color(0.96, 0.5, 0.15, 1)
+label_text = "OTHER"
+icon_id = "bucket"
+icon_scale = 2.5

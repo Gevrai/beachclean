@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/wildlife.gd" id="1_wl"]
+
+[node name="Wildlife" type="Node3D"]
+script = ExtResource("1_wl")
+
+[node name="Crabs" type="Node3D" parent="."]
+
+[node name="Gulls" type="Node3D" parent="."]
+
+[node name="Turtle" type="Node3D" parent="."]
+
+[node name="Hatchlings" type="Node3D" parent="."]

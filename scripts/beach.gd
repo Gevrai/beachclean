@@ -83,8 +83,7 @@ func _spawn_gameplay() -> void:
 	var cheats := CanvasLayer.new()
 	cheats.set_script(preload("res://scripts/cheats.gd"))
 	add_child(cheats)
-	var wild := Node3D.new()
-	wild.set_script(preload("res://scripts/wildlife.gd"))
+	var wild: Node3D = load("res://scenes/wildlife/wildlife.tscn").instantiate()  # load: tools/check parses beach.gd without autoloads
 	wild.set("beach", self)
 	add_child(wild)
 

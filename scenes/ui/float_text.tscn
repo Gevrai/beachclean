@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/theme.tres" id="1_theme"]
+
+[node name="FloatText" type="Label"]
+mouse_filter = 2
+theme = ExtResource("1_theme")
+theme_type_variation = &"FloatLabel"

@@ -5,75 +5,31 @@ const Catalog := preload("res://scripts/catalog.gd")
 ## Health cheats really add/remove debris so milestones, animals and toasts fire. Dev args: --cheats, --fill.
 
 var is_open := false
-var _root: Control
 var _fast := false
-var _fast_btn: Button
-var _reset_btn: Button
 var _reset_armed := false
+@onready var _root: Control = %Root
+@onready var _fast_btn: Button = %Fast
+@onready var _reset_btn: Button = %Reset
 
 func _ready() -> void:
-	layer = 40
-	process_mode = Node.PROCESS_MODE_ALWAYS
-	_root = Control.new()
-	_root.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_root.mouse_filter = Control.MOUSE_FILTER_STOP  # swallow clicks so the player doesn't recapture the mouse
-	_root.visible = false
-	add_child(_root)
-	var card := PanelContainer.new()
-	card.position = Vector2(24, 200)
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.1, 0.12, 0.16, 0.92)
-	sb.set_corner_radius_all(10)
-	sb.set_content_margin_all(14)
-	card.add_theme_stylebox_override("panel", sb)
-	_root.add_child(card)
-	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 6)
-	card.add_child(v)
-	var t := Label.new()
-	t.text = "Cheats (F1 to close)"
-	t.add_theme_font_size_override("font_size", 20)
-	v.add_child(t)
-	_row(v, [["+$1", func(): GameState.add_money(100)], ["+$10", func(): GameState.add_money(1000)]])
-	_row(v, [["Max upgrades", _max_upgrades], ["Fill bag", _fill_bag]])
-	_row(v, [["Clear 10% of beach", func(): _set_cleared(GameState.cleared_count + ceili(0.1 * GameState.initial_count))],
-		["Spawn tide", func(): _mgr_call("tide")]])
-	var hr := HBoxContainer.new()
-	hr.add_theme_constant_override("separation", 6)
-	var hl := Label.new()
-	hl.text = "Health:"
-	hr.add_child(hl)
-	for pct in [25, 50, 75, 100]:
-		_btn(hr, "%d%%" % pct, func(): _set_cleared(roundi(pct / 100.0 * GameState.initial_count)))
-	v.add_child(hr)
-	var r := HBoxContainer.new()
-	r.add_theme_constant_override("separation", 6)
-	_btn(r, "Reveal all notes", _reveal_notes)
-	_fast_btn = _btn(r, "Fast walk: off", _toggle_fast)
-	v.add_child(r)
-	_reset_btn = Button.new()
-	_reset_btn.text = "Reset game"
+	%Add1.pressed.connect(func(): GameState.add_money(100))
+	%Add10.pressed.connect(func(): GameState.add_money(1000))
+	%MaxUpgrades.pressed.connect(_max_upgrades)
+	%FillBag.pressed.connect(_fill_bag)
+	%Clear10.pressed.connect(func(): _set_cleared(GameState.cleared_count + ceili(0.1 * GameState.initial_count)))
+	%Tide.pressed.connect(func(): _mgr_call("tide"))
+	for b in %Health.get_children():
+		if b is Button:
+			var pct := int(String(b.name).trim_prefix("H"))
+			b.pressed.connect(func(): _set_cleared(roundi(pct / 100.0 * GameState.initial_count)))
+	%Reveal.pressed.connect(_reveal_notes)
+	_fast_btn.pressed.connect(_toggle_fast)
 	_reset_btn.pressed.connect(_reset)
-	v.add_child(_reset_btn)
 	for a in OS.get_cmdline_user_args():
 		if a == "--cheats":
 			_set_open.call_deferred(true)
 		elif a == "--fill":
 			_fill_bag.call_deferred()
-
-func _btn(parent: Control, text: String, cb: Callable) -> Button:
-	var b := Button.new()
-	b.text = text
-	b.pressed.connect(cb)
-	parent.add_child(b)
-	return b
-
-func _row(parent: Control, items: Array) -> void:
-	var h := HBoxContainer.new()
-	h.add_theme_constant_override("separation", 6)
-	for it in items:
-		_btn(h, it[0], it[1])
-	parent.add_child(h)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:

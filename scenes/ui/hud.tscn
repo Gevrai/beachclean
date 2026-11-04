@@ -1,0 +1,170 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
+[ext_resource type="Theme" path="res://assets/ui/theme.tres" id="2_theme"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+
+[node name="Cross" type="Control" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 20.0
+offset_bottom = 20.0
+mouse_filter = 2
+theme_type_variation = &"HudPanel"
+
+[node name="VBox" type="VBoxContainer" parent="Root/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Bag" type="Label" parent="Root/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudLabel"
+
+[node name="BagBar" type="ProgressBar" parent="Root/Panel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 10)
+layout_mode = 2
+max_value = 1.0
+show_percentage = false
+theme_type_variation = &"BagBar"
+
+[node name="Coins" type="Label" parent="Root/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"CoinLabel"
+
+[node name="Health" type="Label" parent="Root/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudSmallLabel"
+
+[node name="HealthBar" type="ProgressBar" parent="Root/Panel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 14)
+layout_mode = 2
+max_value = 1.0
+show_percentage = false
+theme_type_variation = &"HealthBar"
+
+[node name="AimBox" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 34.0
+offset_bottom = 34.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_type_variation = &"AimPanel"
+
+[node name="AimLabel" type="Label" parent="Root/AimBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudSmallLabel"
+
+[node name="Msg" type="Label" parent="Root"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 84.0
+offset_right = 150.0
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"MsgLabel"
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -140.0
+offset_right = 200.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HintLabel"
+text = "Click to play"
+horizontal_alignment = 1
+
+[node name="PromptBox" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -90.0
+offset_bottom = -90.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"PromptPanel"
+
+[node name="Prompt" type="Label" parent="Root/PromptBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"PromptLabel"
+
+[node name="ToastBox" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 28.0
+offset_bottom = 28.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_type_variation = &"ToastPanel"
+
+[node name="Toast" type="Label" parent="Root/ToastBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ToastLabel"

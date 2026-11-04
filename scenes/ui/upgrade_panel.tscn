@@ -1,0 +1,79 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/upgrade_panel.gd" id="1_ui"]
+[ext_resource type="Theme" path="res://assets/ui/theme.tres" id="2_theme"]
+
+[node name="UpgradePanel" type="CanvasLayer"]
+layer = 20
+script = ExtResource("1_ui")
+
+[node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+
+[node name="Dim" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.03, 0.08, 0.12, 0.45)
+
+[node name="Center" type="CenterContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Card" type="PanelContainer" parent="Root/Center"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+theme_type_variation = &"ShopCard"
+
+[node name="V" type="VBoxContainer" parent="Root/Center/Card"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Head" type="HBoxContainer" parent="Root/Center/Card/V"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Root/Center/Card/V/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"TitleLabel"
+text = "Recycling Shack"
+
+[node name="Coins" type="Label" parent="Root/Center/Card/V/Head"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ShopCoinLabel"
+text = "$0.00"
+
+[node name="Sub" type="Label" parent="Root/Center/Card/V"]
+layout_mode = 2
+theme_type_variation = &"SoftLabel"
+text = "Spend your money on better tools."
+
+[node name="Rows" type="VBoxContainer" parent="Root/Center/Card/V"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Foot" type="Label" parent="Root/Center/Card/V"]
+layout_mode = 2
+theme_type_variation = &"FootLabel"
+text = "E / Esc to close"
+horizontal_alignment = 1

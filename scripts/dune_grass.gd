@@ -102,6 +102,10 @@ func _near_shack(x: float, z: float, terrain: Node) -> bool:
 	var zc: float = terrain.shore_z(14.0) - 21.0
 	return x > 14.0 - 6.0 and x < 14.0 + 10.0 and z > zc - 6.0 and z < zc + 7.0
 
+## Rough rectangle around the parked pickup truck behind the start (scenes/props/pickup_truck.tscn at x -10, z -38).
+func _near_truck(x: float, z: float) -> bool:
+	return x > -12.4 and x < -7.6 and z > -41.8 and z < -35.4
+
 ## Distance from (x, z) to the Boardwalk centre line (large when there is none).
 func _path_dist(x: float, z: float, pts: PackedVector2Array) -> float:
 	var best := 1e9
@@ -163,7 +167,7 @@ func scatter() -> void:
 				var q := c + Vector2(rng.randfn(0.0, 1.0), rng.randfn(0.0, 1.0))
 				var zs_q: float = q.y - terrain.shore_z(q.x)
 				var yq: float = terrain.height_at(q.x, q.y)
-				if zs_q > -17.0 or yq < 0.6 or _path_dist(q.x, q.y, pts) < clear_w + 1.0:
+				if zs_q > -17.0 or yq < 0.6 or _near_truck(q.x, q.y) or _path_dist(q.x, q.y, pts) < clear_w + 1.0:
 					continue
 				var sq := rng.randf_range(0.95, 1.4) * lerpf(0.8, 1.1, smoothstep(-17.0, -26.0, zs_q))
 				var bq := Basis(Vector3.UP, rng.randf() * TAU) * Basis(Vector3.RIGHT, rng.randf_range(-0.12, 0.12))
@@ -181,7 +185,7 @@ func scatter() -> void:
 		var z := rng.randf_range(-74.0, -8.0)
 		var zs: float = z - terrain.shore_z(x)
 		var y: float = terrain.height_at(x, z)
-		if y < 0.6 or _near_shack(x, z, terrain):
+		if y < 0.6 or _near_shack(x, z, terrain) or _near_truck(x, z):
 			continue
 		var d := _path_dist(x, z, pts)
 		var patch := 0.5 + 0.5 * patch_noise.get_noise_2d(x, z)

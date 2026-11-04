@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/vehicles/pickup_truck.glb" id="m_truck"]
+[ext_resource type="ArrayMesh" path="res://assets/meshes/pickup_truck_open.res" id="m_open"]
+[ext_resource type="PackedScene" path="res://assets/models/gear/blue_cooler_closed.glb" id="g_blue_cooler_closed"]
+[ext_resource type="PackedScene" path="res://assets/models/gear/trash_bags.glb" id="g_trash_bags"]
+[ext_resource type="PackedScene" path="res://assets/models/gear/bucket.glb" id="g_bucket"]
+[ext_resource type="PackedScene" path="res://assets/models/gear/hand_rake.glb" id="g_hand_rake"]
+[ext_resource type="PackedScene" path="res://assets/models/gear/glove.glb" id="g_glove"]
+[ext_resource type="PackedScene" path="res://assets/models/gear/clipboard.glb" id="g_clipboard"]
+
+[sub_resource type="BoxShape3D" id="Box_Lower"]
+size = Vector3(2.3, 1.05, 5.1)
+
+[sub_resource type="BoxShape3D" id="Box_Cab"]
+size = Vector3(2.1, 0.6, 1.9)
+
+[node name="PickupTruck" type="Node3D"]
+
+[node name="Model" parent="." instance=ExtResource("m_truck")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0)
+
+[node name="Pickup" parent="Model/RootNode" index="3"]
+mesh = ExtResource("m_open")
+
+[node name="Cargo" type="Node3D" parent="."]
+
+[node name="Cooler" parent="Cargo" instance=ExtResource("g_blue_cooler_closed")]
+transform = Transform3D(1.28735, 0, -0.18093, 0, 1.3, 0, 0.18093, 0, 1.28735, -0.4, 1.24, 1.95)
+
+[node name="TrashBags" parent="Cargo" instance=ExtResource("g_trash_bags")]
+transform = Transform3D(1.15911, 0, 0.31058, 0, 1.2, 0, -0.31058, 0, 1.15911, 0.4, 0.93, 1.9)
+
+[node name="Bucket" parent="Cargo" instance=ExtResource("g_bucket")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -0.52, 1.3, 1.95)
+
+[node name="Rake" parent="Cargo" instance=ExtResource("g_hand_rake")]
+transform = Transform3D(0.37461, -0.92718, 0, 0.92718, 0.37461, 0, 0, 0, 1, 0.82, 0.95, 1.2)
+
+[node name="GloveL" parent="Cargo" instance=ExtResource("g_glove")]
+transform = Transform3D(0.25981, 0, -0.15, 0, 0.3, 0, 0.15, 0, 0.25981, -0.22, 1.33, 1.9)
+
+[node name="GloveR" parent="Cargo" instance=ExtResource("g_glove")]
+transform = Transform3D(0.28978, 0, 0.07765, 0, 0.3, 0, -0.07765, 0, 0.28978, -0.2, 1.33, 2.1)
+
+[node name="Clipboard" parent="Cargo" instance=ExtResource("g_clipboard")]
+transform = Transform3D(0, 0, -1, -0.24192, 0.9703, -0, 0.9703, 0.24192, 0, 0, 1.19, 0.9)
+
+[node name="Body" type="StaticBody3D" parent="."]
+
+[node name="Lower" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78, 0.1)
+shape = SubResource("Box_Lower")
+
+[node name="Cab" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, -0.35)
+shape = SubResource("Box_Cab")

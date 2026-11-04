@@ -1,0 +1,3 @@
+Dunes are tall rolling ridges (a few m high) with a low channel where the boardwalk runs; the boardwalk starts where the dense grass starts and its beach end is swallowed by sand (no fence there); a pickup truck parked behind PlayerStart (tailgate open, cleanup gear in the bed) closes the back of the play area; props have colliders in their prefabs, grass has none.
+Why: owner request (dunes/boardwalk/collisions/truck round).
+How to apply: after changing Terrain.height_at run tools/bake_dunes, re-snap props, re-place Props/PickupTruck; run tools/tests/t12_test.tscn. See docs/architecture.md "Dunes, boardwalk end, collisions, truck".

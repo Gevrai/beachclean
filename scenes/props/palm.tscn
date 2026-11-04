@@ -5,6 +5,10 @@
 [ext_resource type="Material" path="res://assets/materials/leaf.tres" id="3_a0vbb"]
 [ext_resource type="ArrayMesh" path="res://assets/meshes/palm_frond.res" id="4_yefc8"]
 
+[sub_resource type="CapsuleShape3D" id="Capsule_trunk"]
+radius = 0.32
+height = 3.4
+
 [node name="Palm" type="Node3D" unique_id=1771306958]
 
 [node name="Trunk" type="MeshInstance3D" parent="." unique_id=553021371]
@@ -60,3 +64,9 @@ mesh = ExtResource("4_yefc8")
 transform = Transform3D(0.9317401, -0.04175414, -0.7534076, 0.053675238, 1.1977583, 0, 0.7526522, -0.033728663, 0.93267524, 1.5, 6.35, 0)
 material_override = ExtResource("3_a0vbb")
 mesh = ExtResource("4_yefc8")
+
+[node name="Body" type="StaticBody3D" parent="."]
+
+[node name="Trunk" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(0.995, -0.0998, 0, 0.0998, 0.995, 0, 0, 0, 1, 0.1, 1.6, 0)
+shape = SubResource("Capsule_trunk")

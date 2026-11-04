@@ -27,6 +27,7 @@
 [ext_resource type="PackedScene" path="res://scenes/props/rock_cluster_c.tscn" id="18_nawd0"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="19_i2fai"]
 [ext_resource type="PackedScene" path="res://scenes/props/lighthouse.tscn" id="20_lhse"]
+[ext_resource type="PackedScene" path="res://scenes/props/pickup_truck.tscn" id="21_truck"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7dxea"]
 size = Vector2(320, 420)
@@ -103,75 +104,78 @@ transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -9.7, 0, -32)
 [node name="Props" type="Node3D" parent="." unique_id=1991499902]
 
 [node name="Palm1" parent="Props" unique_id=1771306958 instance=ExtResource("15_bmc1h")]
-transform = Transform3D(-0.77584577, 0, 0.35052457, 0, 0.8389494, 0, -0.35052457, 0, -0.77584577, -34, 1.6935475, -24)
+transform = Transform3D(-0.775846, 0.0, 0.350525, 0.0, 0.838949, 0.0, -0.350525, 0.0, -0.775846, -34.0, 2.011338, -24.0)
 
 [node name="Palm2" parent="Props" unique_id=284348312 instance=ExtResource("15_bmc1h")]
-transform = Transform3D(-0.2470374, 0, 0.88907635, 0, 0.9670511, 0, -0.88907635, 0, -0.2470374, -17, 2.2413163, -27)
+transform = Transform3D(-0.247037, 0.0, 0.889076, 0.0, 0.967051, 0.0, -0.889076, 0.0, -0.247037, -17.0, 1.521465, -27.0)
 
 [node name="Palm3" parent="Props" unique_id=288372047 instance=ExtResource("15_bmc1h")]
-transform = Transform3D(-0.24556632, 0, 0.92342484, 0, 1.0376662, 0, -0.92342484, 0, -0.24556632, -5, 1.1596956, -21)
+transform = Transform3D(-0.245566, 0.0, 0.923425, 0.0, 1.037666, 0.0, -0.923425, 0.0, -0.245566, -5.0, 1.129813, -21.0)
 
 [node name="Palm4" parent="Props" unique_id=542817842 instance=ExtResource("15_bmc1h")]
-transform = Transform3D(-0.28315678, 0, -0.94004726, 0, 0.97078896, 0, 0.94004726, 0, -0.28315678, 9, 2.472002, -26)
+transform = Transform3D(-0.283157, 0.0, -0.940047, 0.0, 0.970789, 0.0, 0.940047, 0.0, -0.283157, 9.0, 1.180772, -26.0)
 
 [node name="Palm5" parent="Props" unique_id=1005686577 instance=ExtResource("15_bmc1h")]
-transform = Transform3D(0.807591, 0, -0.26384708, 0, 0.8112273, 0, 0.26384708, 0, 0.807591, 23, 2.0179846, -22)
+transform = Transform3D(0.807591, 0.0, -0.263847, 0.0, 0.811227, 0.0, 0.263847, 0.0, 0.807591, 23.0, 0.962335, -22.0)
 
 [node name="Palm6" parent="Props" unique_id=1162759140 instance=ExtResource("15_bmc1h")]
-transform = Transform3D(0.79956913, 0, -0.4181589, 0, 0.9709348, 0, 0.4181589, 0, 0.79956913, 36, 3.0941243, -29)
+transform = Transform3D(0.799569, 0.0, -0.418159, 0.0, 0.970935, 0.0, 0.418159, 0.0, 0.799569, 36.0, 6.073883, -29.0)
 
 [node name="Palm7" parent="Props" unique_id=1433377278 instance=ExtResource("15_bmc1h")]
-transform = Transform3D(-0.1502562, 0, 0.8186588, 0, 0.80452955, 0, -0.8186588, 0, -0.1502562, -48, 3.999976, -30)
+transform = Transform3D(-0.150256, 0.0, 0.818659, 0.0, 0.80453, 0.0, -0.818659, 0.0, -0.150256, -48.0, 3.561569, -30.0)
 
 [node name="Palm8" parent="Props" unique_id=1287757417 instance=ExtResource("15_bmc1h")]
-transform = Transform3D(-0.87838084, 0, -0.412881, 0, 1.0349265, 0, 0.412881, 0, -0.87838084, 49, 2.66148, -24)
+transform = Transform3D(-0.878381, 0.0, -0.412881, 0.0, 1.034927, 0.0, 0.412881, 0.0, -0.878381, 49.0, 2.761965, -24.0)
 
 [node name="Palm9" parent="Props" unique_id=197138129 instance=ExtResource("15_bmc1h")]
-transform = Transform3D(0.86149144, 0, 0.34152943, 0, 0.9233124, 0, -0.34152943, 0, 0.86149144, 2, 3.5401506, -38)
+transform = Transform3D(0.861491, 0.0, 0.341529, 0.0, 0.923312, 0.0, -0.341529, 0.0, 0.861491, 2.0, 5.073538, -38.0)
 
 [node name="Palm10" parent="Props" unique_id=2070233431 instance=ExtResource("15_bmc1h")]
-transform = Transform3D(-0.9525388, 0, 0.09806316, 0, 0.9816866, 0, -0.09806316, 0, -0.9525388, -26, 4.1019535, -40)
+transform = Transform3D(-0.952539, 0.0, 0.098063, 0.0, 0.981687, 0.0, -0.098063, 0.0, -0.952539, -26.0, 5.411421, -40.0)
 
 [node name="Rocks1" parent="Props" unique_id=759294522 instance=ExtResource("16_6l2e5")]
-transform = Transform3D(0.5707156, 0, -0.8211478, 0, 1, 0, 0.8211478, 0, 0.5707156, -44, -1.3547574, 8)
+transform = Transform3D(0.570716, 0.0, -0.821148, 0.0, 1.0, 0.0, 0.821148, 0.0, 0.570716, -44.0, -1.354757, 8.0)
 
 [node name="Rocks2" parent="Props" unique_id=102308837 instance=ExtResource("17_mmito")]
-transform = Transform3D(-0.34167817, 0, -0.939817, 0, 1, 0, 0.939817, 0, -0.34167817, -47, -0.34874767, 3)
+transform = Transform3D(-0.341678, 0.0, -0.939817, 0.0, 1.0, 0.0, 0.939817, 0.0, -0.341678, -47.0, -0.348748, 3.0)
 
 [node name="Rocks3" parent="Props" unique_id=1429808217 instance=ExtResource("18_nawd0")]
-transform = Transform3D(-0.3605553, 0, 0.9327378, 0, 1, 0, -0.9327378, 0, -0.3605553, -41, -2.205826, 14)
+transform = Transform3D(-0.360555, 0.0, 0.932738, 0.0, 1.0, 0.0, -0.932738, 0.0, -0.360555, -41.0, -2.205826, 14.0)
 
 [node name="Rocks4" parent="Props" unique_id=454554752 instance=ExtResource("16_6l2e5")]
-transform = Transform3D(0.027726447, 0, -0.99961555, 0, 1, 0, 0.99961555, 0, 0.027726447, 46, -0.8600823, 6)
+transform = Transform3D(0.027726, 0.0, -0.999616, 0.0, 1.0, 0.0, 0.999616, 0.0, 0.027726, 46.0, -0.860082, 6.0)
 
 [node name="Rocks5" parent="Props" unique_id=2092703338 instance=ExtResource("17_mmito")]
-transform = Transform3D(-0.79015416, 0, 0.6129081, 0, 1, 0, -0.6129081, 0, -0.79015416, 43, -1.624535, 12)
+transform = Transform3D(-0.790154, 0.0, 0.612908, 0.0, 1.0, 0.0, -0.612908, 0.0, -0.790154, 43.0, -1.624535, 12.0)
 
 [node name="Rocks6" parent="Props" unique_id=36774141 instance=ExtResource("18_nawd0")]
-transform = Transform3D(0.54003125, 0, 0.841645, 0, 1, 0, -0.841645, 0, 0.54003125, 49, 0.01879638, 1)
+transform = Transform3D(0.540031, 0.0, 0.841645, 0.0, 1.0, 0.0, -0.841645, 0.0, 0.540031, 49.0, 0.018796, 1.0)
 
 [node name="Rocks7" parent="Props" unique_id=436253396 instance=ExtResource("16_6l2e5")]
-transform = Transform3D(-0.17524265, 0, -0.98452526, 0, 1, 0, 0.98452526, 0, -0.17524265, -30, 0.10385395, -3)
+transform = Transform3D(-0.175243, 0.0, -0.984525, 0.0, 1.0, 0.0, 0.984525, 0.0, -0.175243, -30.0, 0.103854, -3.0)
 
 [node name="Rocks8" parent="Props" unique_id=1543220844 instance=ExtResource("17_mmito")]
-transform = Transform3D(0.60988635, 0, -0.7924889, 0, 1, 0, 0.7924889, 0, 0.60988635, 15, -1.5630331, 12)
+transform = Transform3D(0.609886, 0.0, -0.792489, 0.0, 1.0, 0.0, 0.792489, 0.0, 0.609886, 15.0, -1.563033, 12.0)
 
 [node name="Rocks9" parent="Props" unique_id=1548185718 instance=ExtResource("18_nawd0")]
-transform = Transform3D(0.39269105, 0, -0.91967046, 0, 1, 0, 0.91967046, 0, 0.39269105, 28, 0.089402854, -1)
+transform = Transform3D(0.392691, 0.0, -0.91967, 0.0, 1.0, 0.0, 0.91967, 0.0, 0.392691, 28.0, 0.089403, -1.0)
 
 [node name="Rocks10" parent="Props" unique_id=830909375 instance=ExtResource("16_6l2e5")]
-transform = Transform3D(-0.49159157, 0, -0.8708259, 0, 1, 0, 0.8708259, 0, -0.49159157, -8, -4.54026, 30)
+transform = Transform3D(-0.491592, 0.0, -0.870826, 0.0, 1.0, 0.0, 0.870826, 0.0, -0.491592, -8.0, -4.54026, 30.0)
 
 [node name="Lighthouse" parent="Props" instance=ExtResource("20_lhse")]
-transform = Transform3D(0.8, 0, 0.6, 0, 1, 0, -0.6, 0, 0.8, -62, 2.6, 2)
+transform = Transform3D(0.8, 0.0, 0.6, 0.0, 1.0, 0.0, -0.6, 0.0, 0.8, -62.0, 2.6, 2.0)
 
 [node name="LighthouseRocks1" parent="Props" instance=ExtResource("16_6l2e5")]
-transform = Transform3D(1.6, 0, 0.3, 0, 1.4, 0, -0.3, 0, 1.6, -62, 1.9, 2)
+transform = Transform3D(1.6, 0.0, 0.3, 0.0, 1.4, 0.0, -0.3, 0.0, 1.6, -62.0, 1.9, 2.0)
 
 [node name="LighthouseRocks2" parent="Props" instance=ExtResource("17_mmito")]
-transform = Transform3D(0.9, 0, 0.4, 0, 1, 0, -0.4, 0, 0.9, -60, 0.6, 6)
+transform = Transform3D(0.9, 0.0, 0.4, 0.0, 1.0, 0.0, -0.4, 0.0, 0.9, -60.0, 0.6, 6.0)
 
 [node name="LighthouseRocks3" parent="Props" instance=ExtResource("18_nawd0")]
-transform = Transform3D(-0.5, 0, 0.85, 0, 1, 0, -0.85, 0, -0.5, -65, 1.2, 6)
+transform = Transform3D(-0.5, 0.0, 0.85, 0.0, 1.0, 0.0, -0.85, 0.0, -0.5, -65.0, 1.2, 6.0)
+
+[node name="PickupTruck" parent="Props" instance=ExtResource("21_truck")]
+transform = Transform3D(0.99862951040268, 0.0, 0.05233613029122, 0.0, 1.0, 0.0, -0.05233613029122, 0.0, 0.99862951040268, -10.0, 1.32000002384186, -38.0999984741211)
 
 [node name="Player" parent="." unique_id=1799375097 instance=ExtResource("19_i2fai")]

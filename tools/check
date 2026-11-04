@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Headless import + parse check of every .gd file. One summary line; details in .logs/check.log
+cd "$(dirname "$0")/.." || exit 1
+mkdir -p .logs
+: > .logs/check.log
+godot --headless --path . --import >> .logs/check.log 2>&1
+n=0
+while IFS= read -r f; do
+  n=$((n+1))
+  echo "== $f" >> .logs/check.log
+  timeout 30 godot --headless --path . --check-only --script "res://${f#./}" >> .logs/check.log 2>&1 || echo "EXIT NONZERO: $f" >> .logs/check.log
+done < <(find . -name '*.gd' -not -path './.godot/*' -not -path './addons/*' | sort)
+# --check-only cannot see autoloads: drop "Identifier not found: <Autoload>" noise (the run below catches real errors)
+for a in $(sed -n 's/^\([A-Za-z_]*\)="\*res.*/\1/p' project.godot); do
+  python3 - "$a" <<'PY'
+import re,sys
+a=sys.argv[1]; t=open('.logs/check.log').read()
+t=re.sub(r"SCRIPT ERROR: Compile Error: Identifier not found: %s\n[^\n]*\nERROR: Failed to load script[^\n]*\n[^\n]*\nEXIT NONZERO[^\n]*\n"%a,"",t)
+open('.logs/check.log','w').write(t)
+PY
+done
+# runtime pass: boot the main scene headless for a few frames (autoloads available)
+echo "== run main scene" >> .logs/check.log
+timeout 60 godot --headless --path . --quit-after 30 -- --fresh >> .logs/check.log 2>&1
+if grep -qE "SCRIPT ERROR|Parse Error|ERROR:|EXIT NONZERO" .logs/check.log; then
+  echo "check: RED — see .logs/check.log"; exit 1
+fi
+echo "check: GREEN ($n scripts)"

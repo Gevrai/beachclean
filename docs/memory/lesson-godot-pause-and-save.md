@@ -1,0 +1,3 @@
+Pause menu = `get_tree().paused = true` with the menu CanvasLayer `process_mode = ALWAYS`; player/HUD freeze for free. Autoload GameState owns save/load; timers inside it must be ALWAYS too only if saving while paused matters (autosave pausing is harmless).
+Why: simplest way to freeze tide timers and movement while reading notes.
+How to apply: ALWAYS tools/dev runs pass `--fresh` so a real save never affects shots/checks; tests set `GameState.save_path` to a user://t*_test.json. Esc routes through player `_unhandled_input` -> `call_group("menu","open_pause")`; menu `_input` consumes keys while open.

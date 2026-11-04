@@ -1,0 +1,4 @@
+Run headless tests with `-- --fresh` (e.g. `godot --headless --path . res://tools/tests/t5_test.tscn -- --fresh`); without it GameState loads/writes the real user://save.json and tests become order-dependent.
+Why: t5 buys upgrades and sells (which autosaves), so the next run started with levels > 0 and failed.
+How to apply: economy tuning lives in GameState costs + DebrisManager.INITIAL_COUNT; check it with `godot --headless --path . res://tools/tests/tune_sim.tscn -- --fresh [--n= --cost= --aim=]`. 150 pieces is only ~4 min for a reasonable player; 340 pieces and costs x3 gives ~15-17 min.
+Also: ACES over-exposes the golden sun on bright albedo, so sand/props need darker albedo (sand shader scales x0.78); orange sun x orange albedo = neon orange, so trunks use near-grey albedo. Autoload names in scripts that other scripts depend on break `--check-only`: call via `get_node("/root/Sfx")`.

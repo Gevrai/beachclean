@@ -1,0 +1,19 @@
+; Engine configuration file.
+config_version=5
+
+[application]
+config/name="Beachclean"
+run/main_scene="res://scenes/beach.tscn"
+config/features=PackedStringArray("4.7", "Forward Plus")
+
+[autoload]
+DevTools="*res://scripts/dev_tools.gd"
+GameState="*res://scripts/game_state.gd"
+Sfx="*res://scripts/sfx.gd"
+
+[display]
+window/size/viewport_width=1600
+window/size/viewport_height=900
+
+[rendering]
+renderer/rendering_method="forward_plus"

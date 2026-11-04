@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# usage: tools/mem search <words...>   — lists memory files matching all words
+cd "$(dirname "$0")/../docs/memory" || exit 1
+[ "$1" = search ] && shift
+files=$(ls *.md | grep -v README.md)
+for w in "$@"; do files=$(grep -lis -- "$w" $files); done
+for f in $files; do echo "== $f"; head -4 "$f"; done

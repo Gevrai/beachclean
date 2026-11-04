@@ -1,0 +1,2 @@
+Money is dollars & cents (stored as int cents). Items have bag size + value (deposit-style: can/plastic bottle 10¢, cap 1¢); loose change on sand pays instantly. Four sorting bins (cans, plastic bottles, glass, other plastic): one E at the bins sorts everything, lids open in turn, items stream in ≤2 s with rising-pitch bloops, cash sound at end.
+Why: owner asked for satisfying, varied selling; single E (not 4 stops) avoids tedium while showing the sorting.

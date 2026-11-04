@@ -1,4 +1,4 @@
-"""Plastic bag: very low-poly crumpled sheet (~11 tris), flat shaded, one material, two splayed handle ears.
+"""Plastic bag: very low-poly T-shirt bag lying flat (13 tris), flat shaded, one material.
 Run: blender -b -P tools/models/bag.py   -> assets/models/items/bag.glb
 Units match the old primitive bag (Model-space, before the prefab's 0.6 scale): ~0.6 x 0.44 x 0.1, Y up in Godot.
 """
@@ -12,22 +12,17 @@ for o in list(bpy.data.objects):
     bpy.data.objects.remove(o, do_unlink=True)
 
 bm = bmesh.new()
-# Flat crumpled sheet: 7-vertex outline near the ground, 2 raised interior verts, 2 splayed handle ears at +X.
-# Blender XY plane (Z up in Blender -> Y up in glTF), ~0.6 x 0.44.
+# T-shirt shopping bag lying almost flat: rectangle body, U-notch with two straps at +X, centre ridge, one folded corner.
 V = bm.verts.new
-ring = [V(p) for p in [(0.22, 0.0, 0.015), (0.14, 0.17, 0.025), (-0.12, 0.22, 0.012), (-0.30, 0.08, 0.04),
-                       (-0.27, -0.12, 0.012), (-0.02, -0.21, 0.03), (0.17, -0.16, 0.012)]]
-c1 = V((-0.06, 0.05, 0.045)); c2 = V((0.08, -0.06, 0.03))
-# 7 outline verts + 2 centres: fan-ish, 12 tris; use a ring of triangles to c1/c2
-tris = [(0, 1, 7), (1, 2, 7), (2, 3, 7), (3, 4, 7), (4, 5, 8), (5, 6, 8), (6, 0, 8), (0, 7, 8), (4, 8, 7)]
-allv = ring + [c1, c2]
-for t in tris:
-    bm.faces.new([allv[i] for i in t])
-# two ears: flat tapered triangles lying splayed on the sand at the +X end
-for s_ in (-1, 1):
-    a = V((0.17, s_ * 0.03, 0.02)); b = V((0.21, s_ * 0.10, 0.025))
-    tip = V((0.40, s_ * 0.20, 0.02))
-    bm.faces.new((a, tip, b) if s_ > 0 else (a, b, tip))
+P = [(-0.30, -0.20, 0.01), (-0.30, 0.20, 0.01), (0.08, 0.21, 0.01), (0.30, 0.18, 0.015), (0.30, 0.09, 0.015),
+     (0.14, 0.08, 0.01), (0.14, -0.08, 0.01), (0.30, -0.09, 0.015), (0.30, -0.18, 0.015), (0.08, -0.21, 0.01),
+     (-0.10, 0.0, 0.06), (0.10, 0.0, 0.04),
+     (-0.22, -0.14, 0.07), (-0.30, -0.08, 0.012), (-0.14, -0.20, 0.012)]
+v = [V(p) for p in P]
+T = [(0, 1, 10), (1, 2, 10), (2, 11, 10), (2, 3, 4), (2, 4, 5), (2, 5, 11), (5, 6, 11), (6, 9, 11), (9, 10, 11), (9, 0, 10),
+     (9, 8, 7), (9, 7, 6), (12, 13, 14)]
+for t in T:
+    bm.faces.new([v[i] for i in t])
 bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
 me = bpy.data.meshes.new("Bag")
 bm.to_mesh(me)

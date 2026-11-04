@@ -38,6 +38,8 @@ design decision appears. De-escalate as soon as the work is mechanical.
 ## Commands
 - `tools/check` — headless import + GDScript parse check (one line; log in `.logs/`)
 - `tools/shot [scene] [out.png]` — windowed run, screenshot, quit
+- `tools/web [port]` — export Web build to build/web and serve it locally; CI (.github/workflows/pages.yml) deploys it to https://gevrai.github.io/beachclean/ on push to main
+- `GODOT_ARGS="--rendering-method gl_compatibility" tools/shot ...` — preview the web (Compatibility) look
 - `tools/fps [scene] [user args]` — average fps, vsync off, offscreen (one line)
 - `godot --path .` — play the game
 - `tools/polypizza <id-or-url> [dest]` — fetch a Poly Pizza .glb + add its credit line to CREDITS.md (the pause-menu credits panel reads res://CREDITS.md at runtime; exports need include_filter "CREDITS.md")

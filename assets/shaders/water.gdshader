@@ -21,6 +21,15 @@ uniform sampler2D normal_b : repeat_enable, filter_linear_mipmap_anisotropic;
 uniform sampler2D depth_tex : hint_depth_texture, repeat_disable, filter_nearest;
 uniform sampler2D screen_tex : hint_screen_texture, repeat_disable, filter_linear_mipmap;
 
+// Depth buffer convention differs: Forward+/Mobile use reversed-Z [1..0], Compatibility uses GL NDC [-1..1] (sky = 1).
+#if CURRENT_RENDERER == RENDERER_COMPATIBILITY
+#define NDCZ(d) ((d) * 2.0 - 1.0)
+#define HAS_GEOM(d) ((d) < 1.0)
+#else
+#define NDCZ(d) (d)
+#define HAS_GEOM(d) ((d) > 0.0)
+#endif
+
 varying vec3 wpos;
 
 float swell_at(vec3 w) {
@@ -38,7 +47,7 @@ void vertex() {
 void fragment() {
 	// vertical water depth under this pixel
 	float d = texture(depth_tex, SCREEN_UV).r;
-	vec4 sv = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, d, 1.0);
+	vec4 sv = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, NDCZ(d), 1.0);
 	sv.xyz /= sv.w;
 	vec3 sworld = (INV_VIEW_MATRIX * vec4(sv.xyz, 1.0)).xyz;
 	float depth = max(wpos.y - sworld.y, 0.0);
@@ -74,7 +83,7 @@ void fragment() {
 	vec2 shift = (VIEW_MATRIX * vec4(pert.x, 0.0, pert.y, 0.0)).xy * refract_strength * clamp(depth * 1.5, 0.0, 1.0);
 	vec2 ruv = clamp(SCREEN_UV + shift, vec2(0.002), vec2(0.998));
 	float rd_ = texture(depth_tex, ruv).r;
-	vec4 rv = INV_PROJECTION_MATRIX * vec4(ruv * 2.0 - 1.0, rd_, 1.0);
+	vec4 rv = INV_PROJECTION_MATRIX * vec4(ruv * 2.0 - 1.0, NDCZ(rd_), 1.0);
 	if (rv.z / rv.w > VERTEX.z + 0.05) {
 		ruv = SCREEN_UV;
 	}
@@ -112,8 +121,8 @@ void fragment() {
 				break;
 			}
 			float hd = texture(depth_tex, huv).r;
-			if (hd > 0.0) {
-				vec4 hv = INV_PROJECTION_MATRIX * vec4(huv * 2.0 - 1.0, hd, 1.0);
+			if (HAS_GEOM(hd)) {
+				vec4 hv = INV_PROJECTION_MATRIX * vec4(huv * 2.0 - 1.0, NDCZ(hd), 1.0);
 				float diff = hv.z / hv.w - p.z;  // > 0: the ray is behind the surface
 				if (diff > 0.0 && diff < stp * 1.5 + 0.3) {
 					// refine between the last two samples
@@ -125,7 +134,7 @@ void fragment() {
 						vec4 cm = PROJECTION_MATRIX * vec4(pm, 1.0);
 						vec2 muv = cm.xy / cm.w * 0.5 + 0.5;
 						float md = texture(depth_tex, muv).r;
-						vec4 mv = INV_PROJECTION_MATRIX * vec4(muv * 2.0 - 1.0, md, 1.0);
+						vec4 mv = INV_PROJECTION_MATRIX * vec4(muv * 2.0 - 1.0, NDCZ(md), 1.0);
 						if (mv.z / mv.w - pm.z > 0.0) {
 							hi = mid;
 						} else {

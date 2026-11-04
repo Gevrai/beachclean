@@ -79,3 +79,6 @@ Anything the player can aim at (groups `debris`, `bottle`, `coin`; layer 2) must
 
 ## Gallery
 `scenes/gallery.tscn` (`scripts/gallery.gd`): open in the editor and press F6. Everything is placed in the scene (item prefab instances under `Items`, flat Label3D labels, ruler, 1.75 m figure, beach-like sky/sun/ground), so the editor shows it without running; the script only spins the `Items` children, randomizes colour variants (seed 7) and drives the camera (A/D, arrows, drag, wheel, W/S; dev `--focus=X`). Items are drawn VIS_SCALE x life size; the figure is life size.
+
+## Web deploy
+Desktop uses Forward+; `rendering/renderer/rendering_method.web=gl_compatibility` makes the web export use Compatibility (no volumetric fog/SSAO/SDFGI). Single-threaded web export (GitHub Pages cannot send COOP/COEP). `water.gdshader` guards depth-buffer conventions with `CURRENT_RENDERER` (NDCZ/HAS_GEOM macros). `export_presets.cfg` preset "Web" -> build/web; CI in `.github/workflows/pages.yml`.

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Export the Web build to build/web and serve it locally. usage: tools/web [port]  (default 8060) -> http://localhost:PORT
+cd "$(dirname "$0")/.." || exit 1
+mkdir -p build/web .logs
+godot --headless --path . --export-release Web build/web/index.html > .logs/web-export.log 2>&1 || { echo "web export FAILED - see .logs/web-export.log"; exit 1; }
+port="${1:-8060}"
+echo "web: exported; serving http://localhost:$port (Ctrl+C to stop)"
+exec python3 -m http.server "$port" --directory build/web

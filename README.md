@@ -4,12 +4,16 @@ This game is made fully with Claude mainly to try capabilities with Godot.
 
 First-person 3D beach-cleaning game (Godot 4.7, GDScript, Forward+). Pick up debris, recycle it, upgrade, and watch the beach come back to life. See `docs/design.md`.
 
+## Play in browser
+https://gevrai.github.io/beachclean/ (web build, Compatibility renderer, auto-deployed from main by `.github/workflows/pages.yml`). Local: `tools/web [port]` exports and serves `build/web`.
+
 ## Run
 `godot --path .` (or open in the editor and press F5). Requires Godot 4.7.x on PATH.
 
 ## Tools
 - `tools/check` - headless import + parse check of all scripts; one line, log in `.logs/check.log`.
 - `tools/shot [scene] [out.png]` - run a scene windowed, save a screenshot after ~2 s (default `.logs/shot.png`).
+- `tools/web [port]` - export the Web build and serve it locally (default http://localhost:8060).
 - `tools/mem search <words>` - search shared project memory.
 
 ## Gallery

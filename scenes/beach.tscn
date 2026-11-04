@@ -13,9 +13,14 @@
 [ext_resource type="Environment" path="res://assets/env/beach_env.tres" id="9_acije"]
 [ext_resource type="ArrayMesh" uid="uid://8wxp4worywa5" path="res://assets/meshes/terrain.res" id="10_2ltky"]
 [ext_resource type="Script" uid="uid://dpac733n6rfu6" path="res://scripts/terrain.gd" id="11_8wuvr"]
-[ext_resource type="MultiMesh" uid="uid://cl7wqo6ai1gl2" path="res://assets/meshes/dune_grass.res" id="12_0eicu"]
 [ext_resource type="Script" uid="uid://jmmux5ghsnmu" path="res://scripts/dune_grass.gd" id="13_00qp5"]
-[ext_resource type="ArrayMesh" path="res://assets/meshes/grass_blade.res" id="14_0g4yj"]
+[ext_resource type="MultiMesh" path="res://assets/meshes/grass_mm/a.res" id="mm_a"]
+[ext_resource type="MultiMesh" path="res://assets/meshes/grass_mm/b.res" id="mm_b"]
+[ext_resource type="MultiMesh" path="res://assets/meshes/grass_mm/c.res" id="mm_c"]
+[ext_resource type="MultiMesh" path="res://assets/meshes/grass_mm/d.res" id="mm_d"]
+[ext_resource type="MultiMesh" path="res://assets/meshes/grass_mm/e.res" id="mm_e"]
+[ext_resource type="MultiMesh" path="res://assets/meshes/grass_mm/f.res" id="mm_f"]
+[ext_resource type="PackedScene" path="res://scenes/props/boardwalk.tscn" id="bw_1"]
 [ext_resource type="PackedScene" path="res://scenes/props/palm.tscn" id="15_bmc1h"]
 [ext_resource type="PackedScene" path="res://scenes/props/rock_cluster_a.tscn" id="16_6l2e5"]
 [ext_resource type="PackedScene" path="res://scenes/props/rock_cluster_b.tscn" id="17_mmito"]
@@ -56,11 +61,43 @@ material_override = ExtResource("6_op3ii")
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_7dxea")
 
-[node name="DuneGrass" type="MultiMeshInstance3D" parent="." unique_id=326341847]
-cast_shadow = 0
-multimesh = ExtResource("12_0eicu")
+[node name="DuneGrass" type="Node3D" parent="." unique_id=326341847]
 script = ExtResource("13_00qp5")
-blade_mesh = ExtResource("14_0g4yj")
+
+[node name="ClumpA" type="MultiMeshInstance3D" parent="DuneGrass"]
+material_override = ExtResource("7_xq0rv")
+cast_shadow = 0
+multimesh = ExtResource("mm_a")
+
+[node name="ClumpB" type="MultiMeshInstance3D" parent="DuneGrass"]
+material_override = ExtResource("7_xq0rv")
+cast_shadow = 0
+multimesh = ExtResource("mm_b")
+
+[node name="ClumpC" type="MultiMeshInstance3D" parent="DuneGrass"]
+material_override = ExtResource("7_xq0rv")
+cast_shadow = 0
+multimesh = ExtResource("mm_c")
+
+[node name="ClumpD" type="MultiMeshInstance3D" parent="DuneGrass"]
+material_override = ExtResource("7_xq0rv")
+cast_shadow = 0
+multimesh = ExtResource("mm_d")
+
+[node name="TuftE" type="MultiMeshInstance3D" parent="DuneGrass"]
+material_override = ExtResource("7_xq0rv")
+cast_shadow = 0
+multimesh = ExtResource("mm_e")
+
+[node name="TuftF" type="MultiMeshInstance3D" parent="DuneGrass"]
+material_override = ExtResource("7_xq0rv")
+cast_shadow = 0
+multimesh = ExtResource("mm_f")
+
+[node name="Boardwalk" parent="." instance=ExtResource("bw_1")]
+
+[node name="PlayerStart" type="Marker3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -9.7, 0, -32)
 
 [node name="Props" type="Node3D" parent="." unique_id=1991499902]
 

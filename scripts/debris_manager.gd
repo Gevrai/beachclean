@@ -82,7 +82,7 @@ func _spawn_coin(animate: bool) -> void:
 		var h: float = beach.height_at(x, z)
 		var p := Vector3(x, h, z)
 		var shack := get_tree().get_first_node_in_group("shack")
-		if h < 0.04 or (shack and shack.occupies(p)):
+		if h < 0.04 or (shack and shack.occupies(p)) or _in_grass(p):
 			continue
 		var c: StaticBody3D = CoinScript.spawn(Catalog.random_coin(_rng), _rng)
 		add_child(c)
@@ -121,13 +121,20 @@ func scatter(n: int) -> int:
 			placed += 1
 	return placed
 
+## True on the boardwalk or in the dense dune grass (more than 17 m behind the shoreline), where debris would be hard to see.
+func _in_grass(p: Vector3) -> bool:
+	if p.z < beach.shore_z(p.x) - 17.0:
+		return true
+	var bw := beach.get_node_or_null("Boardwalk")
+	return bw != null and bw.near(p, 0.5)
+
 func _spawn_at(x: float, z: float, animate: bool) -> bool:
 	var h: float = beach.height_at(x, z)
 	if h < 0.04:
 		return false  # underwater
 	var p := Vector3(x, h, z)
 	var shack := get_tree().get_first_node_in_group("shack")
-	if shack and shack.occupies(p):
+	if (shack and shack.occupies(p)) or _in_grass(p):
 		return false
 	for d in get_tree().get_nodes_in_group("debris"):
 		if d.global_position.distance_squared_to(p) < 0.8:

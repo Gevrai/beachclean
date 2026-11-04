@@ -30,6 +30,11 @@ func _ready() -> void:
 	var x := 0.0
 	var z: float = beach.shore_z(0.0) - 9.0
 	var yaw := PI  # face the sea (+Z)
+	var start := beach.get_node_or_null("PlayerStart") as Marker3D  # on the boardwalk, facing down the path
+	if start:
+		x = start.position.x
+		z = start.position.z
+		yaw = start.rotation.y
 	# dev: --pos=x,z,yaw_deg,pitch_deg
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("--pos="):

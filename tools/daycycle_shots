@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# usage: tools/daycycle_shots 0 0.5 0.8 1  -> .logs/day_<h>_sea.png and .logs/day_<h>_dunes.png (beach looking at sea / dunes)
+cd "$(dirname "$0")/.." || exit 1
+for h in "$@"; do
+  tools/shot scenes/beach.tscn ".logs/day_${h}_sea.png" --health="$h" --pos=0,-5,180,6 > /dev/null
+  tools/shot scenes/beach.tscn ".logs/day_${h}_dunes.png" --health="$h" --pos=0,-5,0,6 > /dev/null
+done
+ls .logs/day_*.png

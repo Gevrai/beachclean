@@ -5,6 +5,8 @@ uniform vec3 shallow_color : source_color = vec3(0.25, 0.95, 0.85);
 uniform vec3 deep_color : source_color = vec3(0.02, 0.35, 0.65);
 uniform vec3 foam_color : source_color = vec3(1.0);
 uniform float absorb = 0.9;
+uniform vec3 sun_dir = vec3(0.0, 1.0, 0.0);  // world-space direction to the sun (set by Beach)
+uniform float glitter = 0.0;
 uniform float foam_width = 0.05;
 uniform float swell_amp = 0.12;
 uniform float chop_amp = 0.06;
@@ -66,5 +68,10 @@ void fragment() {
 	ROUGHNESS = mix(0.12, 0.8, foam);
 	SPECULAR = 0.12;
 	METALLIC = 0.0;
-	EMISSION = col * 0.3;
+	// sun glitter path: sparkles where the perturbed normal reflects the sun towards the camera
+	vec3 vw = normalize((INV_VIEW_MATRIX * vec4(VIEW, 0.0)).xyz);
+	float g = pow(max(dot(reflect(-vw, wn), sun_dir), 0.0), 220.0);
+	float sparkle = smoothstep(0.35, 0.8, n2) ;
+	vec3 glit = vec3(1.0, 0.8, 0.55) * g * glitter * (0.35 + sparkle) * (1.0 - foam);
+	EMISSION = col * 0.3 + glit * 6.0;
 }

@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://d02i67ofkllyc"]
 
 [ext_resource type="Script" uid="uid://c8dmahvqftr13" path="res://scripts/beach.gd" id="1_iw52v"]
-[ext_resource type="Resource" path="res://assets/env/look_polluted.tres" id="2_w6svw"]
-[ext_resource type="Resource" path="res://assets/env/look_restored.tres" id="3_fluie"]
-[ext_resource type="Resource" path="res://assets/env/look_golden.tres" id="4_2od6j"]
+[ext_resource type="Resource" path="res://assets/env/look_morning.tres" id="2_w6svw"]
+[ext_resource type="Resource" path="res://assets/env/look_midday.tres" id="3_fluie"]
+[ext_resource type="Resource" path="res://assets/env/look_afternoon.tres" id="4_2od6j"]
+[ext_resource type="Resource" path="res://assets/env/look_sunset.tres" id="4_sunset"]
+[ext_resource type="Script" path="res://scripts/beach_look.gd" id="5_looks"]
 [ext_resource type="Material" path="res://assets/materials/sand.tres" id="5_fdjav"]
 [ext_resource type="Material" path="res://assets/materials/water.tres" id="6_op3ii"]
 [ext_resource type="Material" path="res://assets/materials/grass.tres" id="7_xq0rv"]
@@ -27,9 +29,7 @@ subdivide_depth = 210
 
 [node name="Beach" type="Node3D" unique_id=2022285695]
 script = ExtResource("1_iw52v")
-look_polluted = ExtResource("2_w6svw")
-look_restored = ExtResource("3_fluie")
-look_golden = ExtResource("4_2od6j")
+looks = Array[ExtResource("5_looks")]([ExtResource("2_w6svw"), ExtResource("3_fluie"), ExtResource("4_2od6j"), ExtResource("4_sunset")])
 sand_mat = ExtResource("5_fdjav")
 water_mat = ExtResource("6_op3ii")
 grass_mat = ExtResource("7_xq0rv")

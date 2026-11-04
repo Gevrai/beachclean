@@ -46,12 +46,13 @@ matching items opens its lid in turn and the items fly in with soft rising "bloo
 | Beach rake | picking up also grabs everything within a radius |
 
 ## Twist: the beach comes back
-**Beach health** = share of the starting debris cleared, shown as a %. As it rises, the world gets more saturated
-and the sun gets warmer and golder. At milestones, animals come back. They only have simple ambient animations, no AI.
+**Beach health** = share of the starting debris cleared, shown as a %. As it rises, the day passes: it starts as a
+fresh, pretty morning (sun low over the dunes behind you), reaches bright midday at about 50%, a golden afternoon at 80%,
+and ends at 100% in the perfect sunset (sun half-sunk on the sea horizon). It is never night, and never grey. At milestones, animals come back. They only have simple ambient animations, no AI.
 - 25%: crabs scuttle along the sand
 - 50%: gulls circle overhead
 - 75%: a sea turtle rests on the shore
-- 100%: turtle hatchlings run to the sea, plus a golden sunset
+- 100%: turtle hatchlings run to the sea, plus the perfect sunset
 
 ## Wink: messages in bottles
 A few special glass bottles hold short notes or photo fragments that hint at a small story. Collecting them is optional;

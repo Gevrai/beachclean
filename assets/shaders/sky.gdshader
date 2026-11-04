@@ -3,9 +3,11 @@ shader_type sky;
 uniform vec3 zenith : source_color = vec3(0.15, 0.4, 0.8);
 uniform vec3 mid : source_color = vec3(0.45, 0.7, 0.95);
 uniform vec3 horizon : source_color = vec3(1.0, 0.78, 0.6);
+uniform vec3 horizon_away : source_color = vec3(1.0, 0.78, 0.6);
 uniform vec3 ground : source_color = vec3(0.7, 0.6, 0.5);
 uniform vec3 sun_color : source_color = vec3(1.0, 0.75, 0.45);
 uniform float sun_size = 0.035;
+uniform float sun_glow = 0.0;
 uniform float cloud_cover = 0.5;
 uniform vec3 cloud_lit : source_color = vec3(1.0, 0.9, 0.8);
 uniform vec3 cloud_shade : source_color = vec3(0.6, 0.55, 0.7);
@@ -18,13 +20,19 @@ float cn(vec2 uv) {
 void sky() {
 	vec3 d = EYEDIR;
 	float h = d.y;
-	vec3 col = mix(horizon, mid, smoothstep(0.0, 0.3, h));
+	vec3 sd = LIGHT0_DIRECTION;
+	vec2 hs = normalize(sd.xz + vec2(0.0001));
+	vec2 hd = normalize(d.xz + vec2(0.0001));
+	vec3 hor = mix(horizon_away, horizon, smoothstep(-0.7, 0.7, dot(hs, hd)));
+	vec3 col = mix(hor, mid, smoothstep(0.0, 0.3, h));
 	col = mix(col, zenith, smoothstep(0.25, 0.9, h));
 	col = mix(col, ground, smoothstep(0.0, -0.12, h));
 
-	vec3 sd = LIGHT0_DIRECTION;
 	float s = max(dot(d, sd), 0.0);
 	col += sun_color * (pow(s, 8.0) * 0.15 + pow(s, 48.0) * 0.3);
+	// sunset glow: a wide warm halo hugging the horizon around the sun
+	col = mix(col, sun_color, sun_glow * pow(s, 3.0) * (1.0 - smoothstep(0.0, 0.55, h)) * 0.75);
+	col += sun_color * sun_glow * pow(s, 16.0) * 0.4;
 
 	if (h > 0.0) {
 		vec2 uv = d.xz / (h + 0.18) * 0.28 + vec2(TIME * 0.003, 0.0);
@@ -40,6 +48,7 @@ void sky() {
 	}
 	// sun disc (HDR so it blooms)
 	float disc = smoothstep(cos(sun_size), cos(sun_size * 0.8), dot(d, sd));
-	col += sun_color * 6.0 * disc;
+	disc *= smoothstep(-0.003, 0.0, h);  // the sea horizon clips the sun (half-sunk at sunset)
+	col += sun_color * 5.0 * disc;
 	COLOR = col;
 }

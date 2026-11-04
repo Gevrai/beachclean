@@ -1,8 +1,8 @@
 extends CharacterBody3D
-## First-person player. WASD + mouse look, bob, pickup raycast. Created by beach.gd.
+## First-person player (scenes/player.tscn, instanced in beach.tscn). WASD + mouse look, bob, pickup raycast.
 ## Upgradeable stats: reach, move_speed (bag_capacity lives in GameState).
 
-var beach: Node  # set by beach.gd before add_child
+var beach: Node  # the Beach root (parent)
 
 var reach: float = 2.5
 var move_speed: float = 5.0
@@ -13,8 +13,8 @@ const GRAVITY := 20.0
 const X_LIMIT := 50.0
 const EYE_HEIGHT := 1.6
 
-var head: Node3D
-var cam: Camera3D
+@onready var head: Node3D = $Head
+@onready var cam: Camera3D = $Head/Camera3D
 var target: Node = null  # debris under the crosshair within reach
 var _pitch := 0.0
 var _bob_t := 0.0
@@ -25,23 +25,7 @@ const GRAB_CONE_DEG := 15.0
 
 func _ready() -> void:
 	add_to_group("player")
-	collision_layer = 1
-	collision_mask = 1
-	floor_snap_length = 0.6
-	var cs := CollisionShape3D.new()
-	var cap := CapsuleShape3D.new()
-	cap.radius = 0.35
-	cap.height = 1.7
-	cs.shape = cap
-	cs.position.y = 0.85
-	add_child(cs)
-	head = Node3D.new()
-	head.position.y = EYE_HEIGHT
-	add_child(head)
-	cam = Camera3D.new()
-	cam.fov = 75.0
-	cam.far = 600.0
-	head.add_child(cam)
+	beach = get_parent()
 	cam.make_current()
 	var x := 0.0
 	var z: float = beach.shore_z(0.0) - 9.0

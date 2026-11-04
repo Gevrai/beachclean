@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/materials/rock.tres" id="1_dxi52"]
+[ext_resource type="ArrayMesh" path="res://assets/meshes/rock_c.res" id="2_s3jqy"]
+[ext_resource type="ArrayMesh" path="res://assets/meshes/rock_a.res" id="3_cteqc"]
+[ext_resource type="ArrayMesh" path="res://assets/meshes/rock_b.res" id="4_r373s"]
+
+[node name="RockClusterC" type="Node3D" unique_id=1429808217]
+
+[node name="Boulder1" type="MeshInstance3D" parent="." unique_id=129307894]
+transform = Transform3D(-1.5219101, 0, 1.4818224, 0, 1.7598661, 0, -1.6887156, 0, -1.335453, 0, 0.23860724, 0)
+material_override = ExtResource("1_dxi52")
+mesh = ExtResource("2_s3jqy")
+
+[node name="Boulder2" type="MeshInstance3D" parent="." unique_id=147293417]
+transform = Transform3D(0.9437394, 0, 0.60224134, 0, 0.9347879, 0, -0.551809, 0, 1.0299921, -0.2620278, 0.1380461, -1.7842776)
+material_override = ExtResource("1_dxi52")
+mesh = ExtResource("3_cteqc")
+
+[node name="Boulder3" type="MeshInstance3D" parent="." unique_id=1870793227]
+transform = Transform3D(0.34935555, 0, 0.8188567, 0, 0.7121204, 0, -0.9532849, 0, 0.30009088, -1.8388774, 0.10911568, 0.65913934)
+material_override = ExtResource("1_dxi52")
+mesh = ExtResource("4_r373s")
+
+[node name="Boulder4" type="MeshInstance3D" parent="." unique_id=591066847]
+transform = Transform3D(-0.31869382, 0, 0.84080935, 0, 0.608662, 0, -1.2124984, 0, -0.22099884, 1.8685045, 0.114835486, 1.2425946)
+material_override = ExtResource("1_dxi52")
+mesh = ExtResource("2_s3jqy")

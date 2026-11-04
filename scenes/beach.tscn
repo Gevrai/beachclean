@@ -1,10 +1,127 @@
-[gd_scene format=3 uid="uid://bjeqm5n2ucfe3"]
+[gd_scene format=3]
 
-[ext_resource type="Script" uid="uid://c8dmahvqftr13" path="res://scripts/beach.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/beach.gd" id="1_iw52v"]
+[ext_resource type="Resource" path="res://assets/env/look_polluted.tres" id="2_w6svw"]
+[ext_resource type="Resource" path="res://assets/env/look_restored.tres" id="3_fluie"]
+[ext_resource type="Resource" path="res://assets/env/look_golden.tres" id="4_2od6j"]
+[ext_resource type="Material" path="res://assets/materials/sand.tres" id="5_fdjav"]
+[ext_resource type="Material" path="res://assets/materials/water.tres" id="6_op3ii"]
+[ext_resource type="Material" path="res://assets/materials/grass.tres" id="7_xq0rv"]
+[ext_resource type="Material" path="res://assets/materials/leaf.tres" id="8_jxrfs"]
+[ext_resource type="Environment" path="res://assets/env/beach_env.tres" id="9_acije"]
+[ext_resource type="ArrayMesh" path="res://assets/meshes/terrain.res" id="10_2ltky"]
+[ext_resource type="Script" path="res://scripts/terrain.gd" id="11_8wuvr"]
+[ext_resource type="MultiMesh" path="res://assets/meshes/dune_grass.res" id="12_0eicu"]
+[ext_resource type="Script" path="res://scripts/dune_grass.gd" id="13_00qp5"]
+[ext_resource type="ArrayMesh" path="res://assets/meshes/grass_blade.res" id="14_0g4yj"]
+[ext_resource type="PackedScene" path="res://scenes/props/palm.tscn" id="15_bmc1h"]
+[ext_resource type="PackedScene" path="res://scenes/props/rock_cluster_a.tscn" id="16_6l2e5"]
+[ext_resource type="PackedScene" path="res://scenes/props/rock_cluster_b.tscn" id="17_mmito"]
+[ext_resource type="PackedScene" path="res://scenes/props/rock_cluster_c.tscn" id="18_nawd0"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="19_i2fai"]
 
-[node name="Beach" type="Node3D" unique_id=1821528533]
-script = ExtResource("1")
+[sub_resource type="PlaneMesh" id="PlaneMesh_7dxea"]
+size = Vector2(320, 420)
+subdivide_width = 160
+subdivide_depth = 210
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2042934840]
+[node name="Beach" type="Node3D" unique_id=2022285695]
+script = ExtResource("1_iw52v")
+look_polluted = ExtResource("2_w6svw")
+look_restored = ExtResource("3_fluie")
+look_golden = ExtResource("4_2od6j")
+sand_mat = ExtResource("5_fdjav")
+water_mat = ExtResource("6_op3ii")
+grass_mat = ExtResource("7_xq0rv")
+leaf_mat = ExtResource("8_jxrfs")
 
-[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1863486723]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1652627005]
+environment = ExtResource("9_acije")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1695304816]
+light_angular_distance = 1.2
+shadow_enabled = true
+shadow_bias = 0.03
+shadow_blur = 1.6
+directional_shadow_max_distance = 90.0
+
+[node name="Terrain" type="MeshInstance3D" parent="." unique_id=119425671]
+mesh = ExtResource("10_2ltky")
+surface_material_override/0 = ExtResource("5_fdjav")
+script = ExtResource("11_8wuvr")
+
+[node name="Water" type="MeshInstance3D" parent="." unique_id=1126557728]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 202)
+material_override = ExtResource("6_op3ii")
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_7dxea")
+
+[node name="DuneGrass" type="MultiMeshInstance3D" parent="." unique_id=326341847]
+cast_shadow = 0
+multimesh = ExtResource("12_0eicu")
+script = ExtResource("13_00qp5")
+blade_mesh = ExtResource("14_0g4yj")
+
+[node name="Props" type="Node3D" parent="." unique_id=1991499902]
+
+[node name="Palm1" type="Node3D" parent="Props" unique_id=1771306958 instance=ExtResource("15_bmc1h")]
+transform = Transform3D(-0.77584577, 0, 0.35052457, 0, 0.8389494, 0, -0.35052457, 0, -0.77584577, -34, 1.6935475, -24)
+
+[node name="Palm2" type="Node3D" parent="Props" unique_id=284348312 instance=ExtResource("15_bmc1h")]
+transform = Transform3D(-0.2470374, 0, 0.88907635, 0, 0.9670511, 0, -0.88907635, 0, -0.2470374, -17, 2.2413163, -27)
+
+[node name="Palm3" type="Node3D" parent="Props" unique_id=288372047 instance=ExtResource("15_bmc1h")]
+transform = Transform3D(-0.24556632, 0, 0.92342484, 0, 1.0376662, 0, -0.92342484, 0, -0.24556632, -5, 1.1596956, -21)
+
+[node name="Palm4" type="Node3D" parent="Props" unique_id=542817842 instance=ExtResource("15_bmc1h")]
+transform = Transform3D(-0.28315678, 0, -0.94004726, 0, 0.97078896, 0, 0.94004726, 0, -0.28315678, 9, 2.472002, -26)
+
+[node name="Palm5" type="Node3D" parent="Props" unique_id=1005686577 instance=ExtResource("15_bmc1h")]
+transform = Transform3D(0.807591, 0, -0.26384708, 0, 0.8112273, 0, 0.26384708, 0, 0.807591, 23, 2.0179846, -22)
+
+[node name="Palm6" type="Node3D" parent="Props" unique_id=1162759140 instance=ExtResource("15_bmc1h")]
+transform = Transform3D(0.79956913, 0, -0.4181589, 0, 0.9709348, 0, 0.4181589, 0, 0.79956913, 36, 3.0941243, -29)
+
+[node name="Palm7" type="Node3D" parent="Props" unique_id=1433377278 instance=ExtResource("15_bmc1h")]
+transform = Transform3D(-0.1502562, 0, 0.8186588, 0, 0.80452955, 0, -0.8186588, 0, -0.1502562, -48, 3.999976, -30)
+
+[node name="Palm8" type="Node3D" parent="Props" unique_id=1287757417 instance=ExtResource("15_bmc1h")]
+transform = Transform3D(-0.87838084, 0, -0.412881, 0, 1.0349265, 0, 0.412881, 0, -0.87838084, 49, 2.66148, -24)
+
+[node name="Palm9" type="Node3D" parent="Props" unique_id=197138129 instance=ExtResource("15_bmc1h")]
+transform = Transform3D(0.86149144, 0, 0.34152943, 0, 0.9233124, 0, -0.34152943, 0, 0.86149144, 2, 3.5401506, -38)
+
+[node name="Palm10" type="Node3D" parent="Props" unique_id=2070233431 instance=ExtResource("15_bmc1h")]
+transform = Transform3D(-0.9525388, 0, 0.09806316, 0, 0.9816866, 0, -0.09806316, 0, -0.9525388, -26, 4.1019535, -40)
+
+[node name="Rocks1" type="Node3D" parent="Props" unique_id=759294522 instance=ExtResource("16_6l2e5")]
+transform = Transform3D(0.5707156, 0, -0.8211478, 0, 1, 0, 0.8211478, 0, 0.5707156, -44, -1.3547574, 8)
+
+[node name="Rocks2" type="Node3D" parent="Props" unique_id=102308837 instance=ExtResource("17_mmito")]
+transform = Transform3D(-0.34167817, 0, -0.939817, 0, 1, 0, 0.939817, 0, -0.34167817, -47, -0.34874767, 3)
+
+[node name="Rocks3" type="Node3D" parent="Props" unique_id=1429808217 instance=ExtResource("18_nawd0")]
+transform = Transform3D(-0.3605553, 0, 0.9327378, 0, 1, 0, -0.9327378, 0, -0.3605553, -41, -2.205826, 14)
+
+[node name="Rocks4" type="Node3D" parent="Props" unique_id=454554752 instance=ExtResource("16_6l2e5")]
+transform = Transform3D(0.027726447, 0, -0.99961555, 0, 1, 0, 0.99961555, 0, 0.027726447, 46, -0.8600823, 6)
+
+[node name="Rocks5" type="Node3D" parent="Props" unique_id=2092703338 instance=ExtResource("17_mmito")]
+transform = Transform3D(-0.79015416, 0, 0.6129081, 0, 1, 0, -0.6129081, 0, -0.79015416, 43, -1.624535, 12)
+
+[node name="Rocks6" type="Node3D" parent="Props" unique_id=36774141 instance=ExtResource("18_nawd0")]
+transform = Transform3D(0.54003125, 0, 0.841645, 0, 1, 0, -0.841645, 0, 0.54003125, 49, 0.01879638, 1)
+
+[node name="Rocks7" type="Node3D" parent="Props" unique_id=436253396 instance=ExtResource("16_6l2e5")]
+transform = Transform3D(-0.17524265, 0, -0.98452526, 0, 1, 0, 0.98452526, 0, -0.17524265, -30, 0.10385395, -3)
+
+[node name="Rocks8" type="Node3D" parent="Props" unique_id=1543220844 instance=ExtResource("17_mmito")]
+transform = Transform3D(0.60988635, 0, -0.7924889, 0, 1, 0, 0.7924889, 0, 0.60988635, 15, -1.5630331, 12)
+
+[node name="Rocks9" type="Node3D" parent="Props" unique_id=1548185718 instance=ExtResource("18_nawd0")]
+transform = Transform3D(0.39269105, 0, -0.91967046, 0, 1, 0, 0.91967046, 0, 0.39269105, 28, 0.089402854, -1)
+
+[node name="Rocks10" type="Node3D" parent="Props" unique_id=830909375 instance=ExtResource("16_6l2e5")]
+transform = Transform3D(-0.49159157, 0, -0.8708259, 0, 1, 0, 0.8708259, 0, -0.49159157, -8, -4.54026, 30)
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1799375097 instance=ExtResource("19_i2fai")]

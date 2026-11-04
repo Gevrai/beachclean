@@ -166,18 +166,15 @@ func _float_cluster(x: float, dist: float, n: int, animate: bool) -> int:
 		placed += 1
 	return placed
 
-## Gaussian cluster of `n` pieces around `c` (x, z) on dry sand. Optionally biased to one theme item. Returns how many were placed.
+## Gaussian cluster of `n` pieces around `c` (x, z) on dry sand. Mixed items. Returns how many were placed.
 func _cluster(c: Vector2, n: int, animate: bool, weights: Dictionary = {}, sigma_scale := 1.0) -> int:
 	var sigma := (0.45 + n * 0.07) * sigma_scale
-	var theme := ""
-	if weights.is_empty() and _rng.randf() < 0.35:
-		theme = Catalog.random_id(_rng)  # a spill of one kind
 	var placed := 0
 	for i in n * 4:
 		if placed >= n:
 			break
 		var p := c + Vector2(_gauss(), _gauss()) * sigma
-		var id := theme if theme != "" and _rng.randf() < 0.6 else (_weighted(weights) if not weights.is_empty() else Catalog.random_id(_rng))
+		var id := _weighted(weights) if not weights.is_empty() else Catalog.random_id(_rng)  # mixed: mostly small stuff, the odd big item
 		if _spawn_at(p.x, p.y, animate, id):
 			placed += 1
 	return placed

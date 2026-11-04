@@ -19,6 +19,7 @@ var _busy := false
 ## Floating in the sea: bobs and tilts with the water's wave motion (see water_wave.gd). Set via set_floating().
 var floating := false
 var _phase := 0.0
+var _sink := 0.0  # how far a floating piece sits below the surface (its centre about at water level)
 
 static func random_id(rng: RandomNumberGenerator) -> String:
 	return Catalog.random_id(rng)
@@ -38,6 +39,7 @@ func _ready() -> void:
 	_visual.position.y = float($Visual/Model.rest) * VIS_SCALE
 	_collect_meshes(_visual)
 	_phase = randf() * TAU
+	_sink = float($Visual/Model.rest) * VIS_SCALE * 1.1
 	set_process(floating)
 	if floating:
 		_ride()
@@ -60,7 +62,7 @@ func _process(delta: float) -> void:
 func _ride() -> void:
 	var t := WaterWave.time()
 	var p := global_position
-	global_position.y = WaterWave.height(p.x, p.z, t) - 0.03
+	global_position.y = WaterWave.height(p.x, p.z, t) - _sink
 	var s := WaterWave.slope(p.x, p.z, t)
 	global_rotation = Vector3(atan(s.y) * 1.5, _phase + t * 0.05, -atan(s.x) * 1.5)
 

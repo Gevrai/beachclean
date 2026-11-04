@@ -1,24 +1,11 @@
 [gd_scene format=3]
 
 [ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bag_blue.tres" id="1_bag_blue"]
-[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bag_tag.tres" id="2_bag_tag"]
+[ext_resource type="PackedScene" path="res://assets/models/items/bag.glb" id="2_glb"]
 [ext_resource type="Script" path="res://scripts/debris.gd" id="3_debris"]
 [ext_resource type="Script" path="res://scripts/item_model.gd" id="4_item_model"]
 [ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bag_yellow.tres" id="5_bag_yellow"]
 [ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bag_pink.tres" id="6_bag_pink"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_1"]
-radial_segments = 16
-rings = 8
-
-[sub_resource type="BoxMesh" id="BoxMesh_2"]
-size = Vector3(0.1, 0.004, 0.17)
-
-[sub_resource type="TorusMesh" id="TorusMesh_3"]
-inner_radius = 0.028
-outer_radius = 0.042
-rings = 16
-ring_segments = 8
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_4"]
 radius = 0.285
@@ -37,34 +24,11 @@ transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
 script = ExtResource("4_item_model")
 rest = 0.012
 variants = Array[Material]([ExtResource("1_bag_blue"), ExtResource("5_bag_yellow"), ExtResource("6_bag_pink")])
-variant_parts = Array[NodePath]([NodePath("Pose/Body"), NodePath("Pose/Fold"), NodePath("Pose/HandleA"), NodePath("Pose/HandleB")])
+variant_parts = Array[NodePath]([NodePath("Pose/Bag/Bag")])
 
 [node name="Pose" type="Node3D" parent="Visual/Model"]
 
-[node name="Body" type="MeshInstance3D" parent="Visual/Model/Pose"]
-transform = Transform3D(0.3, 0, 0, 0, 0.07, 0, 0, 0, 0.22, 0, 0, 0)
-mesh = SubResource("SphereMesh_1")
-material_override = ExtResource("1_bag_blue")
-
-[node name="Fold" type="MeshInstance3D" parent="Visual/Model/Pose"]
-transform = Transform3D(0.132054, 0, 0.0790499, 0, 0.08, 0, -0.0903428, 0, 0.115547, -0.05, 0.02, 0.05)
-mesh = SubResource("SphereMesh_1")
-material_override = ExtResource("1_bag_blue")
-
-[node name="Tag" type="MeshInstance3D" parent="Visual/Model/Pose"]
-transform = Transform3D(0.988771, 0, 0.149438, 0, 1, 0, -0.149438, 0, 0.988771, 0.02, 0.034, 0)
-mesh = SubResource("BoxMesh_2")
-material_override = ExtResource("2_bag_tag")
-
-[node name="HandleA" type="MeshInstance3D" parent="Visual/Model/Pose"]
-transform = Transform3D(0.564642, -0.825336, 0, 0.760184, 0.52007, 0.389418, -0.321401, -0.219882, 0.921061, 0.14, 0.03, -0.045)
-mesh = SubResource("TorusMesh_3")
-material_override = ExtResource("1_bag_blue")
-
-[node name="HandleB" type="MeshInstance3D" parent="Visual/Model/Pose"]
-transform = Transform3D(0.564642, -0.825336, 0, 0.760184, 0.52007, -0.389418, 0.321401, 0.219882, 0.921061, 0.14, 0.03, 0.045)
-mesh = SubResource("TorusMesh_3")
-material_override = ExtResource("1_bag_blue")
+[node name="Bag" parent="Visual/Model/Pose" instance=ExtResource("2_glb")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)

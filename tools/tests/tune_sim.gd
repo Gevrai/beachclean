@@ -19,8 +19,8 @@ const SEA_BAND_W := 18.0  # m from the wading line to the 25 m limit
 const NET_CAST_TIME := 3.0  # aim 0.9 + fly 0.7 + reel 1.0 + reposition
 const NET_TRIP_EXTRA := 8.0 # s wading out and back after each shack trip
 
-var N := 840
-var FAR := 110
+var N := 4070
+var FAR := 320
 var AIM := 0.9
 var COST := 1.0   # multiplier on base costs (to try tunings without editing GameState)
 
@@ -138,7 +138,7 @@ func run() -> Dictionary:
 		picked += n
 		while t >= next_tide:
 			next_tide += 90.0
-			rem = minf(rem + lerpf(12.0, 4.0, minf(picked / N, 1.0)) + 1.0, 1000.0)
+			rem = minf(rem + lerpf(DM.TIDE_MAX, DM.TIDE_MIN, minf(picked / N, 1.0)) + 1.0, float(DM.MAX_ALIVE))
 		if OS.get_cmdline_user_args().has('--trace') and int(t) % 120 < 8 and n > 0:
 			print('t=%.1f picked=%.0f rem=%.1f far=%.1f coins=%.0f lv=%s' % [t / 60.0, picked, rem, far_left, coins, str(lv)])
 		for k in [[0.25, "t25"], [0.5, "t50"], [0.75, "t75"], [1.0, "t100"]]:

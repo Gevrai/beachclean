@@ -7,16 +7,18 @@ const CoinScript := preload("res://scripts/loose_change.gd")
 
 var beach: Node  # set by beach.gd before add_child
 
-const INITIAL_COUNT := 880        # target total at the start (beach + floating); the real count is whatever got placed
-const FLOAT_NEAR := 40            # floating pieces within waist-deep reach (shoreline .. ~6.5 m out)
-const FLOAT_FAR := 110            # floating pieces further out (need the casting net)
+const INITIAL_COUNT := 4400       # target total at the start (beach + floating); the real count is whatever got placed
+const FLOAT_NEAR := 200           # floating pieces within waist-deep reach (shoreline .. ~6.5 m out)
+const FLOAT_FAR := 320           # floating pieces further out (need the casting net)
 const FLOAT_MAX_DIST := 25.0      # m from the shoreline
-const WRACK_COUNT := 230          # dense band along the high-tide mark
-const CLUSTER_COUNT := 46         # small clusters (3-12 pieces) on the open sand
-const DUNE_FOOT_CLUSTERS := 12    # piles where the sand meets the dune grass
-const LONER_COUNT := 90
+const WRACK_COUNT := 1250         # dense band along the high-tide mark
+const CLUSTER_COUNT := 260        # small clusters (3-12 pieces) on the open sand
+const DUNE_FOOT_CLUSTERS := 55   # piles where the sand meets the dune grass
+const LONER_COUNT := 300
 const TIDE_SECONDS := 90.0
-const MAX_ALIVE := 1000
+const TIDE_MAX := 36.0            # pieces washed in per tide at health 0, falling to TIDE_MIN at health 1
+const TIDE_MIN := 12.0
+const MAX_ALIVE := 4600
 const COIN_COUNT := 10  # loose change lying around at the start (not saved; respawns on load)
 const GAP := 0.3        # min distance between two pieces (m)
 
@@ -78,10 +80,10 @@ func _scatter_initial() -> int:
 	for i in CLUSTER_COUNT:
 		var x := _rng.randf_range(-46.0, 46.0)
 		var zs := -(2.0 + pow(_rng.randf(), 1.15) * 13.0)  # between the wrack line and the dune foot, more near the sea
-		n += _cluster(Vector2(x, beach.shore_z(x) + zs), 3 + int(pow(_rng.randf(), 1.6) * 10.0), false)
+		n += _cluster(Vector2(x, beach.shore_z(x) + zs), 3 + int(pow(_rng.randf(), 1.5) * 13.0), false)
 	for i in DUNE_FOOT_CLUSTERS:  # the sand meets the dune grass about 13-16.5 m behind the shoreline
 		var x := _rng.randf_range(-46.0, 46.0)
-		n += _cluster(Vector2(x, beach.shore_z(x) - _rng.randf_range(13.0, 16.2)), 4 + int(_rng.randf() * 6.0), false)
+		n += _cluster(Vector2(x, beach.shore_z(x) - _rng.randf_range(13.0, 16.2)), 5 + int(_rng.randf() * 9.0), false)
 	n += _rock_piles()
 	n += _loners(LONER_COUNT)
 	n += _floating_all()
@@ -109,7 +111,7 @@ func _rock_piles() -> int:
 		return 0
 	for c in props.get_children():
 		if c is Node3D and c.name.begins_with("Rocks") and beach.height_at(c.position.x, c.position.z) > 0.0 and c.position.z > beach.shore_z(c.position.x) - 17.0:
-			for k in 3:  # a few heaps around each rock
+			for k in 6:  # a few heaps around each rock
 				var ang := _rng.randf() * TAU
 				var r := 2.3 + _rng.randf() * 0.8
 				placed += _cluster(Vector2(c.position.x, c.position.z) + Vector2(cos(ang), sin(ang)) * r, 3 + int(_rng.randf() * 4.0), false, WRACK_WEIGHTS, 0.5)
@@ -131,13 +133,13 @@ func _floating_all() -> int:
 	var placed := 0
 	var near := 0
 	var tries := 0
-	while near < FLOAT_NEAR and tries < 400:
+	while near < FLOAT_NEAR and tries < 1200:
 		tries += 1
 		var x := _rng.randf_range(-44.0, 44.0)
 		near += _float_cluster(x, _rng.randf_range(1.0, 6.0), 1 + int(_rng.randf() * 4.0), false)
 	var far := 0
 	tries = 0
-	while far < FLOAT_FAR and tries < 600:
+	while far < FLOAT_FAR and tries < 1800:
 		tries += 1
 		var x := _rng.randf_range(-44.0, 44.0)
 		far += _float_cluster(x, 7.5 + pow(_rng.randf(), 0.8) * (FLOAT_MAX_DIST - 7.5), 1 + int(_rng.randf() * 7.0), false)
@@ -240,10 +242,10 @@ func _spawn_bottles() -> void:
 func tide() -> void:
 	_grid_build()
 	var room := MAX_ALIVE - get_tree().get_nodes_in_group("debris").size()
-	var n := mini(roundi(lerpf(12.0, 4.0, GameState.health())), room)
+	var n := mini(roundi(lerpf(TIDE_MAX, TIDE_MIN, GameState.health())), room)
 	var placed := 0
 	var tries := 0
-	while placed < n and tries < 30:
+	while placed < n and tries < 90:
 		tries += 1
 		var x := _rng.randf_range(-44.0, 44.0)
 		var k := mini(2 + _rng.randi() % 4, n - placed)

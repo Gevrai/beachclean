@@ -24,16 +24,16 @@ const MILESTONES := [
 ## Upgrade table (base cost in cents). cost(id) = base * 1.6^level. Order = order in the shack panel.
 const UPGRADE_ORDER := ["bag", "arms", "grabber", "sandals", "rake", "net"]
 const UPGRADES := {
-	"bag": {"name": "Bigger bag", "base": 200, "max": 8},
-	"arms": {"name": "Long arms", "base": 300, "max": 6},
-	"grabber": {"name": "Grabber", "base": 480, "max": 5},
-	"sandals": {"name": "Sandals", "base": 240, "max": 5},
-	"rake": {"name": "Beach rake", "base": 600, "max": 4},
-	"net": {"name": "Casting net", "base": 1200, "max": 3},
+	"bag": {"name": "Bigger bag", "base": 180, "max": 8},
+	"arms": {"name": "Long arms", "base": 270, "max": 6},
+	"grabber": {"name": "Grabber", "base": 430, "max": 5},
+	"sandals": {"name": "Sandals", "base": 215, "max": 5},
+	"rake": {"name": "Beach rake", "base": 540, "max": 4},
+	"net": {"name": "Casting net", "base": 1080, "max": 3},
 }
 ## Casting net by level (index = level; 0 = not owned): how far from the player it can land, and its radius (m).
 const NET_RANGE := [0.0, 12.0, 18.0, 22.0]
-const NET_RADIUS := [0.0, 2.0, 3.0, 4.0]
+const NET_RADIUS := [0.0, 3.0, 4.5, 6.0]
 const BASE_BAG := 10.0  # bag space units
 const BASE_REACH := 2.5
 const BASE_SPEED := 5.0
@@ -265,7 +265,7 @@ func grab_rate_for(lvl: int) -> float:  # pieces per second
 	return 0.0 if lvl <= 0 else 1.5 + 1.0 * lvl
 
 func rake_radius_for(lvl: int) -> float:
-	return 0.6 * lvl
+	return 0.9 * lvl
 
 func net_range_for(lvl: int) -> float:
 	return NET_RANGE[clampi(lvl, 0, NET_RANGE.size() - 1)]
@@ -274,7 +274,7 @@ func net_radius_for(lvl: int) -> float:
 	return NET_RADIUS[clampi(lvl, 0, NET_RADIUS.size() - 1)]
 
 func bag_for(lvl: int) -> float:
-	return BASE_BAG + 5.0 * lvl
+	return BASE_BAG + 7.0 * lvl
 
 func reach() -> float: return reach_for(level("arms"))
 func move_speed() -> float: return speed_for(level("sandals"))

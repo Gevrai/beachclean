@@ -34,7 +34,7 @@ func _ready() -> void:
 	var after_d := G.to_dict()
 	var fails: Array[String] = []
 	if not ok: fails.append("load failed")
-	if G.bag_capacity != 20.0: fails.append("capacity %s" % G.bag_capacity)
+	if G.bag_capacity != 24.0: fails.append("capacity %s" % G.bag_capacity)
 	if G.bag.size() != 2 or G.bag_used() != 4.0 or G.cents != 77: fails.append("bag/cents restore")
 	if deb == null or deb.size() != 3: fails.append("debris restore")
 	after_d["debris"] = deb

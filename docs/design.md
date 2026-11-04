@@ -30,9 +30,9 @@ All data lives in one table, `scripts/catalog.gd`.
 Small cheap things are common, big ones rare. **Loose change** (rare, a small sparkle on the sand): 5¢/10¢/25¢/$1, instant money, never in the bag.
 A pickup is refused if the item doesn't fit. Bag capacity starts at 10 space.
 
-~830 pieces at start, placed naturally, never evenly: a wavy **wrack line** along the high-tide mark (dense band of small mixed debris, nets and rope, with gaps),
-piles against rocks and at the foot of the dunes, small clusters (3-12 pieces) and some loners. About 150 pieces **float** in the sea (bottles, caps, bags,
-flip-flops, buckets, nets), bobbing with the waves, out to ~25 m. Every **tide** (90 s) a wave washes in a few new pieces near the waterline as small clusters
+~4000 pieces at start, placed naturally, never evenly: a wavy **wrack line** along the high-tide mark (dense band of small mixed debris, nets and rope, with gaps),
+piles against rocks and at the foot of the dunes, many small clusters (3-16 pieces) and some loners. About 500 pieces **float** in the sea (bottles, caps, bags,
+flip-flops, buckets, nets), bobbing with the waves, out to ~25 m. Every **tide** (90 s) a wave washes in 36 new pieces (down to 12) near the waterline as small clusters
 (and a couple of floaters into the shallows), fewer as the beach heals, so there is always a little to do.
 
 **Wading.** The player can walk into the sea until the water is waist deep (~1 m); walking slows with depth (up to -50%), the head bob gets gentler, steps
@@ -41,15 +41,17 @@ become faint splashes. Past waist depth an invisible soft limit eases you back. 
 **Bins** (blue Cans, green Plastic bottles, amber Glass, orange Other plastic) share one sell zone. On E each bin that has
 matching items opens its lid in turn and the items fly in with soft rising "bloobs"; at the end the cash sound plays and the money counts up.
 
-## Upgrades (each has levels, cost ×1.5 per level; base costs $2.00 bag, $3.00 arms, $4.80 grabber, $2.40 sandals, $6.00 rake, $12.00 casting net)
+## Upgrades (each has levels, cost ×1.5 per level; base costs $1.80 bag, $2.70 arms, $4.30 grabber, $2.15 sandals, $5.40 rake, $10.80 casting net)
 | Upgrade | Effect |
 |---|---|
-| Bigger bag | +5 bag space (start 10) |
+| Bigger bag | +7 bag space (start 10) |
 | Long arms | +0.75 m pickup reach (start 2.5 m) |
 | Grabber | hold click to vacuum debris in a cone |
 | Sandals | +10% move speed |
-| Beach rake | picking up also grabs everything within a radius |
-| Casting net | hold **right-click** to aim a landing circle on the sea, release to cast: the net arcs out, lands, and reels back in ~1 s with the floating litter inside its radius (as much as fits in the bag; the rest stays). 3 levels: range 12/18/22 m, radius 2/3/4 m |
+| Beach rake | picking up also grabs everything within a radius (0.9 m per level, 4 levels) |
+| Casting net | hold **right-click** to aim a landing circle on the sea, release to cast: the net arcs out, lands, and reels back in ~1 s with the floating litter inside its radius (as much as fits in the bag; the rest stays). 3 levels: range 12/18/22 m, radius 3/4.5/6 m |
+
+**Pacing target** (tools/tests/tune_sim): first upgrade ~1.2 min, 25% ~9.5, 50% ~14.5, 75% ~19.5, 100% ~24.6 min of good play.
 
 ## Twist: the beach comes back
 **Beach health** = share of the starting debris cleared, shown as a %. As it rises, the day passes: it starts as a

@@ -11,7 +11,7 @@ func _ready() -> void:
 	var all := get_tree().get_nodes_in_group("debris")
 	var floaters := all.filter(func(d): return d.floating)
 	print("T13 info: %d pieces, %d floating" % [all.size(), floaters.size()])
-	if all.size() < 700 or all.size() > 1000:
+	if all.size() < 3500 or all.size() > 4800:
 		fails.append("piece count %d" % all.size())
 	if floaters.size() < 100:
 		fails.append("too few floating: %d" % floaters.size())
@@ -64,8 +64,12 @@ func _ready() -> void:
 		fails.append("net owned at start")
 	else:
 		GameState.buy("net")
-		if GameState.net_range() != 12.0 or GameState.net_radius() != 2.0:
+		if GameState.net_range() != 12.0 or GameState.net_radius() != 3.0:
 			fails.append("net stats %s/%s" % [GameState.net_range(), GameState.net_radius()])
+		for d in get_tree().get_nodes_in_group("debris"):  # clear the ambient floaters so only the test pieces are in the net
+			if d.floating:
+				d.remove_from_group("debris")
+				d.queue_free()
 		var DebrisScript := load("res://scripts/debris.gd")
 		var rng := RandomNumberGenerator.new()
 		var spot := Vector3(player.global_position.x, 0.0, player.global_position.z + 8.0)

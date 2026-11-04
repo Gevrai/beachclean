@@ -9,6 +9,8 @@ const PUFF := preload("res://scenes/items/sand_puff.tscn")
 
 ## Props are drawn slightly bigger than life (one uniform factor, see Catalog.VIS_SCALE).
 const VIS_SCALE := Catalog.VIS_SCALE
+## Pieces further than this (m) from the camera are not drawn (they are a few pixels there anyway).
+const CULL_DIST := 45.0
 
 @export var id: String = "cap"
 var value: int = 1      # cents
@@ -19,6 +21,9 @@ var _busy := false
 ## Floating in the sea: bobs and tilts with the water's wave motion (see water_wave.gd). Set via set_floating().
 var floating := false
 var _phase := 0.0
+var _acc := 0.0   # time since the last floating update
+var _skip := 0    # frames to skip before the next floating update
+var _staggered := false
 var _sink := 0.0  # how far a floating piece sits below the surface (its centre about at water level)
 
 static func random_id(rng: RandomNumberGenerator) -> String:
@@ -52,10 +57,22 @@ func set_floating(on: bool) -> void:
 		_ride()
 
 func _process(delta: float) -> void:
+	# Hundreds of floaters: update every frame only near the camera, every 3rd/8th frame further out (staggered per piece).
+	_acc += delta
+	if _skip > 0:
+		_skip -= 1
+		return
+	var cam := get_viewport().get_camera_3d()
+	var d2 := 0.0 if cam == null else cam.global_position.distance_squared_to(global_position)
+	_skip = 0 if d2 < 400.0 else (2 if d2 < 2500.0 else 7)
+	if _skip > 0 and not _staggered:
+		_staggered = true
+		_skip = randi() % (_skip + 1)
 	# lazy drift on top of the bobbing
 	var t := WaterWave.time()
-	global_position.x += sin(t * 0.17 + _phase) * 0.05 * delta
-	global_position.z += cos(t * 0.13 + _phase * 1.7) * 0.04 * delta
+	global_position.x += sin(t * 0.17 + _phase) * 0.05 * _acc
+	global_position.z += cos(t * 0.13 + _phase * 1.7) * 0.04 * _acc
+	_acc = 0.0
 	_ride()
 
 ## Put the piece on the wave surface and tilt it with the local slope.
@@ -70,6 +87,8 @@ func _collect_meshes(n: Node) -> void:
 	for c in n.get_children():
 		if c is MeshInstance3D:
 			_meshes.append(c)
+			c.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF  # tiny pieces: no shadow pass (thousands of them)
+			c.visibility_range_end = CULL_DIST
 		_collect_meshes(c)
 
 ## Target interface (player aiming): label_text(), set_highlight(on), pick_up(cam), refuse().

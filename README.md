@@ -1,5 +1,7 @@
 # Beachclean
 
+This game is made fully with Claude mainly to try capabilities with Godot.
+
 First-person 3D beach-cleaning game (Godot 4.7, GDScript, Forward+). Pick up debris, recycle it, upgrade, and watch the beach come back to life. See `docs/design.md`.
 
 ## Run

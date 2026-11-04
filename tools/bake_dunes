@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Re-bakes boardwalk mesh, grass clump meshes and the grass scatter (assets/meshes/). Run after changing the terrain/path.
+cd "$(dirname "$0")/.." || exit 1
+mkdir -p .logs
+# needs a real renderer: MultiMesh buffers are read back from the RenderingServer (empty under --headless)
+timeout 90 tools/offscreen.sh godot --display-driver wayland --path . -s res://tools/bake_dunes.gd -- --fresh > .logs/bake_dunes.log 2>&1
+if grep -q "dune grass" .logs/bake_dunes.log; then
+  grep "dune grass" .logs/bake_dunes.log
+else
+  echo "bake: FAILED - see .logs/bake_dunes.log"; exit 1
+fi

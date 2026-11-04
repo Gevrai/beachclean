@@ -5,6 +5,7 @@ description: How to check, screenshot and run the Beachclean Godot project (tool
 # Godot workflow
 - `tools/check` - headless import + `--check-only` on every .gd. Prints `check: GREEN (N scripts)` or RED (see `.logs/check.log`). Run after every change (~7 s).
 - `tools/shot [scenes/x.tscn] [out.png]` - windowed run, screenshot after 2 s, quit. Then Read the PNG to look at it. Default scene = main, default out `.logs/shot.png`. Log: `.logs/shot.log`.
+- `tools/polypizza <id-or-url> [dest]` - download a Poly Pizza model to `assets/models/<dest>/` (default props) and append its CC-BY credit line to CREDITS.md (also add it to CreditsText in `scenes/ui/pause_menu.tscn`).
 - Run the game: `godot --path .`
 - `--shot-delay=SECONDS` (default 2) changes when the shot is taken, e.g. to compare two frames for motion.
 - Shot works via the `DevTools` autoload (`scripts/dev_tools.gd`), which reacts only to user arg `-- --shot=PATH`.

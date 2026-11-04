@@ -148,12 +148,10 @@ theme_type_variation = &"ListTitleLabel"
 text = "Credits"
 
 [node name="CreditsText" type="Label" parent="Root/Center/CreditsCard/Box"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
 theme_type_variation = &"TinyLabel"
-text = "3D models
-
-Crab by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/1O5Q4pE8X6e)"
 autowrap_mode = 3
 
 [node name="CreditsBack" type="Button" parent="Root/Center/CreditsCard/Box"]

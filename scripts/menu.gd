@@ -87,6 +87,11 @@ func _show_list() -> void:
 		holder.add_child(b)
 
 func _show_credits() -> void:
+	# Single source: res://CREDITS.md (tools/polypizza appends to it). Exports need include_filter "CREDITS.md".
+	var f := FileAccess.open("res://CREDITS.md", FileAccess.READ)
+	if f:
+		var t := f.get_as_text().replace("# Credits\n", "").replace("## ", "").strip_edges()
+		%CreditsText.text = t
 	state = S.CREDITS
 	_show_only(_credits_card)
 

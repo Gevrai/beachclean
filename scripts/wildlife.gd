@@ -60,14 +60,8 @@ func _build_crabs() -> void:
 		root.scale = Vector3.ONE * 0.0
 		_roots["crabs"].add_child(root)
 		var s := _rng.randf_range(1.0, 1.3)
-		var legs: Array[Node3D] = []
-		var claws: Array[Node3D] = []
-		for k in 6:
-			legs.append(root.get_node("Leg%d" % k))
-		for k in 2:
-			claws.append(root.get_node("Claw%d" % k))
 		_crabs.append({
-			"node": root, "legs": legs, "claws": claws, "s": s,
+			"node": root, "model": root.get_node("Body"), "s": s,
 			"cx": _rng.randf_range(-20.0, 20.0), "amp": _rng.randf_range(1.2, 3.0),
 			"w": _rng.randf_range(0.35, 0.6), "ph": _rng.randf_range(0.0, TAU),
 			"off": _rng.randf_range(0.5, 2.2), "px": 0.0, "lp": 0.0,
@@ -85,19 +79,11 @@ func _update_crabs(delta: float) -> void:
 		var n: Node3D = c.node
 		n.position = Vector3(x, _ground(x, z) - 0.02, z)
 		n.scale = Vector3.ONE * c.s * ap
-		var i := 0
-		for leg: Node3D in c.legs:
-			var side := -1.0 if i < 3 else 1.0
-			var ph: float = c.lp + i * 1.3
-			leg.rotation.z = side * (0.35 + 0.35 * sp * sin(ph))
-			leg.rotation.y = 0.4 * sp * cos(ph) * side
-			i += 1
-		# claws wave when idle, tuck in while running
-		var k := 0
-		for arm: Node3D in c.claws:
-			arm.rotation.x = -0.2 * sp + (1.0 - sp) * 0.25 * sin(_t * 2.5 + c.ph + k * 1.7)
-			arm.rotation.y = (1.0 - sp) * 0.15 * sin(_t * 1.7 + k)
-			k += 1
+		# single-mesh model: quick waddle bob + tilt while scuttling, gentle sway when idle
+		var m: Node3D = c.model
+		m.position.y = 0.108 + 0.012 * sp * absf(sin(c.lp))
+		m.rotation.z = 0.12 * sp * sin(c.lp) + 0.03 * (1.0 - sp) * sin(_t * 1.7 + c.ph)
+		m.rotation.x = 0.04 * sp * cos(c.lp * 2.0)
 
 # ---------------------------------------------------------------- gulls (50%)
 

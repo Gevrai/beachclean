@@ -4,12 +4,13 @@ extends CanvasLayer
 
 const Notes := preload("res://scripts/notes.gd")
 
-enum S { NONE, PAUSE, LIST, NOTE }
+enum S { NONE, PAUSE, LIST, NOTE, CREDITS }
 var state := S.NONE
 var _from_list := false
 @onready var _root: Control = %Root
 @onready var _pause_card: Control = %PauseCard
 @onready var _list_card: Control = %ListCard
+@onready var _credits_card: Control = %CreditsCard
 @onready var _note: Control = %NoteOverlay
 
 func _ready() -> void:
@@ -17,11 +18,15 @@ func _ready() -> void:
 	_root.gui_input.connect(_on_gui_input)
 	%Resume.pressed.connect(resume)
 	%Notes.pressed.connect(_show_list)
+	%Credits.pressed.connect(_show_credits)
+	%CreditsBack.pressed.connect(_show_pause)
 	%Quit.pressed.connect(_quit)
 	%Back.pressed.connect(_show_pause)
 	for a in OS.get_cmdline_user_args():  # dev
 		if a == "--pause":
 			open_pause.call_deferred()
+		elif a == "--pause=credits":
+			(func(): open_pause(); _show_credits()).call_deferred()
 		elif a == "--pause=notes":
 			(func(): open_pause(); _show_list()).call_deferred()
 		elif a.begins_with("--note="):
@@ -81,8 +86,12 @@ func _show_list() -> void:
 			b.disabled = true
 		holder.add_child(b)
 
+func _show_credits() -> void:
+	state = S.CREDITS
+	_show_only(_credits_card)
+
 func _show_only(card: Control) -> void:
-	for c in [_pause_card, _list_card, _note]:
+	for c in [_pause_card, _list_card, _credits_card, _note]:
 		c.visible = c == card
 
 func _quit() -> void:
@@ -103,7 +112,7 @@ func _input(event: InputEvent) -> void:
 		S.NOTE:
 			if event.keycode == KEY_ESCAPE or event.keycode == KEY_E:
 				_close_note()
-		S.LIST:
+		S.LIST, S.CREDITS:
 			if event.keycode == KEY_ESCAPE:
 				_show_pause()
 		S.PAUSE:

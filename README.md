@@ -15,3 +15,7 @@ Open `scenes/gallery.tscn` in the Godot editor and press F6 (Run Current Scene; 
 
 ## Controls
 WASD move, mouse look, click pick up (hold with Grabber), E at the bins = recycle bag, E at the shack counter = upgrades, Esc pause, F1 cheat panel (debug).
+
+## Credits
+
+Third-party assets are credited in [CREDITS.md](CREDITS.md) and in the pause menu (Credits).

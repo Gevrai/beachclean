@@ -1,0 +1,2 @@
+Debris: many more pieces, placed in natural clusters (wrack line along the tide mark, piles against rocks/dune foot, scattered loners), never even spacing. Some debris floats and bobs in the sea. Player can wade until waist deep (~1 m water depth, slower walk, splashy steps); debris farther out needs the "Casting net" shop upgrade (aim + cast, reels in floating items in a radius; levels = range/radius).
+Why: owner found even spacing odd and wants water to be part of the progression.

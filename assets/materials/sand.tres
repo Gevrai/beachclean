@@ -1,0 +1,32 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/sand.gdshader" id="1_tohsb"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_l4rfi"]
+seed = 3
+frequency = 0.02
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_l1ovw"]
+noise = SubResource("FastNoiseLite_l4rfi")
+seamless = true
+as_normal_map = true
+bump_strength = 4.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_q5nrb"]
+seed = 5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n68rx"]
+noise = SubResource("FastNoiseLite_q5nrb")
+seamless = true
+bump_strength = 3.0
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_tohsb")
+shader_parameter/sand_dry = Color(1, 0.82, 0.55, 1)
+shader_parameter/sand_light = Color(1, 0.9, 0.68, 1)
+shader_parameter/sand_wet = Color(0.62, 0.43, 0.27, 1)
+shader_parameter/grass_tint = Color(0.6, 0.62, 0.3, 1)
+shader_parameter/grain = SubResource("NoiseTexture2D_l1ovw")
+shader_parameter/patches = SubResource("NoiseTexture2D_n68rx")
+shader_parameter/swell = 0.0

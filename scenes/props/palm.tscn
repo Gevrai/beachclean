@@ -1,0 +1,62 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/materials/trunk.tres" id="1_fx13t"]
+[ext_resource type="ArrayMesh" path="res://assets/meshes/palm_trunk.res" id="2_hqcrg"]
+[ext_resource type="Material" path="res://assets/materials/leaf.tres" id="3_a0vbb"]
+[ext_resource type="ArrayMesh" path="res://assets/meshes/palm_frond.res" id="4_yefc8"]
+
+[node name="Palm" type="Node3D" unique_id=1771306958]
+
+[node name="Trunk" type="MeshInstance3D" parent="." unique_id=553021371]
+material_override = ExtResource("1_fx13t")
+mesh = ExtResource("2_hqcrg")
+
+[node name="Frond1" type="MeshInstance3D" parent="." unique_id=307207697]
+transform = Transform3D(1.0531335, 0.11472508, -0.18327843, -0.11642939, 1.0687784, 0, 0.1822005, 0.019848356, 1.059364, 1.5, 6.35, 0)
+material_override = ExtResource("3_a0vbb")
+mesh = ExtResource("4_yefc8")
+
+[node name="Frond2" type="MeshInstance3D" parent="." unique_id=1637816119]
+transform = Transform3D(0.72526926, 0.023067424, 0.757085, -0.033336684, 1.0481479, 0, -0.7567024, -0.024067165, 0.725636, 1.5, 6.35, 0)
+material_override = ExtResource("3_a0vbb")
+mesh = ExtResource("4_yefc8")
+
+[node name="Frond3" type="MeshInstance3D" parent="." unique_id=1994612169]
+transform = Transform3D(0.38432604, 0.17432159, 1.094373, -0.4845015, 1.0681784, 0, -0.9966436, -0.45205495, 0.42201248, 1.5, 6.35, 0)
+material_override = ExtResource("3_a0vbb")
+mesh = ExtResource("4_yefc8")
+
+[node name="Frond4" type="MeshInstance3D" parent="." unique_id=1725384249]
+transform = Transform3D(-0.18374154, 0.021941919, 0.8743181, 0.105968654, 0.8873811, 0, -0.86814994, 0.103672124, -0.18504702, 1.5, 6.35, 0)
+material_override = ExtResource("3_a0vbb")
+mesh = ExtResource("4_yefc8")
+
+[node name="Frond5" type="MeshInstance3D" parent="." unique_id=1579185390]
+transform = Transform3D(-0.9491322, 0.2169804, 0.57945883, 0.2525018, 1.1045125, 0, -0.56488574, 0.12913811, -0.9736182, 1.5, 6.35, 0)
+material_override = ExtResource("3_a0vbb")
+mesh = ExtResource("4_yefc8")
+
+[node name="Frond6" type="MeshInstance3D" parent="." unique_id=165472984]
+transform = Transform3D(-0.94636315, -0.089014255, 0.092741385, -0.089436926, 0.95085686, 0, -0.09233384, -0.008684856, -0.95054024, 1.5, 6.35, 0)
+material_override = ExtResource("3_a0vbb")
+mesh = ExtResource("4_yefc8")
+
+[node name="Frond7" type="MeshInstance3D" parent="." unique_id=634507417]
+transform = Transform3D(-0.71283555, 0.082683295, -0.4591608, 0.09816004, 0.8462649, 0, 0.4561028, -0.052904323, -0.7176148, 1.5, 6.35, 0)
+material_override = ExtResource("3_a0vbb")
+mesh = ExtResource("4_yefc8")
+
+[node name="Frond8" type="MeshInstance3D" parent="." unique_id=986946359]
+transform = Transform3D(-0.33898988, -0.16021909, -0.80172616, -0.37820178, 0.80019534, 0, 0.72484374, 0.34258783, -0.37494573, 1.5, 6.35, 0)
+material_override = ExtResource("3_a0vbb")
+mesh = ExtResource("4_yefc8")
+
+[node name="Frond9" type="MeshInstance3D" parent="." unique_id=392890930]
+transform = Transform3D(0.36855957, 0.12030715, -0.80499864, -0.27726147, 0.8493873, 0, 0.76525986, 0.24980015, 0.3876983, 1.5, 6.35, 0)
+material_override = ExtResource("3_a0vbb")
+mesh = ExtResource("4_yefc8")
+
+[node name="Frond10" type="MeshInstance3D" parent="." unique_id=1911216458]
+transform = Transform3D(0.9317401, -0.04175414, -0.7534076, 0.053675238, 1.1977583, 0, 0.7526522, -0.033728663, 0.93267524, 1.5, 6.35, 0)
+material_override = ExtResource("3_a0vbb")
+mesh = ExtResource("4_yefc8")

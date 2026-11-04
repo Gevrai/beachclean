@@ -1,0 +1,2 @@
+Beach health drives time of day, not grey→colour: 0% = fresh morning (sun low behind the player when facing the sea, i.e. over the dunes at −Z), midday around 50%, warm afternoon, 100% = perfect sunset with the sun half-sunk on the sea horizon (+Z). Never a grey/desaturated start. Pollution shows through debris only (maybe slightly murkier shallows).
+Why: owner disliked the grey start; wants the day passing as the reward.

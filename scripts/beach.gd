@@ -68,8 +68,7 @@ func _process(delta: float) -> void:
 # ---------------------------------------------------------------- gameplay
 
 func _spawn_gameplay() -> void:
-	var shack := Node3D.new()
-	shack.set_script(preload("res://scripts/shack.gd"))
+	var shack: Node3D = preload("res://scenes/shack/shack.tscn").instantiate()
 	shack.set("beach", self)
 	add_child(shack)
 	var mgr := Node.new()

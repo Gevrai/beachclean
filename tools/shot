@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
+# Renders offscreen (headless sway, real GPU) — no window appears.
 # usage: tools/shot [scenes/x.tscn] [out.png] [extra user args e.g. --health=1]  (default: main scene, .logs/shot.png)
 cd "$(dirname "$0")/.." || exit 1
 mkdir -p .logs
 scene="${1:-}"; out="${2:-.logs/shot.png}"
 [ -n "$scene" ] && scene="${scene#res://}"
 rm -f "$out"
-timeout 60 godot --path . ${scene:+"res://$scene"} -- --fresh --shot="$(realpath -m "$out")" "${@:3}" > .logs/shot.log 2>&1
+timeout 60 tools/offscreen.sh godot --display-driver wayland --path . ${scene:+"res://$scene"} -- --fresh --shot="$(realpath -m "$out")" "${@:3}" > .logs/shot.log 2>&1
 if [ -s "$out" ]; then echo "shot: $out"; else echo "shot: FAILED — see .logs/shot.log"; exit 1; fi

@@ -1,10 +1,10 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bjeqm5n2ucfe3"]
 
-[ext_resource type="Script" path="res://scripts/beach.gd" id="1"]
+[ext_resource type="Script" uid="uid://c8dmahvqftr13" path="res://scripts/beach.gd" id="1"]
 
-[node name="Beach" type="Node3D"]
+[node name="Beach" type="Node3D" unique_id=1821528533]
 script = ExtResource("1")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2042934840]
 
-[node name="Sun" type="DirectionalLight3D" parent="."]
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1863486723]

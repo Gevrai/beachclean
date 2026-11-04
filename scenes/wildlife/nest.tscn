@@ -1,0 +1,63 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/materials/wildlife/m_e0a866_95.tres" id="1_0g60j"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/m_ad7545_95.tres" id="2_j0v8x"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/m_f7f2e0_80.tres" id="3_0bmsp"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_4jmr3"]
+inner_radius = 0.35
+outer_radius = 0.6
+rings = 16
+ring_segments = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_sj6y6"]
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_fpoml"]
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_1xwho"]
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_kqrdj"]
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_hthci"]
+radial_segments = 16
+rings = 8
+
+[node name="Nest" type="Node3D" unique_id=305512791]
+
+[node name="Rim" type="MeshInstance3D" parent="." unique_id=815770902]
+transform = Transform3D(1, 0, 0, 0, 0.45, 0, 0, 0, 1, 0, 0.03, 0)
+material_override = ExtResource("1_0g60j")
+mesh = SubResource("TorusMesh_4jmr3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1021524654]
+transform = Transform3D(0.8, 0, 0, 0, 0.1, 0, 0, 0, 0.8, 0, -0.02, 0)
+material_override = ExtResource("2_j0v8x")
+mesh = SubResource("SphereMesh_sj6y6")
+
+[node name="Egg0" type="MeshInstance3D" parent="." unique_id=1041187740]
+transform = Transform3D(0.1316374, -0.047942556, 0, 0.07191384, 0.08775826, 0, 0, 0, 0.15, 0, 0.08, 0.2)
+material_override = ExtResource("3_0bmsp")
+mesh = SubResource("SphereMesh_fpoml")
+
+[node name="Egg1" type="MeshInstance3D" parent="." unique_id=1497053496]
+transform = Transform3D(-0.02785223, -0.0071139964, 0.14700472, 0.0710702, 0.086728744, 0.022908697, -0.12912507, 0.04926983, -0.019099958, 0.19833297, 0.08, -0.025768898)
+material_override = ExtResource("3_0bmsp")
+mesh = SubResource("SphereMesh_1xwho")
+
+[node name="Egg2" type="MeshInstance3D" parent="." unique_id=953039091]
+transform = Transform3D(-0.1326355, 0.039799195, -0.036658958, 0.06877655, 0.08392974, -0.043821625, 0.013327112, -0.03703813, -0.13869314, -0.05110822, 0.08, -0.19335964)
+material_override = ExtResource("3_0bmsp")
+mesh = SubResource("SphereMesh_kqrdj")
+
+[node name="Egg3" type="MeshInstance3D" parent="." unique_id=136074196]
+transform = Transform3D(0.07689966, 0.015002883, -0.12680694, 0.06566593, 0.08013379, 0.061153773, 0.11079002, -0.057909336, 0.051770825, -0.18516293, 0.08, 0.07559555)
+material_override = ExtResource("3_0bmsp")
+mesh = SubResource("SphereMesh_hthci")

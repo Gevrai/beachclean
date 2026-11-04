@@ -1,10 +1,15 @@
 extends Node3D
 ## Ambient animals that return at health milestones (see GameState.MILESTONES). No AI, no collision:
-## simple looping animation driven from _process. Built from primitives. Local +Z is every model's front.
+## simple looping animation driven from _process. Each animal is a prefab in scenes/wildlife/ (this script is the root of
+## wildlife.tscn, whose Crabs/Gulls/Turtle/Hatchlings nodes are the group roots). Local +Z is every model's front.
 
 var beach: Node  # set by beach.gd before add_child
 
-static var _mats: Dictionary = {}
+const CRAB := preload("res://scenes/wildlife/crab.tscn")
+const GULL := preload("res://scenes/wildlife/gull.tscn")
+const TURTLE := preload("res://scenes/wildlife/turtle.tscn")
+const HATCHLING := preload("res://scenes/wildlife/hatchling.tscn")
+const NEST := preload("res://scenes/wildlife/nest.tscn")
 
 var _t := 0.0
 var _rng := RandomNumberGenerator.new()
@@ -21,9 +26,8 @@ var _nest := Vector2.ZERO
 func _ready() -> void:
 	_rng.seed = 99
 	for id in _ap:
-		var r := Node3D.new()
+		var r: Node3D = get_node(id.capitalize())
 		r.visible = false
-		add_child(r)
 		_roots[id] = r
 	_build_crabs()
 	_build_gulls()
@@ -45,99 +49,23 @@ func _set_ap(v: float, id: String) -> void:
 
 # ---------------------------------------------------------------- helpers
 
-static func _mat(c: Color, rough := 0.55) -> StandardMaterial3D:
-	var key := "%s%s" % [c.to_html(), rough]
-	if not _mats.has(key):
-		var m := StandardMaterial3D.new()
-		m.albedo_color = c
-		m.roughness = rough
-		_mats[key] = m
-	return _mats[key]
-
-func _blob(parent: Node, c: Color, pos: Vector3, size: Vector3, rough := 0.55) -> MeshInstance3D:
-	var mi := MeshInstance3D.new()
-	var s := SphereMesh.new()
-	s.radius = 0.5
-	s.height = 1.0
-	s.radial_segments = 16
-	s.rings = 8
-	mi.mesh = s
-	mi.material_override = _mat(c, rough)
-	mi.position = pos
-	mi.scale = size
-	parent.add_child(mi)
-	return mi
-
-## Cone pointing along local +Z.
-func _cone(parent: Node, c: Color, pos: Vector3, radius: float, length: float) -> MeshInstance3D:
-	var mi := MeshInstance3D.new()
-	var cm := CylinderMesh.new()
-	cm.top_radius = 0.0
-	cm.bottom_radius = radius
-	cm.height = length
-	cm.radial_segments = 8
-	mi.mesh = cm
-	mi.material_override = _mat(c)
-	mi.rotation.x = PI / 2.0
-	mi.position = pos
-	parent.add_child(mi)
-	return mi
-
-func _limb(parent: Node, c: Color, pos: Vector3, len: float, thick: float) -> Node3D:
-	var pivot := Node3D.new()
-	pivot.position = pos
-	parent.add_child(pivot)
-	var mi := MeshInstance3D.new()
-	var cm := CapsuleMesh.new()
-	cm.radius = thick
-	cm.height = len
-	cm.radial_segments = 8
-	cm.rings = 2
-	mi.mesh = cm
-	mi.material_override = _mat(c)
-	mi.rotation.z = PI / 2.0
-	mi.position.x = signf(pos.x) * len * 0.5
-	pivot.add_child(mi)
-	return pivot
-
-func _eye(parent: Node, pos: Vector3, r: float) -> void:
-	_blob(parent, Color(0.06, 0.05, 0.05), pos, Vector3.ONE * r, 0.2)
-	_blob(parent, Color.WHITE, pos + Vector3(r * 0.2, r * 0.25, r * 0.38), Vector3.ONE * r * 0.35, 0.2)
-
 func _ground(x: float, z: float) -> float:
 	return beach.height_at(x, z)
 
 # ---------------------------------------------------------------- crabs (25%)
 
 func _build_crabs() -> void:
-	var red := Color(0.95, 0.32, 0.14)
-	var dark := Color(0.78, 0.2, 0.1)
 	for i in 5:
-		var root := Node3D.new()
+		var root: Node3D = CRAB.instantiate()
 		root.scale = Vector3.ONE * 0.0
 		_roots["crabs"].add_child(root)
 		var s := _rng.randf_range(1.0, 1.3)
-		_blob(root, red, Vector3(0, 0.13, 0), Vector3(0.42, 0.22, 0.32))
-		_blob(root, Color(1.0, 0.6, 0.4), Vector3(0, 0.1, 0.02), Vector3(0.34, 0.12, 0.28))
 		var legs: Array[Node3D] = []
-		for side in [-1.0, 1.0]:
-			for j in 3:
-				legs.append(_limb(root, dark, Vector3(side * 0.17, 0.08, -0.08 + j * 0.08), 0.18, 0.018))
 		var claws: Array[Node3D] = []
-		for side in [-1.0, 1.0]:
-			var arm := Node3D.new()
-			arm.position = Vector3(side * 0.2, 0.15, 0.12)
-			root.add_child(arm)
-			_blob(arm, dark, Vector3(side * 0.06, 0.0, 0.07), Vector3(0.07, 0.07, 0.16))
-			_blob(arm, red, Vector3(side * 0.1, 0.03, 0.17), Vector3(0.17, 0.12, 0.15))
-			_blob(arm, dark, Vector3(side * 0.07, 0.04, 0.26), Vector3(0.07, 0.07, 0.09))
-			claws.append(arm)
-		for side in [-1.0, 1.0]:
-			var stalk := Node3D.new()
-			stalk.position = Vector3(side * 0.07, 0.22, 0.1)
-			root.add_child(stalk)
-			_blob(stalk, dark, Vector3(0, 0.02, 0), Vector3(0.025, 0.07, 0.025))
-			_eye(stalk, Vector3(0, 0.07, 0.015), 0.085)
+		for k in 6:
+			legs.append(root.get_node("Leg%d" % k))
+		for k in 2:
+			claws.append(root.get_node("Claw%d" % k))
 		_crabs.append({
 			"node": root, "legs": legs, "claws": claws, "s": s,
 			"cx": _rng.randf_range(-20.0, 20.0), "amp": _rng.randf_range(1.2, 3.0),
@@ -174,33 +102,12 @@ func _update_crabs(delta: float) -> void:
 # ---------------------------------------------------------------- gulls (50%)
 
 func _build_gulls() -> void:
-	var white := Color(0.98, 0.98, 0.96)
-	var grey := Color(0.62, 0.66, 0.7)
-	var tip := Color(0.16, 0.17, 0.2)
 	for i in 4:
-		var root := Node3D.new()
+		var root: Node3D = GULL.instantiate()
 		root.scale = Vector3.ZERO
 		_roots["gulls"].add_child(root)
-		_blob(root, white, Vector3(0, 0, 0), Vector3(0.36, 0.32, 0.85))
-		_blob(root, white, Vector3(0, 0.1, 0.42), Vector3(0.24, 0.24, 0.27))
-		_cone(root, Color(1.0, 0.72, 0.15), Vector3(0, 0.07, 0.6), 0.04, 0.2)
-		_blob(root, white, Vector3(0, 0.03, -0.5), Vector3(0.2, 0.05, 0.4))
-		for side in [-1.0, 1.0]:
-			_eye(root, Vector3(side * 0.09, 0.15, 0.5), 0.07)
-		var wings: Array[Node3D] = []
-		var outs: Array[Node3D] = []
-		for side in [-1.0, 1.0]:
-			var w := Node3D.new()
-			w.position = Vector3(side * 0.15, 0.07, 0.05)
-			root.add_child(w)
-			_blob(w, white, Vector3(side * 0.4, 0, 0), Vector3(0.85, 0.07, 0.42))
-			var o := Node3D.new()
-			o.position = Vector3(side * 0.8, 0, 0)
-			w.add_child(o)
-			_blob(o, grey, Vector3(side * 0.33, 0, -0.04), Vector3(0.7, 0.055, 0.3))
-			_blob(o, tip, Vector3(side * 0.62, 0, -0.07), Vector3(0.22, 0.05, 0.2))
-			wings.append(w)
-			outs.append(o)
+		var wings: Array[Node3D] = [root.get_node("Wing0"), root.get_node("Wing1")]
+		var outs: Array[Node3D] = [root.get_node("Wing0/WingTip"), root.get_node("Wing1/WingTip")]
 		_gulls.append({
 			"node": root, "wings": wings, "outs": outs,
 			"cx": _rng.randf_range(-12.0, 12.0), "cz": _rng.randf_range(20.0, 28.0),
@@ -232,42 +139,18 @@ func _update_gulls() -> void:
 
 # ---------------------------------------------------------------- turtles (75% / 100%)
 
-## Returns {node, head, flippers:[fl, fr, bl, br]}. `cute` = chunkier head, brighter colours (hatchlings).
-func _make_turtle(parent: Node, cute: bool) -> Dictionary:
-	var shell := Color(0.4, 0.5, 0.2) if not cute else Color(0.42, 0.45, 0.28)
-	var plate := Color(0.58, 0.68, 0.28) if not cute else Color(0.55, 0.55, 0.36)
-	var skin := Color(0.72, 0.78, 0.38) if not cute else Color(0.55, 0.62, 0.4)
-	var belly := Color(0.95, 0.85, 0.6)
-	var root := Node3D.new()
-	parent.add_child(root)
-	_blob(root, shell, Vector3(0, 0.3, 0), Vector3(0.95, 0.48, 1.15), 0.4)
-	_blob(root, belly, Vector3(0, 0.12, 0), Vector3(0.9, 0.18, 1.1))
-	# shell plates
-	_blob(root, plate, Vector3(0, 0.52, 0.0), Vector3(0.36, 0.1, 0.42), 0.35)
-	for j in 4:
-		var a := j * PI / 2.0 + PI / 4.0
-		_blob(root, plate, Vector3(sin(a) * 0.3, 0.45, cos(a) * 0.36), Vector3(0.24, 0.09, 0.28), 0.35)
-	# head on a short neck
-	var head := Node3D.new()
-	head.position = Vector3(0, 0.26, 0.58)
-	root.add_child(head)
-	var hs := 1.25 if cute else 1.0
-	_blob(head, skin, Vector3(0, 0.05, 0.1), Vector3(0.3, 0.27, 0.36) * hs)
-	for side in [-1.0, 1.0]:
-		_eye(head, Vector3(side * 0.1 * hs, 0.11 * hs, 0.22 * hs), 0.075 * hs)
-		_blob(head, Color(1.0, 0.65, 0.6, 1.0), Vector3(side * 0.13 * hs, 0.0, 0.2 * hs), Vector3(0.05, 0.03, 0.04) * hs, 0.9)
+## Returns {node, head, flippers:[fl, fr, bl, br]} for an instanced turtle/hatchling prefab.
+func _rig_turtle(root: Node3D) -> Dictionary:
 	var fl: Array[Node3D] = []
-	for spec in [[-1.0, 0.36, 0.36, 0.55, 0.28], [1.0, 0.36, 0.36, 0.55, 0.28], [-1.0, 0.3, -0.4, 0.38, 0.22], [1.0, 0.3, -0.4, 0.38, 0.22]]:
-		var piv := Node3D.new()
-		piv.position = Vector3(spec[0] * 0.38, 0.17, spec[2])
-		root.add_child(piv)
-		_blob(piv, skin, Vector3(spec[0] * spec[3] * 0.5, 0, 0.0), Vector3(spec[3], 0.08, spec[4]))
-		fl.append(piv)
-	return {"node": root, "head": head, "fl": fl}
+	for k in 4:
+		fl.append(root.get_node("Flipper%d" % k))
+	return {"node": root, "head": root.get_node("Head"), "fl": fl}
 
 func _build_turtle() -> void:
 	var x := 3.5
-	_turtle = _make_turtle(_roots["turtle"], false)
+	var tn: Node3D = TURTLE.instantiate()
+	_roots["turtle"].add_child(tn)
+	_turtle = _rig_turtle(tn)
 	_turtle["base"] = Vector2(x, beach.shore_z(x) - 2.6)
 
 func _update_turtle() -> void:
@@ -292,30 +175,15 @@ func _update_turtle() -> void:
 func _build_hatchlings() -> void:
 	var nx := -3.0
 	_nest = Vector2(nx, beach.shore_z(nx) - 6.5)
-	# sandy nest mound with a few empty egg shells
-	var nest := Node3D.new()
+	var nest: Node3D = NEST.instantiate()
 	nest.position = Vector3(_nest.x, _ground(_nest.x, _nest.y), _nest.y)
 	_roots["hatchlings"].add_child(nest)
-	var ring := MeshInstance3D.new()
-	var tm := TorusMesh.new()
-	tm.inner_radius = 0.35
-	tm.outer_radius = 0.6
-	tm.rings = 16
-	tm.ring_segments = 8
-	ring.mesh = tm
-	ring.material_override = _mat(Color(0.88, 0.66, 0.4), 0.95)
-	ring.scale = Vector3(1.0, 0.45, 1.0)
-	ring.position.y = 0.03
-	nest.add_child(ring)
-	_blob(nest, Color(0.68, 0.46, 0.27), Vector3(0, -0.02, 0), Vector3(0.8, 0.1, 0.8), 0.95)
-	for j in 4:
-		var a := j * 1.7
-		var e := _blob(nest, Color(0.97, 0.95, 0.88), Vector3(sin(a) * 0.2, 0.08, cos(a) * 0.2), Vector3(0.15, 0.1, 0.15), 0.8)
-		e.rotation = Vector3(0.6 * sin(a * 2.0), a, 0.5)
 	for i in 8:
 		var holder := Node3D.new()
 		_roots["hatchlings"].add_child(holder)
-		var t := _make_turtle(holder, true)
+		var hn: Node3D = HATCHLING.instantiate()
+		holder.add_child(hn)
+		var t := _rig_turtle(hn)
 		var lane := (i - 3.5) * 0.45
 		var sp := _rng.randf_range(0.55, 0.8)
 		var tx := _nest.x + lane * 1.6

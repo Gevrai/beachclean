@@ -78,8 +78,7 @@ func _spawn_gameplay() -> void:
 	add_child(load("res://scenes/ui/hud.tscn").instantiate())  # load: scene scripts use autoloads
 	add_child(load("res://scenes/ui/pause_menu.tscn").instantiate())  # load: scene scripts use autoloads
 	add_child(load("res://scenes/ui/cheats.tscn").instantiate())  # load: scene scripts use autoloads
-	var wild := Node3D.new()
-	wild.set_script(preload("res://scripts/wildlife.gd"))
+	var wild: Node3D = load("res://scenes/wildlife/wildlife.tscn").instantiate()  # load: tools/check parses beach.gd without autoloads
 	wild.set("beach", self)
 	add_child(wild)
 

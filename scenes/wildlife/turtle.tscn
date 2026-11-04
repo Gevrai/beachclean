@@ -1,12 +1,12 @@
 [gd_scene format=3]
 
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_668033_40.tres" id="1_ium7a"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_f2d999_55.tres" id="2_7bbcl"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_94ad47_35.tres" id="3_w4fjx"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_b8c761_55.tres" id="4_2xqag"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_0f0d0d_20.tres" id="5_bt2ap"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_ffffff_20.tres" id="6_b5fwe"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_ffa699_90.tres" id="7_5msvx"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/turtle_shell.tres" id="1_ium7a"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/turtle_belly.tres" id="2_7bbcl"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/turtle_flipper.tres" id="3_w4fjx"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/turtle_skin.tres" id="4_2xqag"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/eye_pupil.tres" id="5_bt2ap"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/eye_shine.tres" id="6_b5fwe"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/blush.tres" id="7_5msvx"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_28yv8"]
 radial_segments = 16

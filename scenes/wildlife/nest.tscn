@@ -1,8 +1,8 @@
 [gd_scene format=3]
 
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_e0a866_95.tres" id="1_0g60j"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_ad7545_95.tres" id="2_j0v8x"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_f7f2e0_80.tres" id="3_0bmsp"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/nest_rim.tres" id="1_0g60j"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/nest_bowl.tres" id="2_j0v8x"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/egg.tres" id="3_0bmsp"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_4jmr3"]
 inner_radius = 0.35

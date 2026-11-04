@@ -1,10 +1,10 @@
 [gd_scene format=3]
 
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_f25224_55.tres" id="1_bftpr"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_ff9966_55.tres" id="2_kj5k1"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_c7331a_55.tres" id="3_5ppeo"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_0f0d0d_20.tres" id="4_orich"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_ffffff_20.tres" id="5_vqk6n"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/crab_shell.tres" id="1_bftpr"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/crab_belly.tres" id="2_kj5k1"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/crab_leg.tres" id="3_5ppeo"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/eye_pupil.tres" id="4_orich"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/eye_shine.tres" id="5_vqk6n"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_pt2c7"]
 radial_segments = 16

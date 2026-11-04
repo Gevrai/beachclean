@@ -1,11 +1,11 @@
 [gd_scene format=3]
 
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_fafaf5_55.tres" id="1_1bagu"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_ffb826_55.tres" id="2_o2dl4"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_0f0d0d_20.tres" id="3_bfovj"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_ffffff_20.tres" id="4_8xbp2"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_9ea8b3_55.tres" id="5_58q6b"]
-[ext_resource type="Material" path="res://assets/materials/wildlife/m_292b33_55.tres" id="6_ooe5w"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/gull_white.tres" id="1_1bagu"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/gull_beak.tres" id="2_o2dl4"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/eye_pupil.tres" id="3_bfovj"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/eye_shine.tres" id="4_8xbp2"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/gull_wing_grey.tres" id="5_58q6b"]
+[ext_resource type="Material" path="res://assets/materials/wildlife/gull_wing_tip.tres" id="6_ooe5w"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_co4gu"]
 radial_segments = 16

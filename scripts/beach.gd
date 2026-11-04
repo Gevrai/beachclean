@@ -115,9 +115,41 @@ func set_health(t: float) -> void:
 	health = t
 	_apply_look()
 
+# Editor preview must never change what gets saved: the first preview snapshots every object the look writes
+# (sun, environment, sky/water/sand/grass/leaf materials); the snapshot is put back right before the scene is
+# saved (then the preview is re-applied) and when the scene closes.
+var _pristine: Dictionary = {}  # Object -> {property: value}
+
+func _preview_targets() -> Array:
+	var env := world_env.environment
+	return [sun, env, env.sky.sky_material, water_mat, sand_mat, grass_mat, leaf_mat]
+
+func _snapshot() -> void:
+	for o in _preview_targets():
+		var d := {}
+		for p in o.get_property_list():
+			if p.usage & PROPERTY_USAGE_STORAGE and p.name != "script":
+				d[p.name] = o.get(p.name)
+		_pristine[o] = d
+
+func _restore_pristine() -> void:
+	for o in _pristine:
+		for k in _pristine[o]:
+			o.set(k, _pristine[o][k])
+
+func _notification(what: int) -> void:
+	if not Engine.is_editor_hint() or _pristine.is_empty():
+		return
+	if what == NOTIFICATION_EDITOR_PRE_SAVE or what == NOTIFICATION_EXIT_TREE:
+		_restore_pristine()
+	elif what == NOTIFICATION_EDITOR_POST_SAVE:
+		_apply_look()
+
 func _apply_look() -> void:
 	if look_polluted == null or look_restored == null or sun == null:
 		return
+	if Engine.is_editor_hint() and _pristine.is_empty():
+		_snapshot()
 	var k := pow(health, 0.8)  # slight ease so low health is still pleasant
 	var l := look_polluted.mix(look_restored, k)
 	if look_golden:

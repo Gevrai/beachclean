@@ -5,8 +5,6 @@ extends RefCounted
 ## Everything on the beach is modelled at real size ("cm" = longest side) and drawn VIS_SCALE times bigger
 ## for readability (one uniform factor, so relative sizes stay true).
 const VIS_SCALE := 1.4
-## Minimum click/aim radius (m) so tiny items (caps, straws, coins) stay easy to pick.
-const MIN_PICK_RADIUS := 0.16
 
 ## id -> name, space (bag units), value (cents), bin, weight (spawn odds).
 const ITEMS := {
@@ -22,18 +20,8 @@ const ITEMS := {
 	"hose": {"name": "Garden hose", "cm": 45, "space": 3.0, "value": 60, "bin": "plastic", "weight": 2.5},
 }
 
-## Sorting bins at the shack, in the order they are emptied. icon = catalog id drawn on the bin.
+## Sorting bins at the shack, in the order they are emptied (name/colour/icon live on the Bin instances in shack.tscn).
 const BIN_ORDER := ["cans", "bottles", "glass", "plastic"]
-const BINS := {
-	"cans": {"name": "CANS", "color": Color(0.22, 0.5, 0.95), "icon": "can", "icon_scale": 3.0},
-	"bottles": {"name": "BOTTLES", "color": Color(0.25, 0.75, 0.38), "icon": "pbottle", "icon_scale": 1.45},
-	"glass": {"name": "GLASS", "color": Color(0.96, 0.72, 0.16), "icon": "gbottle", "icon_scale": 1.75},
-	"plastic": {"name": "OTHER", "color": Color(0.96, 0.5, 0.15), "icon": "bucket", "icon_scale": 2.5},
-}
-
-## Real coin radius in metres (2.0-2.6 cm across).
-static func coin_radius(cents: int) -> float:
-	return 0.0105 if cents < 10 else (0.0100 if cents < 25 else (0.0120 if cents < 100 else 0.0130))
 
 ## Prefab scenes: scenes/items/<id>.tscn (debris), coin_<cents>.tscn, message_bottle.tscn.
 static func item_scene(id: String) -> PackedScene:

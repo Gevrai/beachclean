@@ -39,6 +39,7 @@ design decision appears. De-escalate as soon as the work is mechanical.
 - `tools/check` — headless import + GDScript parse check (one line; log in `.logs/`)
 - `tools/shot [scene] [out.png]` — windowed run, screenshot, quit
 - `godot --path .` — play the game
+- `tools/polypizza <id-or-url> [dest]` — fetch a Poly Pizza .glb + add its credit line to CREDITS.md
 - `tools/mem search <words>` — search shared memory
 
 ## Where things are

@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" path="res://scenes/props/rock_cluster_b.tscn" id="17_mmito"]
 [ext_resource type="PackedScene" path="res://scenes/props/rock_cluster_c.tscn" id="18_nawd0"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="19_i2fai"]
+[ext_resource type="PackedScene" path="res://scenes/props/lighthouse.tscn" id="20_lhse"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7dxea"]
 size = Vector2(320, 420)
@@ -123,5 +124,17 @@ transform = Transform3D(0.39269105, 0, -0.91967046, 0, 1, 0, 0.91967046, 0, 0.39
 
 [node name="Rocks10" parent="Props" unique_id=830909375 instance=ExtResource("16_6l2e5")]
 transform = Transform3D(-0.49159157, 0, -0.8708259, 0, 1, 0, 0.8708259, 0, -0.49159157, -8, -4.54026, 30)
+
+[node name="Lighthouse" parent="Props" instance=ExtResource("20_lhse")]
+transform = Transform3D(0.8, 0, 0.6, 0, 1, 0, -0.6, 0, 0.8, -62, 2.6, 2)
+
+[node name="LighthouseRocks1" parent="Props" instance=ExtResource("16_6l2e5")]
+transform = Transform3D(1.6, 0, 0.3, 0, 1.4, 0, -0.3, 0, 1.6, -62, 1.9, 2)
+
+[node name="LighthouseRocks2" parent="Props" instance=ExtResource("17_mmito")]
+transform = Transform3D(0.9, 0, 0.4, 0, 1, 0, -0.4, 0, 0.9, -60, 0.6, 6)
+
+[node name="LighthouseRocks3" parent="Props" instance=ExtResource("18_nawd0")]
+transform = Transform3D(-0.5, 0, 0.85, 0, 1, 0, -0.85, 0, -0.5, -65, 1.2, 6)
 
 [node name="Player" parent="." unique_id=1799375097 instance=ExtResource("19_i2fai")]

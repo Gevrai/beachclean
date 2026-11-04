@@ -35,6 +35,15 @@ const BINS := {
 static func coin_radius(cents: int) -> float:
 	return 0.0105 if cents < 10 else (0.0100 if cents < 25 else (0.0120 if cents < 100 else 0.0130))
 
+## Prefab scenes: scenes/items/<id>.tscn (debris), coin_<cents>.tscn, message_bottle.tscn.
+static func item_scene(id: String) -> PackedScene:
+	return load("res://scenes/items/%s.tscn" % id)
+
+static func coin_scene(cents: int) -> PackedScene:
+	return load("res://scenes/items/coin_%d.tscn" % cents)
+
+const BOTTLE_SCENE := "res://scenes/items/message_bottle.tscn"
+
 ## Loose change on the sand: cents, spawn weight.
 const COINS := [[5, 50.0], [10, 30.0], [25, 15.0], [100, 5.0]]
 

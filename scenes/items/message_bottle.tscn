@@ -1,0 +1,98 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/bottle.gd" id="1_bottle"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bottle_glass.tres" id="2_bottle_gla"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bottle_cork.tres" id="3_bottle_cor"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/bottle_paper.tres" id="4_bottle_pap"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/sparkle.tres" id="5_sparkle"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1"]
+top_radius = 0.07
+bottom_radius = 0.07
+height = 0.24
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2"]
+top_radius = 0.028
+bottom_radius = 0.07
+height = 0.09
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3"]
+top_radius = 0.028
+bottom_radius = 0.028
+height = 0.08
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4"]
+top_radius = 0.032
+bottom_radius = 0.026
+height = 0.045
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5"]
+top_radius = 0.028
+bottom_radius = 0.028
+height = 0.17
+radial_segments = 14
+rings = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_6"]
+size = Vector2(0.16, 0.16)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7"]
+radius = 0.3
+
+[node name="MessageBottle" type="StaticBody3D" groups=["bottle"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_bottle")
+
+[node name="Visual" type="Node3D" parent="."]
+transform = Transform3D(0.232065, -0.90884, 0, 0.90884, 0.232065, 0, 0, 0, 0.938, 0, 0.08, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
+mesh = SubResource("CylinderMesh_1")
+material_override = ExtResource("2_bottle_gla")
+
+[node name="Shoulder" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.145, 0)
+mesh = SubResource("CylinderMesh_2")
+material_override = ExtResource("2_bottle_gla")
+
+[node name="Neck" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.23, 0)
+mesh = SubResource("CylinderMesh_3")
+material_override = ExtResource("2_bottle_gla")
+
+[node name="Cork" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.285, 0)
+mesh = SubResource("CylinderMesh_4")
+material_override = ExtResource("3_bottle_cor")
+
+[node name="Note" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(0.992809, -0.119712, 0, 0.119712, 0.992809, 0, 0, 0, 1, 0.01, -0.03, 0)
+mesh = SubResource("CylinderMesh_5")
+material_override = ExtResource("4_bottle_pap")
+cast_shadow = 0
+
+[node name="Sparkle0" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.12, 0.05)
+cast_shadow = 0
+mesh = SubResource("QuadMesh_6")
+material_override = ExtResource("5_sparkle")
+
+[node name="Sparkle1" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.24, 0.05)
+cast_shadow = 0
+mesh = SubResource("QuadMesh_6")
+material_override = ExtResource("5_sparkle")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+shape = SubResource("SphereShape3D_7")

@@ -1,0 +1,93 @@
+[gd_scene format=3]
+
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/gbottle_glass.tres" id="1_gbottle_gl"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/gbottle_cap.tres" id="2_gbottle_ca"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/gbottle_label.tres" id="3_gbottle_la"]
+[ext_resource type="Script" path="res://scripts/debris.gd" id="4_debris"]
+[ext_resource type="Script" path="res://scripts/item_model.gd" id="5_item_model"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1"]
+top_radius = 0.055
+bottom_radius = 0.055
+height = 0.2
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2"]
+top_radius = 0.024
+bottom_radius = 0.055
+height = 0.07
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3"]
+top_radius = 0.024
+bottom_radius = 0.024
+height = 0.08
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4"]
+top_radius = 0.03
+bottom_radius = 0.03
+height = 0.02
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5"]
+top_radius = 0.057
+bottom_radius = 0.057
+height = 0.08
+radial_segments = 14
+rings = 1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6"]
+radius = 0.215
+
+[node name="GlassBottle" type="StaticBody3D" groups=["debris"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("4_debris")
+id = "gbottle"
+
+[node name="Visual" type="Node3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0.04914, 0)
+
+[node name="Model" type="Node3D" parent="Visual"]
+transform = Transform3D(0.54, 0, 0, 0, 0.54, 0, 0, 0, 0.54, 0, 0, 0)
+script = ExtResource("5_item_model")
+rest = 0.0351
+can_stand = true
+stand_rotation_x = 0
+
+[node name="Pose" type="Node3D" parent="Visual/Model"]
+transform = Transform3D(1.25, 0, 0, 0, 7.65404e-17, -1.25, 0, 1.25, 7.65404e-17, 0, 0, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+mesh = SubResource("CylinderMesh_1")
+material_override = ExtResource("1_gbottle_gl")
+
+[node name="Shoulder" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.085, 0)
+mesh = SubResource("CylinderMesh_2")
+material_override = ExtResource("1_gbottle_gl")
+
+[node name="Neck" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16, 0)
+mesh = SubResource("CylinderMesh_3")
+material_override = ExtResource("1_gbottle_gl")
+
+[node name="Cap" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21, 0)
+mesh = SubResource("CylinderMesh_4")
+material_override = ExtResource("2_gbottle_ca")
+
+[node name="Label" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+mesh = SubResource("CylinderMesh_5")
+material_override = ExtResource("3_gbottle_la")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+shape = SubResource("SphereShape3D_6")

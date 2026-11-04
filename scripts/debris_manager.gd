@@ -1,5 +1,5 @@
 extends Node
-## Scatters the starting debris and washes new pieces in on a tide timer.
+## Scatters the starting debris (instancing the scenes/items prefabs) and washes new pieces in on a tide timer.
 
 const DebrisScript := preload("res://scripts/debris.gd")
 const Catalog := preload("res://scripts/catalog.gd")
@@ -20,9 +20,7 @@ func _ready() -> void:
 	_rng.seed = 2024
 	if GameState.loaded_debris is Array:  # restore the saved beach
 		for e in GameState.loaded_debris:
-			var d := StaticBody3D.new()
-			d.set_script(DebrisScript)
-			d.setup(str(e.get("id", "cap")) if Catalog.ITEMS.has(str(e.get("id", ""))) else "cap", _rng)
+			var d: StaticBody3D = DebrisScript.spawn(str(e.get("id", "cap")) if Catalog.ITEMS.has(str(e.get("id", ""))) else "cap", _rng)
 			add_child(d)
 			d.global_position = Vector3(float(e.x), float(e.y), float(e.z))
 		GameState.loaded_debris = null
@@ -57,8 +55,7 @@ func _spawn_bottles() -> void:
 			continue
 		var x: float = spots[i][0]
 		var z: float = beach.shore_z(x) - float(spots[i][1])
-		var b := StaticBody3D.new()
-		b.set_script(preload("res://scripts/bottle.gd"))
+		var b: StaticBody3D = load(Catalog.BOTTLE_SCENE).instantiate()
 		b.setup(i)
 		add_child(b)
 		b.global_position = Vector3(x, beach.height_at(x, z), z)
@@ -87,9 +84,7 @@ func _spawn_coin(animate: bool) -> void:
 		var shack := get_tree().get_first_node_in_group("shack")
 		if h < 0.04 or (shack and shack.occupies(p)):
 			continue
-		var c := StaticBody3D.new()
-		c.set_script(CoinScript)
-		c.setup(Catalog.random_coin(_rng), _rng)
+		var c: StaticBody3D = CoinScript.spawn(Catalog.random_coin(_rng), _rng)
 		add_child(c)
 		c.global_position = p
 		if animate:
@@ -110,13 +105,7 @@ func _showcase() -> void:
 	for sp in spots:
 		var x: float = sp[1]
 		var z: float = z0 + float(sp[2])
-		var n := StaticBody3D.new()
-		if sp[0] is String:
-			n.set_script(DebrisScript)
-			n.setup(sp[0], _rng)
-		else:
-			n.set_script(CoinScript)
-			n.setup(sp[0], _rng)
+		var n: StaticBody3D = DebrisScript.spawn(sp[0], _rng) if sp[0] is String else CoinScript.spawn(sp[0], _rng)
 		add_child(n)
 		n.global_position = Vector3(x, beach.height_at(x, z), z)
 
@@ -143,9 +132,7 @@ func _spawn_at(x: float, z: float, animate: bool) -> bool:
 	for d in get_tree().get_nodes_in_group("debris"):
 		if d.global_position.distance_squared_to(p) < 0.8:
 			return false
-	var d := StaticBody3D.new()
-	d.set_script(DebrisScript)
-	d.setup(Catalog.random_id(_rng), _rng)
+	var d: StaticBody3D = DebrisScript.spawn(Catalog.random_id(_rng), _rng)
 	add_child(d)
 	d.global_position = p
 	if animate:

@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/loose_change.gd" id="1_loose_chan"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/coin_silver.tres" id="2_coin_silve"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/coin_silver_rim.tres" id="3_coin_silve"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/sparkle.tres" id="4_sparkle"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1"]
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.002
+radial_segments = 20
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2"]
+top_radius = 0.0062
+bottom_radius = 0.0062
+height = 0.0026
+radial_segments = 20
+rings = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_3"]
+size = Vector2(0.1, 0.1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4"]
+radius = 0.2
+
+[node name="Coin10" type="StaticBody3D" groups=["coin"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_loose_chan")
+cents = 10
+
+[node name="Visual" type="Node3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0.0084, 0)
+
+[node name="Disc" type="MeshInstance3D" parent="Visual"]
+mesh = SubResource("CylinderMesh_1")
+material_override = ExtResource("2_coin_silve")
+
+[node name="Rim" type="MeshInstance3D" parent="Visual"]
+mesh = SubResource("CylinderMesh_2")
+material_override = ExtResource("3_coin_silve")
+
+[node name="Sparkle" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, 0.07, 0)
+cast_shadow = 0
+mesh = SubResource("QuadMesh_3")
+material_override = ExtResource("4_sparkle")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+shape = SubResource("SphereShape3D_4")

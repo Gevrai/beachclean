@@ -1,0 +1,64 @@
+[gd_scene format=3]
+
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/cap_red.tres" id="1_cap_red"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/cap_red_top.tres" id="2_cap_red_to"]
+[ext_resource type="Script" path="res://scripts/debris.gd" id="3_debris"]
+[ext_resource type="Script" path="res://scripts/item_model.gd" id="4_item_model"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/cap_blue.tres" id="5_cap_blue"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/cap_yellow.tres" id="6_cap_yellow"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/cap_green.tres" id="7_cap_green"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/cap_blue_top.tres" id="8_cap_blue_t"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/cap_yellow_top.tres" id="9_cap_yellow"]
+[ext_resource type="StandardMaterial3D" path="res://assets/materials/items/cap_green_top.tres" id="10_cap_green_"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1"]
+top_radius = 0.085
+bottom_radius = 0.09
+height = 0.035
+radial_segments = 14
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2"]
+top_radius = 0.07
+bottom_radius = 0.07
+height = 0.01
+radial_segments = 14
+rings = 1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3"]
+radius = 0.16
+
+[node name="Cap" type="StaticBody3D" groups=["debris"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("3_debris")
+id = "cap"
+
+[node name="Visual" type="Node3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0.002856, 0)
+
+[node name="Model" type="Node3D" parent="Visual"]
+transform = Transform3D(0.17, 0, 0, 0, 0.17, 0, 0, 0, 0.17, 0, 0, 0)
+script = ExtResource("4_item_model")
+rest = 0.00204
+can_stand = true
+stand_rotation_x = 1.5708
+variants = Array[Material]([ExtResource("1_cap_red"), ExtResource("5_cap_blue"), ExtResource("6_cap_yellow"), ExtResource("7_cap_green")])
+variant_parts = Array[NodePath]([NodePath("Pose/Body")])
+accents = Array[Material]([ExtResource("2_cap_red_to"), ExtResource("8_cap_blue_t"), ExtResource("9_cap_yellow"), ExtResource("10_cap_green_")])
+accent_parts = Array[NodePath]([NodePath("Pose/Top")])
+
+[node name="Pose" type="Node3D" parent="Visual/Model"]
+
+[node name="Body" type="MeshInstance3D" parent="Visual/Model/Pose"]
+mesh = SubResource("CylinderMesh_1")
+material_override = ExtResource("1_cap_red")
+
+[node name="Top" type="MeshInstance3D" parent="Visual/Model/Pose"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+mesh = SubResource("CylinderMesh_2")
+material_override = ExtResource("2_cap_red_to")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+shape = SubResource("SphereShape3D_3")

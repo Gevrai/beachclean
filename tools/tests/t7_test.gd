@@ -7,9 +7,7 @@ func _ready() -> void:
 	G.no_save = false
 	var rng := RandomNumberGenerator.new()
 	for i in 3:
-		var d := StaticBody3D.new()
-		d.set_script(preload("res://scripts/debris.gd"))
-		d.setup(["cap", "can", "rope"][i], rng)
+		var d: StaticBody3D = preload("res://scripts/debris.gd").spawn(["cap", "can", "rope"][i], rng)
 		add_child(d)
 		d.global_position = Vector3(i * 2.0, 0.5, -3.0 - i)
 	G.cents = 77

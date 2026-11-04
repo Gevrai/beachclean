@@ -4,7 +4,7 @@ extends Node3D
 ## the counter opens the SHOP panel with E.
 ## Esc / E close the panel. Group "shack". Instanced by beach.gd with `beach` set before add_child.
 
-const PanelScript := preload("res://scripts/upgrade_panel.gd")
+var PanelScene: PackedScene = load("res://scenes/ui/upgrade_panel.tscn")
 const Catalog := preload("res://scripts/catalog.gd")
 const ItemMesh := preload("res://scripts/item_mesh.gd")
 const COIN_MAT := preload("res://assets/materials/shack/coin.tres")
@@ -43,8 +43,7 @@ func _ready() -> void:
 	for bin in $Bins.get_children():
 		bin.position.y = _ground_y(bin.position)
 		_bins[bin.bin_id] = {"root": bin, "lid": bin.lid, "top": bin.position + Vector3(0, bin.MOUTH_Y, 0)}
-	panel = CanvasLayer.new()
-	panel.set_script(PanelScript)
+	panel = PanelScene.instantiate()
 	add_child(panel)
 	for a in OS.get_cmdline_user_args():
 		if a == "--open-panel":

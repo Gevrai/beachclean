@@ -1,0 +1,125 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/menu.gd" id="1_menu"]
+[ext_resource type="Theme" path="res://assets/ui/theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" path="res://scenes/ui/note_overlay.tscn" id="3_note"]
+
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 3
+layer = 30
+script = ExtResource("1_menu")
+
+[node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+
+[node name="Dim" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.03, 0.08, 0.12, 0.5)
+
+[node name="Center" type="CenterContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PauseCard" type="PanelContainer" parent="Root/Center"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+theme_type_variation = &"MenuCard"
+
+[node name="Box" type="VBoxContainer" parent="Root/Center/PauseCard"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Root/Center/PauseCard/Box"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="Resume" type="Button" parent="Root/Center/PauseCard/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_type_variation = &"PaperButton"
+text = "Resume"
+
+[node name="Notes" type="Button" parent="Root/Center/PauseCard/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_type_variation = &"PaperButton"
+text = "Notes"
+
+[node name="Quit" type="Button" parent="Root/Center/PauseCard/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_type_variation = &"PaperButton"
+text = "Quit"
+
+[node name="Hint" type="Label" parent="Root/Center/PauseCard/Box"]
+layout_mode = 2
+theme_type_variation = &"TinyLabel"
+text = "F1 - cheats"
+horizontal_alignment = 1
+
+[node name="ListCard" type="PanelContainer" parent="Root/Center"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(460, 0)
+layout_mode = 2
+theme_type_variation = &"MenuCard"
+
+[node name="Box" type="VBoxContainer" parent="Root/Center/ListCard"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ListTitle" type="Label" parent="Root/Center/ListCard/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ListTitleLabel"
+text = "Notes"
+horizontal_alignment = 1
+
+[node name="NoteButtons" type="VBoxContainer" parent="Root/Center/ListCard/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="NoteButton" type="Button" parent="Root/Center/ListCard/Box/NoteButtons"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_type_variation = &"PaperButton"
+text = "???"
+
+[node name="Back" type="Button" parent="Root/Center/ListCard/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_type_variation = &"PaperButton"
+text = "Back"
+
+[node name="NoteOverlay" parent="Root" instance=ExtResource("3_note")]
+unique_name_in_owner = true
+layout_mode = 1

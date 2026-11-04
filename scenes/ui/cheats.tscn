@@ -1,0 +1,123 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cheats.gd" id="1_cheats"]
+[ext_resource type="Theme" path="res://assets/ui/theme.tres" id="2_theme"]
+
+[node name="Cheats" type="CanvasLayer"]
+process_mode = 3
+layer = 40
+script = ExtResource("1_cheats")
+
+[node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+
+[node name="Card" type="PanelContainer" parent="Root"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 200.0
+offset_right = 24.0
+offset_bottom = 200.0
+theme_type_variation = &"CheatsPanel"
+
+[node name="V" type="VBoxContainer" parent="Root/Card"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Root/Card/V"]
+layout_mode = 2
+theme_type_variation = &"CheatsTitleLabel"
+text = "Cheats (F1 to close)"
+
+[node name="Money" type="HBoxContainer" parent="Root/Card/V"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Add1" type="Button" parent="Root/Card/V/Money"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+$1"
+
+[node name="Add10" type="Button" parent="Root/Card/V/Money"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+$10"
+
+[node name="Gear" type="HBoxContainer" parent="Root/Card/V"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="MaxUpgrades" type="Button" parent="Root/Card/V/Gear"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Max upgrades"
+
+[node name="FillBag" type="Button" parent="Root/Card/V/Gear"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Fill bag"
+
+[node name="Beach" type="HBoxContainer" parent="Root/Card/V"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Clear10" type="Button" parent="Root/Card/V/Beach"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Clear 10% of beach"
+
+[node name="Tide" type="Button" parent="Root/Card/V/Beach"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Spawn tide"
+
+[node name="Health" type="HBoxContainer" parent="Root/Card/V"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Label" type="Label" parent="Root/Card/V/Health"]
+layout_mode = 2
+text = "Health:"
+
+[node name="H25" type="Button" parent="Root/Card/V/Health"]
+layout_mode = 2
+text = "25%"
+
+[node name="H50" type="Button" parent="Root/Card/V/Health"]
+layout_mode = 2
+text = "50%"
+
+[node name="H75" type="Button" parent="Root/Card/V/Health"]
+layout_mode = 2
+text = "75%"
+
+[node name="H100" type="Button" parent="Root/Card/V/Health"]
+layout_mode = 2
+text = "100%"
+
+[node name="Misc" type="HBoxContainer" parent="Root/Card/V"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Reveal" type="Button" parent="Root/Card/V/Misc"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Reveal all notes"
+
+[node name="Fast" type="Button" parent="Root/Card/V/Misc"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Fast walk: off"
+
+[node name="Reset" type="Button" parent="Root/Card/V"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Reset game"

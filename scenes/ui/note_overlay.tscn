@@ -1,0 +1,48 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/note_overlay.gd" id="1_note"]
+[ext_resource type="Theme" path="res://assets/ui/theme.tres" id="2_theme"]
+
+[node name="NoteOverlay" type="CenterContainer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_note")
+
+[node name="Card" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+rotation = -0.020943951
+pivot_offset = Vector2(310, 0)
+theme_type_variation = &"PaperCard"
+
+[node name="Box" type="VBoxContainer" parent="Card"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Meta" type="Label" parent="Card/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NoteMetaLabel"
+text = "Message 1 of 5"
+
+[node name="Text" type="RichTextLabel" parent="Card/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(540, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"NoteText"
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+
+[node name="Foot" type="Label" parent="Card/Box"]
+layout_mode = 2
+theme_type_variation = &"NoteFootLabel"
+text = "click / E / Esc to close"
+horizontal_alignment = 2

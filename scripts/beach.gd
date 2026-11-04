@@ -75,15 +75,9 @@ func _spawn_gameplay() -> void:
 	mgr.set_script(preload("res://scripts/debris_manager.gd"))
 	mgr.set("beach", self)
 	add_child(mgr)
-	var hud := CanvasLayer.new()
-	hud.set_script(preload("res://scripts/hud.gd"))
-	add_child(hud)
-	var menu := CanvasLayer.new()
-	menu.set_script(preload("res://scripts/menu.gd"))
-	add_child(menu)
-	var cheats := CanvasLayer.new()
-	cheats.set_script(preload("res://scripts/cheats.gd"))
-	add_child(cheats)
+	add_child(load("res://scenes/ui/hud.tscn").instantiate())  # load: scene scripts use autoloads
+	add_child(load("res://scenes/ui/pause_menu.tscn").instantiate())  # load: scene scripts use autoloads
+	add_child(load("res://scenes/ui/cheats.tscn").instantiate())  # load: scene scripts use autoloads
 	var wild := Node3D.new()
 	wild.set_script(preload("res://scripts/wildlife.gd"))
 	wild.set("beach", self)

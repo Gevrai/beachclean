@@ -12,6 +12,12 @@ var mouse_sens: float = 0.0022
 const GRAVITY := 20.0
 const X_LIMIT := 50.0
 const EYE_HEIGHT := 1.6
+const WADE_DEPTH := 1.0       # waist: the soft limit out in the sea (m of water over the seafloor)
+const WADE_SLOW := 0.5        # speed lost at waist depth
+const WATER_LEVEL := 0.0      # mean sea level (the swell is only +-0.2 m)
+const SPLASH := preload("res://scenes/fx/wade_splash.tscn")
+const WaterWave := preload("res://scripts/water_wave.gd")
+const NetCaster := preload("res://scripts/net_caster.gd")
 
 @onready var head: Node3D = $Head
 @onready var cam: Camera3D = $Head/Camera3D
@@ -20,6 +26,9 @@ var _pitch := 0.0
 var _bob_t := 0.0
 var _hud: Node
 var _grab_t := 0.0
+var depth := 0.0               # water depth at the feet (0 on dry sand), read by the net, HUD hint and sounds
+var _splash: CPUParticles3D
+var _hint_t := 0.0
 
 const GRAB_CONE_DEG := 15.0
 
@@ -52,6 +61,12 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	GameState.upgrades_changed.connect(apply_upgrades)
 	apply_upgrades()
+	_splash = SPLASH.instantiate()
+	add_child(_splash)
+	var caster := Node3D.new()
+	caster.set_script(NetCaster)
+	caster.set("player", self)
+	beach.add_child.call_deferred(caster)
 
 ## Pull reach / speed from GameState (grabber and rake are read live).
 func apply_upgrades() -> void:
@@ -78,25 +93,46 @@ func _physics_process(delta: float) -> void:
 		dir.x = float(Input.is_physical_key_pressed(KEY_D)) - float(Input.is_physical_key_pressed(KEY_A))
 		dir.y = float(Input.is_physical_key_pressed(KEY_S)) - float(Input.is_physical_key_pressed(KEY_W))
 		dir = dir.normalized()
-	var wish := (transform.basis * Vector3(dir.x, 0.0, dir.y)) * move_speed
+	# wading: slower with depth; a soft limit at waist depth (smooth push back, no wall)
+	depth = water_depth(position.x, position.z)
+	var w := smoothstep(0.05, WADE_DEPTH, depth)
+	var wish := (transform.basis * Vector3(dir.x, 0.0, dir.y)) * move_speed * (1.0 - WADE_SLOW * w)
 	var k := 1.0 - exp(-12.0 * delta)
 	velocity.x = lerpf(velocity.x, wish.x, k)
 	velocity.z = lerpf(velocity.z, wish.z, k)
+	if depth > WADE_DEPTH * 0.8:
+		var g := Vector2(water_depth(position.x + 0.5, position.z) - water_depth(position.x - 0.5, position.z),
+			water_depth(position.x, position.z + 0.5) - water_depth(position.x, position.z - 0.5))
+		if g.length() > 0.001:
+			g = g.normalized()  # points to deeper water
+			var out := velocity.x * g.x + velocity.z * g.y
+			var block := smoothstep(WADE_DEPTH * 0.8, WADE_DEPTH, depth)
+			if out > 0.0:
+				velocity.x -= g.x * out * block
+				velocity.z -= g.y * out * block
+			var over := maxf(depth - WADE_DEPTH, 0.0)
+			velocity.x -= g.x * over * 6.0
+			velocity.z -= g.y * over * 6.0
 	velocity.y = 0.0 if is_on_floor() else velocity.y - GRAVITY * delta
 	move_and_slide()
-	# keep inside the beach: between the dunes and the shoreline
+	# keep inside the beach: between the dunes and the sea (the sea side is the wading limit above; this is only a safety net)
 	var sz: float = beach.shore_z(position.x)
 	position.x = clampf(position.x, -X_LIMIT, X_LIMIT)
-	position.z = clampf(position.z, sz - 33.0, sz + 1.2)
-	# head bob
+	position.z = clampf(position.z, sz - 33.0, sz + 14.0)
+	# head bob (gentler in the water)
 	var speed := Vector2(velocity.x, velocity.z).length()
-	var amt := clampf(speed / 5.0, 0.0, 1.0)
+	var amt := clampf(speed / 5.0, 0.0, 1.0) * (1.0 - 0.6 * w)
 	var step_before := int(floor(_bob_t / PI))
 	_bob_t += speed * delta * 1.7
-	if speed > 1.5 and int(floor(_bob_t / PI)) != step_before:  # one footstep per bob dip
-		get_node("/root/Sfx").step()
+	if speed > 1.2 and int(floor(_bob_t / PI)) != step_before:  # one footstep per bob dip
+		if depth > 0.05:
+			get_node("/root/Sfx").splash(depth)
+			_splash_at_feet()
+		elif speed > 1.5:
+			get_node("/root/Sfx").step()
 	head.position.y = lerpf(head.position.y, EYE_HEIGHT + sin(_bob_t * 2.0) * 0.035 * amt, 1.0 - exp(-20.0 * delta))
 	head.position.x = lerpf(head.position.x, cos(_bob_t) * 0.02 * amt, 1.0 - exp(-20.0 * delta))
+	_net_hint(delta)
 	_update_target()
 	if captured and GameState.grab_rate() > 0.0 and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		_grab_t -= delta
@@ -105,6 +141,35 @@ func _physics_process(delta: float) -> void:
 			grab_tick()
 	else:
 		_grab_t = 0.0
+
+## Depth of the sea over the ground at x, z (0 on dry land). Uses the terrain height, whose seafloor has trimesh collision too.
+func water_depth(x: float, z: float) -> float:
+	return maxf(WATER_LEVEL - beach.height_at(x, z), 0.0)
+
+func _splash_at_feet() -> void:
+	_splash.global_position = Vector3(global_position.x, WaterWave.height(global_position.x, global_position.z, WaterWave.time()) + 0.03, global_position.z)
+	_splash.amount = 4 + int(depth * 6.0)
+	_splash.restart()
+	_splash.emitting = true
+
+## First time at waist depth with floating litter further out and no net yet: point the player to the shack.
+func _net_hint(delta: float) -> void:
+	if GameState.net_hint_shown or depth < WADE_DEPTH * 0.85:
+		return
+	_hint_t -= delta
+	if _hint_t > 0.0:
+		return
+	_hint_t = 0.5
+	if GameState.level("net") > 0:
+		GameState.net_hint_shown = true
+		return
+	var far := 0
+	for d in get_tree().get_nodes_in_group("debris"):
+		if d.floating and d.global_position.distance_to(global_position) > reach + 1.0:
+			far += 1
+	if far >= 3:
+		GameState.net_hint_shown = true
+		get_tree().call_group("hud", "toast", "Buy a casting net at the shack to reach debris further out")
 
 func _update_target() -> void:
 	var from := cam.global_position

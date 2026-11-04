@@ -3,6 +3,7 @@ extends StaticBody3D
 ## Debris.spawn(id, rng) then place it; pick_up(cam) / refuse() / set_highlight(on).
 
 const Catalog := preload("res://scripts/catalog.gd")
+const WaterWave := preload("res://scripts/water_wave.gd")
 const OUTLINE := preload("res://assets/materials/items/outline.tres")
 const PUFF := preload("res://scenes/items/sand_puff.tscn")
 
@@ -15,6 +16,9 @@ var space: float = 0.25  # bag space units
 var _visual: Node3D
 var _meshes: Array[MeshInstance3D] = []
 var _busy := false
+## Floating in the sea: bobs and tilts with the water's wave motion (see water_wave.gd). Set via set_floating().
+var floating := false
+var _phase := 0.0
 
 static func random_id(rng: RandomNumberGenerator) -> String:
 	return Catalog.random_id(rng)
@@ -33,6 +37,32 @@ func _ready() -> void:
 	_visual.scale = Vector3.ONE * VIS_SCALE
 	_visual.position.y = float($Visual/Model.rest) * VIS_SCALE
 	_collect_meshes(_visual)
+	_phase = randf() * TAU
+	set_process(floating)
+	if floating:
+		_ride()
+
+## Float on the sea instead of lying on the ground (call after add_child, before/after placing).
+func set_floating(on: bool) -> void:
+	floating = on
+	set_process(on)
+	if on and is_inside_tree():
+		_ride()
+
+func _process(delta: float) -> void:
+	# lazy drift on top of the bobbing
+	var t := WaterWave.time()
+	global_position.x += sin(t * 0.17 + _phase) * 0.05 * delta
+	global_position.z += cos(t * 0.13 + _phase * 1.7) * 0.04 * delta
+	_ride()
+
+## Put the piece on the wave surface and tilt it with the local slope.
+func _ride() -> void:
+	var t := WaterWave.time()
+	var p := global_position
+	global_position.y = WaterWave.height(p.x, p.z, t) - 0.03
+	var s := WaterWave.slope(p.x, p.z, t)
+	global_rotation = Vector3(atan(s.y) * 1.5, _phase + t * 0.05, -atan(s.x) * 1.5)
 
 func _collect_meshes(n: Node) -> void:
 	for c in n.get_children():
@@ -73,7 +103,10 @@ func pick_up(cam: Camera3D) -> void:
 	collision_layer = 0
 	remove_from_group("debris")
 	set_highlight(false)
-	_puff(global_position + Vector3(0, 0.05, 0))
+	if not floating:
+		_puff(global_position + Vector3(0, 0.05, 0))
+	set_process(false)
+	global_rotation = Vector3.ZERO
 	var start := global_position
 	var up := start + Vector3.UP * 0.4
 	var tw := create_tween()

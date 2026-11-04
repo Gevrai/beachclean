@@ -1,0 +1,12 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/materials/net/ring.tres" id="1_ring"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1"]
+size = Vector2(1, 1)
+
+; Landing circle of the casting net, unit size (1 m across): NetCaster scales it to the net diameter and sets "tint".
+[node name="NetTarget" type="MeshInstance3D"]
+mesh = SubResource("PlaneMesh_1")
+surface_material_override/0 = ExtResource("1_ring")
+cast_shadow = 0

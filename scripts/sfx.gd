@@ -17,6 +17,8 @@ var _chime: AudioStreamWAV
 var _full: AudioStreamWAV
 var _steps: Array[AudioStreamWAV] = []
 var _last_step := -1
+var _splashes: Array[AudioStreamWAV] = []  # 0-3 shallow, 4-7 deep wading
+var _net_splash: AudioStreamWAV
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -37,6 +39,9 @@ func _ready() -> void:
 	_full = _tone([[180.0, 0.0]], 0.14, 16.0, 0.8)
 	for i in 6:
 		_steps.append(_crunch(i))
+	for i in 8:
+		_splashes.append(_splash(i, i >= 4))
+	_net_splash = _splash(20, true, 0.45)
 	var amb := AudioStreamPlayer.new()
 	amb.stream = _waves()
 	amb.volume_db = -17.0
@@ -70,6 +75,16 @@ func step() -> void:
 		i = (i + 1) % _steps.size()
 	_last_step = i
 	_play(_steps[i], randf_range(-31.0, -25.0), randf_range(0.82, 1.22))
+
+## One soft wading step: faint splash, duller and longer the deeper the water (depth 0..1 m). Varied every time.
+func splash(depth: float) -> void:
+	var deep := depth > 0.45
+	var i := randi() % 4 + (4 if deep else 0)
+	_play(_splashes[i], randf_range(-35.0, -28.0) + 3.0 * depth, randf_range(0.85, 1.2))
+
+## The casting net hitting the water (a bit bigger, still soft).
+func net_splash() -> void:
+	_play(_net_splash, -17.0, randf_range(0.9, 1.1))
 
 func coin() -> void:
 	_play(_coin, -10.0)
@@ -117,6 +132,27 @@ func _crunch(seed_: int) -> AudioStreamWAV:
 		for i in range(t0, n):
 			lp += (rng.randf_range(-1.0, 1.0) - lp) * c
 			buf[i] += lp * exp(-float(i - t0) / RATE * rate) * amp * 1.6
+	return _wav(buf, false)
+
+## Soft water splash: band-ish noise with a quick attack and a swishy tail (`deep` = duller and longer).
+func _splash(seed_: int, deep: bool, secs := 0.0) -> AudioStreamWAV:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 500 + seed_
+	var dur := secs if secs > 0.0 else (rng.randf_range(0.34, 0.5) if deep else rng.randf_range(0.2, 0.3))
+	var n := int(dur * RATE)
+	var buf := PackedFloat32Array()
+	buf.resize(n)
+	var c := rng.randf_range(0.07, 0.14) if deep else rng.randf_range(0.16, 0.3)
+	var decay := rng.randf_range(7.0, 10.0) if deep else rng.randf_range(12.0, 18.0)
+	var bf := rng.randf_range(30.0, 50.0)
+	var lp := 0.0
+	var lp2 := 0.0
+	for i in n:
+		var t := float(i) / RATE
+		lp += (rng.randf_range(-1.0, 1.0) - lp) * c
+		lp2 += (lp - lp2) * 0.5
+		var burble := 0.6 + 0.4 * sin(t * bf)  # little bubbles in the tail
+		buf[i] = (lp - 0.5 * lp2) * exp(-t * decay) * minf(t * 120.0, 1.0) * burble * 2.2
 	return _wav(buf, false)
 
 ## 8 s seamless loop: low-passed noise with a slow swell (two incommensurate-ish periods that divide 8 s).

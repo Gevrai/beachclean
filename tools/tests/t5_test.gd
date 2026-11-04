@@ -26,20 +26,36 @@ func _ready() -> void:
 		fails.append("space check, used=%s" % GameState.bag_used())
 	GameState.bag.clear()
 	# buy
-	if GameState.cost("bag") != 240 or GameState.cost("arms") != 360:
+	if GameState.cost("bag") != 200 or GameState.cost("arms") != 300:
 		fails.append("base cost")
 	if GameState.buy("bag"):
 		fails.append("bought while unaffordable")
 	GameState.cents = 0
 	GameState.add_money(1000)
-	if not GameState.buy("bag") or GameState.bag_capacity != 15 or GameState.cents != 760:
+	if not GameState.buy("bag") or GameState.bag_capacity != 15 or GameState.cents != 800:
 		fails.append("buy bag: cap=%s cents=%d" % [GameState.bag_capacity, GameState.cents])
-	if GameState.cost("bag") != 384:
+	if GameState.cost("bag") != 300:
 		fails.append("cost growth %d" % GameState.cost("bag"))
 	GameState.buy("arms")
 	GameState.buy("sandals")
 	if not is_equal_approx(player.reach, 3.25) or not is_equal_approx(player.move_speed, 5.5):
 		fails.append("player stats reach=%s speed=%s" % [player.reach, player.move_speed])
+	# casting net: 1200 base, three levels (range / radius), not owned at the start
+	if GameState.net_range() != 0.0 or GameState.cost("net") != 1200:
+		fails.append("net base: range=%s cost=%d" % [GameState.net_range(), GameState.cost("net")])
+	GameState.cents = 5000
+	GameState.buy("net")
+	if GameState.net_range() != 12.0 or GameState.net_radius() != 2.0 or GameState.cents != 3800:
+		fails.append("net L1: %s/%s cents=%d" % [GameState.net_range(), GameState.net_radius(), GameState.cents])
+	GameState.add_money(5000)
+	GameState.buy("net")
+	GameState.buy("net")
+	if GameState.net_range() != 22.0 or GameState.net_radius() != 4.0 or not GameState.is_maxed("net") or GameState.can_buy("net"):
+		fails.append("net L3: %s/%s" % [GameState.net_range(), GameState.net_radius()])
+	if GameState.effect_text("net") == "":
+		fails.append("net effect text")
+	GameState.levels["net"] = 0
+	GameState.upgrades_changed.emit()
 	# grabber + rake respect capacity
 	GameState.add_money(10000)
 	GameState.buy("grabber")
